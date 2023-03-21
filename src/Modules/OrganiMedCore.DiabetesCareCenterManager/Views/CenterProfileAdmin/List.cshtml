@@ -1,0 +1,141 @@
+﻿@model IEnumerable<CenterProfileComplexViewModel>
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrchardCore.Tenants.ViewModels
+@using OrchardCore.Environment.Shell.Models
+@using System.Net
+@{
+    var entries = ViewData["Entries"] as IEnumerable<ShellSettingsEntry>;
+}
+
+@functions
+{
+    public string GetTenantUrl(ShellSettingsEntry shellSettingsEntry, string originalPathBase)
+    {
+        var tenantShellSettings = shellSettingsEntry.ShellSettings;
+        var requestHostInfo = Context.Request.Host;
+
+        var tenantUrlHost = tenantShellSettings.RequestUrlHost?.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? requestHostInfo.Host;
+        if (requestHostInfo.Port.HasValue)
+        {
+            tenantUrlHost += ":" + requestHostInfo.Port;
+        }
+
+        var result = $"{Context.Request.Scheme}://{tenantUrlHost}{originalPathBase}";
+
+        if (!string.IsNullOrEmpty(tenantShellSettings.RequestUrlPrefix))
+        {
+            result += "/" + tenantShellSettings.RequestUrlPrefix;
+        }
+
+        if (!string.IsNullOrEmpty(shellSettingsEntry.Token))
+        {
+            result += "?token=" + WebUtility.UrlEncode(shellSettingsEntry.Token);
+        }
+
+        return result;
+    }
+}
+
+<h1>@RenderTitleSegments(T["Adatlapok, tenantok"])</h1>
+
+@if (Model.Any())
+{
+    <div class="text-right">
+        <a asp-action="DownloadMembershipTable" class="btn btn-outline-success">
+            <i class="fas fa-file-excel"></i>
+            @T["Tagság, tagdíj táblázat letöltése"]
+        </a>
+    </div>
+
+    <hr />
+
+    <div class="table-responsive">
+        <table class="table table-sm table-hover table-striped" id="table-center-profiles-list">
+            <thead class="thead-light">
+                <tr>
+                    <th>@T["Szakellátóhely neve"]</th>
+                    <th>@T["Szakellátóhely cím"]</th>
+                    <th class="text-center">@T["Tenant"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var complex in Model.OrderBy(c => c.BasicData.CenterName))
+                {
+                    ShellSettingsEntry entry = null;
+                    var assigned = !string.IsNullOrEmpty(complex.Renewal.AssignedTenantName);
+                    if (assigned)
+                    {
+                        entry = entries.FirstOrDefault(x => x.ShellSettings.Name == complex.Renewal.AssignedTenantName);
+                    }
+
+                    <tr>
+                        <td>@complex.BasicData.CenterName</td>
+                        <td>@complex.BasicData.FullAddress</td>
+                        <td class="text-center">
+                            @if (!assigned)
+                            {
+                                <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                                   asp-controller="CenterProfileAdmin"
+                                   asp-action="CreateTenant"
+                                   asp-route-id="@complex.ContentItemId"
+                                   class="btn btn-success btn-sm">
+                                    @T["Létrehoz"]
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="d-block">
+                                    @complex.Renewal.AssignedTenantName
+                                </span>
+                            }
+
+                            @if (entry != null && entry.ShellSettings.State == TenantState.Uninitialized)
+                            {
+                                <a class="btn btn-info btn-sm" id="btn-setup-@entry.Name" target="_blank" href="@GetTenantUrl(entry, "")">
+                                    @T["Setup"]
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <style asp-name="DataTables"></style>
+    <script asp-name="DataTables" at="Foot"></script>
+    <script at="Foot">
+        (function ($) {
+            $(function () {
+                var hasPager = '@((Model.Count() > 10).ToString().ToLower())' === 'true';
+                var bInfoClasses = hasPager ? 'bg-light border border-secondary rounded p-2 mt-2 mb-2 text-primary' : '';
+                $("#table-center-profiles-list").DataTable({
+                    dom: '"<"search-wrapper"f><"table-responsive"t><"row"<"col-12"<" ' + bInfoClasses + '"<"row"<"col align-self-center text-right"i><"col align-self-center text-left"l>>>><"col-12"p>>',
+                    bPaginate: hasPager,
+                    bInfo: hasPager,
+                    language: {
+                        searchPlaceholder: '',
+                        lengthMenu: '@T["_MENU_ szakellátóhely oldalanként"]',
+                        zeroRecords: '@T["Nincs találat."]',
+                        info: '@T["Oldalak: _PAGE_/_PAGES_"]',
+                        infoEmpty: '@T["Nincs találat"]',
+                        infoFiltered: "",
+                        search: '@T["Keresés, szűkítés"]:',
+                        paginate: {
+                            first: '@T["Első"]',
+                            last: '@T["Utolsó"]',
+                            next: '@T["Következő"]',
+                            previous: '@T["Előző"]'
+                        }
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+}
+else
+{
+    <p class="alert alert-secondary text-center">
+        @T["Nincsenek szakellátóhelyek"]
+    </p>
+}

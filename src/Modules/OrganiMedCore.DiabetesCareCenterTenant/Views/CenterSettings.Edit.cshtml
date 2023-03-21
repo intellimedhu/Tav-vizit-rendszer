@@ -1,0 +1,34 @@
+﻿@model CenterSettingsViewModel
+@using OrganiMedCore.DiabetesCareCenterTenant.ViewModels
+
+@{
+    var centerProfiles = Model.CenterProfiles
+        .OrderBy(x => x.CenterName)
+        .Select(x => new SelectListItem()
+        {
+            Text = x.CenterName,
+            Value = x.ContentItem.ContentItemId
+        });
+}
+
+@if (!Model.TenantUnavailable)
+{
+    <div class="row form-group" asp-validation-class-for="CenterProfileContentItemId">
+        <label asp-for="CenterProfileContentItemId" class="col col-form-label">@T["Szakellátóhely adatlap"]</label>
+        <div class="col-12">
+            <select asp-for="CenterProfileContentItemId" class="form-control" asp-items="centerProfiles">
+                <option value="">@T["Kérem, válasszon"]</option>
+            </select>
+            <span asp-validation-for="CenterProfileContentItemId"></span>
+            <span class="hint">@T["Szakellátóhely adminisztrációs panelen lévő szakellátóhely adatlap"]</span>
+        </div>
+    </div>
+}
+else
+{
+    <p>
+        @T["A Szakellátóhely adminisztrációs panel nem elérhető"]
+        <br />
+        <small>@T["A problémát általában megoldja, ha megnyitjuk böngészőben."]</small>
+    </p>
+}

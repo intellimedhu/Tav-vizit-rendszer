@@ -1,0 +1,386 @@
+{
+  "name": "OrganiMedCore DiabetesCareCenterManager - Production",
+  "displayName": "OrganiMedCore Diabetes Care Center Manager - Production",
+  "description": "OrganiMedCore Diabetes Care Center Manager setup recipe for production site.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "issetuprecipe": true,
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "organimedcore-diabetescarecentermanager-base"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "AppendVersion": true,
+      "CenterManagerSettings": {
+        "GoogleMapsApiKey": "AIzaSyBFioL8RFCuJAfAwkalp8Lpm1mis9eXDSU",
+        "CenterProfileCacheEnabled": true,
+        "CalculatedStatusOverridable": false,
+        "TerritoryCacheEnabled": true
+      },
+      "DokiNetSettings": {
+        "SocietyId": 20,
+        "PreSharedKey": "x85J3zK7QAriMTUbH80L",
+        "DokiNetBaseUrl": "https://doki.net/",
+        "MaxMembersCountPerRequest": 10
+      },
+      "EmailSettings": {
+        "CcEmailAddresses": [],
+        "BccEmailAddresses": [ "szilard.csere@intellimed.eu" ],
+        "DebugEmailAddresses": [ "szilard.csere@intellimed.eu" ],
+        "EmailsDequeueLimit": 25,
+        "Enabled": true,
+        "UseFakeEmails": false
+      },
+      "CenterProfileQualificationSettings": {
+        "Qualifications": [
+          {
+            "Id": "de73efb9-f41d-4681-9dc1-bb182a04c5e8",
+            "Name": "Általános orvos"
+          },
+          {
+            "Id": "27d37ec6-a188-4fbc-85c6-c77fe24bc70e",
+            "Name": "Felnőtt szakápoló"
+          },
+          {
+            "Id": "e7eed75b-4e91-47a5-b084-7db96a31809a",
+            "Name": "Gyermek szakápoló"
+          },
+          {
+            "Id": "a3275425-b580-4191-912a-21bae1a3cca7",
+            "Name": "Aneszteziológus"
+          },
+          {
+            "Id": "9a63cad3-67d2-4376-b906-78994f7ffab3",
+            "Name": "Szülésznő"
+          },
+          {
+            "Id": "5c0830eb-1675-4f7e-9a38-1ecf2d6a7357",
+            "Name": "Baleseti sebész"
+          },
+          {
+            "Id": "8be0a9c3-0f6c-4ac9-9382-ef49d7c87b9e",
+            "Name": "Belgyógyász"
+          },
+          {
+            "Id": "f1bc1566-0cd1-4d31-b175-766057521c92",
+            "Name": "Belgyógyász-diabetológus"
+          },
+          {
+            "Id": "78e7a7ff-9a9d-499d-a42b-dce6cc1f2985",
+            "Name": "Biológus"
+          },
+          {
+            "Id": "63298b15-7953-456c-b456-7983c33f93d6",
+            "Name": "Biztosítási szakember"
+          },
+          {
+            "Id": "452d8fab-fb7b-4f37-8056-8ea1a92a7108",
+            "Name": "Bőrgyógyász"
+          },
+          {
+            "Id": "fea32441-3280-4ecc-8cd1-b9d88d50be17",
+            "Name": "Diabetológiai szakápoló"
+          },
+          {
+            "Id": "c4f2ca87-8f71-424e-a939-d4db45cc70fe",
+            "Name": "Dietetikus"
+          },
+          {
+            "Id": "a2e2ed72-7eca-4649-9923-a9130452e855",
+            "Name": "Egyéb szakképesítés(ek)"
+          },
+          {
+            "Id": "04a6803c-7c33-41a6-a59e-67181eca0db9",
+            "Name": "Endokrinológus"
+          },
+          {
+            "Id": "a302f35c-cb5f-4836-bcd6-4f739055030b",
+            "Name": "Érsebész"
+          },
+          {
+            "Id": "535c36c4-03a2-4327-8090-3dab219b91fc",
+            "Name": "Fizikoterapeuta"
+          },
+          {
+            "Id": "690fe493-e6fe-4f47-92bf-68be41b3a148",
+            "Name": "Fizikus"
+          },
+          {
+            "Id": "162438a5-3583-4905-8cf5-eb9214c1c7ff",
+            "Name": "Foglalkozástan"
+          },
+          {
+            "Id": "3cdd76b7-d7b6-4542-8fd7-cd1dd3bf630a",
+            "Name": "Fogszakorvos"
+          },
+          {
+            "Id": "c3afd801-ccf7-41b9-bea8-fa74c5a1288f",
+            "Name": "Fül-orr-gégész"
+          },
+          {
+            "Id": "84904356-0d54-4b1b-b8c6-93abfa46d5d5",
+            "Name": "Gasztroenterológus"
+          },
+          {
+            "Id": "fc2daaab-b02b-493a-82b3-efdc6a308c18",
+            "Name": "Geriátria"
+          },
+          {
+            "Id": "1f4df5d3-cb23-4ad8-94f4-b0ec59662fb4",
+            "Name": "Gyermekgyógyász"
+          },
+          {
+            "Id": "e44ec4f1-ce7c-4dd0-91b9-dcd01745d1ca",
+            "Name": "Gyermekgyógyász-diabetológus"
+          },
+          {
+            "Id": "eebe12ac-3003-45e1-982a-8a4d3565359a",
+            "Name": "Gyermeksebész"
+          },
+          {
+            "Id": "efe35c68-61f9-4310-acf4-f32138b565bf",
+            "Name": "Gyógyszerész"
+          },
+          {
+            "Id": "38b617f7-1c55-4f2e-a82f-f6db386422d6",
+            "Name": "Gyógytornász"
+          },
+          {
+            "Id": "7d348a01-b2c7-4a7f-b0bb-3877cbd8653c",
+            "Name": "Háziorvos"
+          },
+          {
+            "Id": "fa7ce2d9-cf63-4a31-b07b-54a59dfb50d3",
+            "Name": "Hematológus"
+          },
+          {
+            "Id": "f4362b52-95c8-4400-bda7-ed7020a42651",
+            "Name": "Idegsebész"
+          },
+          {
+            "Id": "35cc17ab-2980-4565-8ddf-6642a893766d",
+            "Name": "Ideggyógyász"
+          },
+          {
+            "Id": "1486240f-1d8a-43b7-985b-b30c5da359ea",
+            "Name": "Igazságügy orvostan, orvosszakértő"
+          },
+          {
+            "Id": "f31315df-b4e0-424d-88b2-f032777cb86f",
+            "Name": "Immunológus és allergológus"
+          },
+          {
+            "Id": "5c8c3416-85f5-45ef-83ac-e7c38315b758",
+            "Name": "Infektológus"
+          },
+          {
+            "Id": "a0759e8a-5600-4a46-b33d-2700d879a030",
+            "Name": "Jogász"
+          },
+          {
+            "Id": "3c311764-5228-4727-8449-730876b227f3",
+            "Name": "Kardiológus"
+          },
+          {
+            "Id": "b50c10b3-14c0-4bc7-8387-bead3823f3ca",
+            "Name": "Kézsebész"
+          },
+          {
+            "Id": "1b277ae2-f716-451f-87e3-49652886ece8",
+            "Name": "Klinikai farmakológus"
+          },
+          {
+            "Id": "33de71d2-d92f-48b1-8333-92052e3dde3f",
+            "Name": "Klinikai laboráns"
+          },
+          {
+            "Id": "d7caaef4-bb50-4610-8ff6-dcc6ddb8b3ae",
+            "Name": "Közgazdász"
+          },
+          {
+            "Id": "5a1fb7d5-350a-40a3-ad95-dc3ddf07a0ec",
+            "Name": "Kutatóorvos"
+          },
+          {
+            "Id": "ebb03218-6a50-460b-b076-efa8f9b607c8",
+            "Name": "Laboratóriumi szakorvos"
+          },
+          {
+            "Id": "d78b6b07-4926-43d6-aeee-baed203f3582",
+            "Name": "Magatartásterápia"
+          },
+          {
+            "Id": "a4a985a7-2d55-43b0-959c-2b7db4ad397d",
+            "Name": "Matematikus"
+          },
+          {
+            "Id": "90365672-4361-4bfe-bf46-68a88a326e05",
+            "Name": "Megelőző orvostan"
+          },
+          {
+            "Id": "eb8fd166-0355-46e6-9420-c4479229304e",
+            "Name": "Mellkassebészet"
+          },
+          {
+            "Id": "7e889bdc-2243-48ce-9919-7b8714e57285",
+            "Name": "Mérnök"
+          },
+          {
+            "Id": "19f13ff6-9960-4480-af79-24b33130b54e",
+            "Name": "Mikrobiológus"
+          },
+          {
+            "Id": "0dca5662-7fae-4d26-aed5-c76221bbaf4e",
+            "Name": "Nephrológus"
+          },
+          {
+            "Id": "f9f068c5-cef8-4571-b9a6-a74a98fdc3f6",
+            "Name": "Nőgyógyász"
+          },
+          {
+            "Id": "2e301f04-20ef-4705-a315-dd507ed8f9d1",
+            "Name": "Neonatologus"
+          },
+          {
+            "Id": "2a422e3a-8e4b-43ac-af00-e0014c4e2042",
+            "Name": "Onkológus"
+          },
+          {
+            "Id": "a1e94af5-6025-4800-8bce-2ba10c43a6f5",
+            "Name": "Ortopéd"
+          },
+          {
+            "Id": "fe8eba7e-176a-40b4-ae35-a7597faff79d",
+            "Name": "Orvos más munkakörben"
+          },
+          {
+            "Id": "c88868c7-efea-47fc-b9bc-f3f948df73c4",
+            "Name": "Oxyológus"
+          },
+          {
+            "Id": "d0c8ea9d-c0f0-4282-a5de-695a2a6c86ae",
+            "Name": "Patofiziológia"
+          },
+          {
+            "Id": "a5e2ee09-671c-4b97-bb98-ae19b5090a56",
+            "Name": "Patológus"
+          },
+          {
+            "Id": "972e5251-266d-4673-a26a-9ebaaf5b25c1",
+            "Name": "Plasztikai sebész"
+          },
+          {
+            "Id": "c5ef0b5b-ae46-45a0-bc77-43801fe6994d",
+            "Name": "Pszichiáter"
+          },
+          {
+            "Id": "13a14486-81fa-4467-8108-33cfab6aa5d7",
+            "Name": "Pszichoterápia (orv)"
+          },
+          {
+            "Id": "d9cda06a-a7da-4db9-987a-5a691a377959",
+            "Name": "Radiológus"
+          },
+          {
+            "Id": "7574dc2a-541c-4f1f-b263-acb1927c060e",
+            "Name": "Rehabilitáció szakorvos"
+          },
+          {
+            "Id": "2c36d9f0-a8ec-45d0-9679-696d2fb8ec51",
+            "Name": "Reumatológus"
+          },
+          {
+            "Id": "413e1335-c67c-4afc-9db7-c154d72600b0",
+            "Name": "Sebész"
+          },
+          {
+            "Id": "01d56669-6a8a-4293-ac80-05906d5aa024",
+            "Name": "Sportorvos"
+          },
+          {
+            "Id": "e5a03a86-2ed5-41fa-9cdd-3cffb324dd11",
+            "Name": "Sugárterápia"
+          },
+          {
+            "Id": "52b4ea8c-d8f1-4478-8c67-08af3838e5dc",
+            "Name": "Szájsebész"
+          },
+          {
+            "Id": "7ec1aacc-e977-406e-b5b7-e705c0771d56",
+            "Name": "Szemész"
+          },
+          {
+            "Id": "e88900d7-439a-46d6-ac08-25e2747771f4",
+            "Name": "Szülész és nőgyógyász"
+          },
+          {
+            "Id": "a96336b1-4957-4661-bfa7-8b49456a2ce2",
+            "Name": "Transzfúziológus"
+          },
+          {
+            "Id": "5a790243-2dfb-4715-af37-245c049bbaa8",
+            "Name": "Tüdőgyógyász"
+          },
+          {
+            "Id": "b3433610-5fad-4a44-8bb1-bf37fba77d2f",
+            "Name": "Urológus"
+          },
+          {
+            "Id": "9e4b66c4-b7a6-4af5-b205-ad143802ec18",
+            "Name": "Védőnő"
+          },
+          {
+            "Id": "350fe7f9-2deb-46ec-8113-2dec2cbf986d",
+            "Name": "Vegyész"
+          },
+          {
+            "Id": "d4849300-e853-4f89-b1df-090c16f10228",
+            "Name": "Csecsemő és gyermekápoló (jelenlegi OKJ szerint: 55.723.02)"
+          },
+          {
+            "Id": "0b29f9ee-4227-4f2e-932b-e3fd638ccb27",
+            "Name": "Alapelllátási közösségi szakápoló (jelenlegi OKJ szerint: 55.723.16)"
+          },
+          {
+            "Id": "3c674398-b99d-42e7-b4c8-36f9093df42e",
+            "Name": "Ápoló (jelenlegi OKJ szerint: 55.723.01)"
+          },
+          {
+            "Id": "196d81e3-b969-412e-ae25-c42b2db5d564",
+            "Name": "Szakápoló (korábbi OKJ szerint)"
+          }
+        ],
+        "QualificationsPerOccupations": {
+          "Doctor": [ "de73efb9-f41d-4681-9dc1-bb182a04c5e8", "8be0a9c3-0f6c-4ac9-9382-ef49d7c87b9e", "f1bc1566-0cd1-4d31-b175-766057521c92", "04a6803c-7c33-41a6-a59e-67181eca0db9", "e44ec4f1-ce7c-4dd0-91b9-dcd01745d1ca", "7d348a01-b2c7-4a7f-b0bb-3877cbd8653c" ],
+          "Nurse": [ "27d37ec6-a188-4fbc-85c6-c77fe24bc70e", "e7eed75b-4e91-47a5-b084-7db96a31809a", "196d81e3-b969-412e-ae25-c42b2db5d564", "3c674398-b99d-42e7-b4c8-36f9093df42e", "d4849300-e853-4f89-b1df-090c16f10228" ],
+          "DiabetesNurseEducator": [ "fea32441-3280-4ecc-8cd1-b9d88d50be17" ],
+          "Dietician": [ "c4f2ca87-8f71-424e-a939-d4db45cc70fe" ],
+          "Physiotherapist": [ "38b617f7-1c55-4f2e-a82f-f6db386422d6" ],
+          "CommunityNurse": [ "0b29f9ee-4227-4f2e-932b-e3fd638ccb27" ]
+        }
+      },
+      "CenterRenewalSettings": {
+        "RenewalPeriods": [
+          {
+            "Id": "22ddd286-6bee-4047-a64b-5ba97b29ea42",
+            "RenewalStartDate": "2019-09-22T22:00:00Z",
+            "ReviewStartDate": "2019-12-14T23:00:00Z",
+            "ReviewEndDate": "2020-01-14T23:00:00Z",
+            "EmailTimings": [],
+            "ProcessedTimings": []
+          }
+        ]
+      }
+    }
+  ]
+}

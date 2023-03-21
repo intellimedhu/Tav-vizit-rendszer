@@ -1,0 +1,10 @@
+﻿.validation-summary-errors
+{
+    @extend .alert;
+    @extend .alert-danger;
+
+    ul
+    {
+        margin: 0;
+    }
+}

@@ -1,0 +1,61 @@
+﻿@import "../../OrganiMedCore.InformationOrientedTheme/Assets/main";
+@import "cards";
+@import "center-profile-review";
+
+$bg-hightlight: #ff0;
+
+select {
+    &.current-accreditation-status-selectlist {
+        option[selected] {
+            background-color: orange;
+        }
+    }
+}
+
+.highlight {
+    background-color: $bg-hightlight;
+}
+
+.border-highlight {
+    border-width: 3px !important;
+    border-style: solid !important;
+
+    @each $color, $value in $theme-colors {
+        &.border-highlight-#{$color} {
+            border-color: $value !important;
+        }
+    }
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .nav-link.dccm-nav-link {
+    font-size: 20px;
+    color: $white;
+}
+
+div.dataTables_wrapper {
+    .search-wrapper {
+        border: 1px solid $primary;
+        padding: $alert-padding-y $alert-padding-x;
+        border-radius: $border-radius;
+
+        div.dataTables_filter {
+            > label {
+                display: flex;
+                line-height: $input-height;
+
+                input[type="search"] {
+                    margin-left: $input-padding-x;
+                }
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    table.table-territories {
+        th, td {
+            width: percentage(1/3);
+        }
+    }
+}

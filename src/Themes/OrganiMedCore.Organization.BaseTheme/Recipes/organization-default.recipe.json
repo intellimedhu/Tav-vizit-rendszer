@@ -1,0 +1,33 @@
+{
+  "name": "OrganiMedCore Default Organization",
+  "displayName": "Default organization.",
+  "description": "Setup recipe for a default organization. Use this if there's nothing special in the organization. It depends on the base organization recipe.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "issetuprecipe": true,
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "organimedcore-organization-basic"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "TenantSettings": {
+        "IsOrganization": true
+      }
+    },
+    {
+      "name": "themes",
+      "admin": "TheAdmin",
+      "site": "OrganiMedCore.Organization.BaseTheme"
+    }
+  ]
+}

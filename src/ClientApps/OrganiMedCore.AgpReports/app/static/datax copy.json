@@ -1,0 +1,168 @@
+{
+    "parameters": {
+        "unit": "mmol\/l",
+        "times": {
+            "breakfast": "8:0",
+            "elevenses": null,
+            "lunch": "12:0",
+            "afternoonsnakc": null,
+            "dinner": "18:0"
+        },
+        "targetrange": {
+            "normallow": 3.8,
+            "beforemeallow": 3.8,
+            "aftermeallow": 3.8,
+            "otherlevellow": 3.8,
+            "normalhigh": 6.5,
+            "beforemealhigh": 5.5,
+            "aftermealhigh": 7.7,
+            "otherlevelhigh": 6.5
+        },
+        "patient": {
+            "id": "108377",
+            "firstname": "KG Pr\u00f3ba",
+            "lastname": "!!!",
+            "prefix": ""
+        },
+        "insulintypes": [
+            {
+                "type": "basal",
+                "color": "#ff4500"
+            },
+            {
+                "type": "bolus",
+                "color": "#9acd32"
+            }
+        ]
+    },
+    "bgms": [
+        {
+            "bgmrangelow": 1.1,
+            "bgmrangehigh": 33.3,
+            "values": [
+                {
+                    "measuredate": "2015-07-09T16:58:30",
+                    "measuretype": 0,
+                    "glucose": 9.4
+                },
+                {
+                    "measuredate": "2015-07-09T16:55:30",
+                    "measuretype": 0,
+                    "glucose": 9.3
+                },
+                {
+                    "measuredate": "2015-07-09T16:53:30",
+                    "measuretype": 0,
+                    "glucose": 19.7
+                },
+                {
+                    "measuredate": "2015-07-08T19:41:30",
+                    "measuretype": 0,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2015-07-08T16:42:30",
+                    "measuretype": 0,
+                    "glucose": 18.1
+                },
+                {
+                    "measuredate": "2015-07-08T16:41:30",
+                    "measuretype": 0,
+                    "glucose": 33.4
+                },
+                {
+                    "measuredate": "2015-07-08T16:41:29",
+                    "measuretype": 0,
+                    "glucose": 33.4
+                },
+                {
+                    "measuredate": "2015-07-08T16:40:30",
+                    "measuretype": 0,
+                    "glucose": 1
+                },
+                {
+                    "measuredate": "2015-05-06T18:10:30",
+                    "measuretype": 0,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2015-03-30T18:55:30",
+                    "measuretype": 0,
+                    "glucose": 6.1
+                },
+                {
+                    "measuredate": "2015-03-30T18:44:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2015-03-30T18:44:29",
+                    "measuretype": 0,
+                    "glucose": 6.1
+                },
+                {
+                    "measuredate": "2015-03-30T17:33:30",
+                    "measuretype": 0,
+                    "glucose": 10.3
+                },
+                {
+                    "measuredate": "2015-03-27T16:32:30",
+                    "measuretype": 0,
+                    "glucose": 8.1
+                },
+                {
+                    "measuredate": "2015-03-27T16:32:29",
+                    "measuretype": 0,
+                    "glucose": 10.1
+                },
+                {
+                    "measuredate": "2015-03-17T17:13:30",
+                    "measuretype": 0,
+                    "glucose": 10.2
+                },
+                {
+                    "measuredate": "2015-03-17T16:40:30",
+                    "measuretype": 1,
+                    "glucose": 6.1
+                },
+                {
+                    "measuredate": "2014-02-05T17:55:30",
+                    "measuretype": 2,
+                    "glucose": 10.1
+                },
+                {
+                    "measuredate": "2014-02-05T17:55:29",
+                    "measuretype": 1,
+                    "glucose": 8.1
+                },
+                {
+                    "measuredate": "2014-02-05T17:49:30",
+                    "measuretype": 0,
+                    "glucose": 3
+                },
+                {
+                    "measuredate": "2014-02-05T17:38:30",
+                    "measuretype": 0,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2014-02-05T17:33:30",
+                    "measuretype": 0,
+                    "glucose": 6.1
+                }
+            ]
+        }
+    ],
+    "insulins": [
+        {
+            "type": "basal",
+            "name": "Inzulin1",
+            "values": "[]"
+        },
+        {
+            "type": "bolus",
+            "name": "Inzulin2",
+            "values": "[]"
+        }
+    ]
+}

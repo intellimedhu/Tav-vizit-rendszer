@@ -1,0 +1,473 @@
+@import "./mixins/mixins";
+
+$statistic-block-border: 1px solid $gray-800;
+
+@mixin statistic-group-sizes($size) {
+  &.statistic-group-#{$size} {
+    @include custom-column-width($size * $statistic-block-width);
+
+    &.statistic-group-with-header,
+    &.statistic-group-with-footer {
+      .statistic-block {
+        height: $statistic-block-height - 2 * $statistic-padding - $statistic-block-header-footer-height;
+      }
+
+      .statistic-block-header,
+      .statistic-block-footer {
+        @include custom-column-width($size * $statistic-block-width);
+        line-height: $statistic-block-header-footer-height;
+      }
+    }
+  }
+}
+
+.statistics-column {
+  padding-left: 0;
+  padding-top: $statistic-block-header-footer-height + 5px;
+  color: $gray-800;
+
+  .statistics-title {
+    text-align: center;
+    line-height: $statistic-title-width;
+    font-weight: bold;
+    font-size: 12px;
+    @include text-selection-disable;
+    @include group-title(163px);
+  }
+
+  .statistic-group {
+    padding: 0;
+    border: $statistic-block-border;
+    border-radius: $border-radius;
+    margin: 0 auto 10px;
+    text-align: center;
+    @include box-shadows(2px 2px 0 0 $gray-800);
+
+    @for $i from 0 through 4 {
+      @include statistic-group-sizes($i);
+    }
+
+    .statistic-block {
+      font-size: 0;
+      padding: 2px;
+      margin: 0;
+      height: $statistic-block-height - 2 * $statistic-padding;
+      @include custom-column-width($statistic-block-width);
+      @include text-selection-disable;
+
+      &.col-bordered {
+        border-right: $statistic-block-border;
+      }
+
+      .statistic-header {
+        font-weight: bold;
+        font-size: 10px;
+        line-height: $statistic-header-line-height;
+        min-height: $statistic-header-line-height + 3px;
+
+        &.line-2x {
+          min-height: 2 * $statistic-header-line-height + 3px;
+        }
+
+        &.line-3x {
+          min-height: 3 * $statistic-header-line-height + 3px;
+        }
+      }
+
+      .statistic-header,
+      .statistic-body {
+        position: relative;
+        z-index: 2;
+      }
+
+      .statistics-value {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 28px;
+
+        .statistics-value-unit {
+          font-size: 12px;
+          line-height: 24px;
+        }
+      }
+
+      .statistics-reference {
+        font-size: 10.5px;
+        line-height: 14px;
+        font-weight: normal;
+      }
+
+      &.statistic-block-double-value {
+        .statistic-header {
+          min-height: 15px;
+        }
+      }
+
+      $target-ranges: () !default;
+      $target-ranges: map-merge(
+        (
+          "slow": rgba($color-slow, 0.5),
+          "low": rgba($color-low, 0.5),
+          "in-target": rgba($color-target, 0.5),
+          "high": rgba($color-high, 0.5),
+          "shigh": rgba($color-shigh, 0.5)
+        ),
+        $target-ranges
+      );
+
+      @each $range-name, $color in $target-ranges {
+        &.statistic-block-#{$range-name} {
+          position: relative;
+          &::before {
+            position: absolute;
+            content: "";
+            bottom: 0;
+            display: block;
+            right: 0;
+            left: 0;
+          }
+          @for $major from 0 through 100 {
+            @for $minor from 0 through 9 {
+              &.pc-#{$major}-#{$minor} {
+                &::before {
+                  top: percentage(1 - ($major + $minor / 10) / 100);
+                  background-color: $color;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.statistic-block-slow {
+        &::before {
+          left: 2px;
+          border-bottom-left-radius: $border-radius;
+        }
+      }
+    }
+
+    .statistic-block-header {
+      text-transform: uppercase;
+      font-size: 11.5px;
+      font-weight: bold;
+    }
+
+    .statistic-block-footer {
+      font-size: 12px;
+
+      &.insulin-block-footer {
+        text-transform: uppercase;
+      }
+    }
+
+    .statistic-checkable {
+      position: relative;
+      cursor: pointer;
+
+      .btn-statistic-checkbox {
+        $border-width: 1px;
+
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-width: $border-width;
+        top: -$border-width;
+        right: -$border-width;
+        padding: 0;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        cursor: pointer;
+
+        .icon {
+          font-size: 17px;
+          position: absolute;
+          top: 0;
+          left: 1px;
+        }
+
+        &.unchecked {
+          &:hover,
+          &:focus,
+          &:active {
+            background-color: $white;
+          }
+
+          .icon {
+            color: $white;
+          }
+        }
+      }
+    }
+
+    // .statistics-hbA1c-warning {
+    //   font-size: 9px;
+    //   line-height: 12px;
+    //   height: 28px;
+    //   font-weight: normal;
+    //   color: #a7a7a7;
+    // }
+
+    &.statistic-group-glucose-variability {
+      margin-right: 10px;
+    }
+
+    &.statistic-group-4 {
+      @include custom-column-width(2 * $statistic-block-width);
+
+      .statistic-block-header,
+      .statistic-block-footer {
+        @include custom-column-width(2 * $statistic-block-width);
+      }
+    }
+
+    &.statistic-group-5 {
+      @include custom-column-width(3 * $statistic-block-width);
+
+      .statistic-block-header,
+      .statistic-block-footer {
+        @include custom-column-width(3 * $statistic-block-width);
+      }
+    }
+  }
+
+  &.statistics-column-glucose {
+    .statistic-group {
+      .statistic-block {
+        .statistics-reference {
+          min-height: 31px;
+        }
+      }
+
+      &.statistic-group-4 {
+        .statistic-block {
+          @include custom-column-width(50%);
+
+          &:nth-of-type(1),
+          &:nth-of-type(2) {
+            border-bottom: $statistic-block-border;
+          }
+        }
+      }
+
+      &.statistic-group-5 {
+        .statistic-block {
+          &:nth-of-type(1),
+          &:nth-of-type(2),
+          &:nth-of-type(3) {
+            border-bottom: $statistic-block-border;
+          }
+
+          &:nth-of-type(3) {
+            border-right: 0;
+          }
+
+          &:nth-of-type(4),
+          &:nth-of-type(5) {
+            @include custom-column-width(3 * $statistic-block-width / 2);
+          }
+        }
+      }
+    }
+  }
+
+  &.statistics-column-insulin {
+    .statistic-group {
+      .statistic-block {
+        .statistics-reference {
+          min-height: 16px;
+        }
+      }
+
+      &.statistic-group-5 {
+        .statistic-block {
+          &:nth-of-type(2),
+          &:nth-of-type(3),
+          &:nth-of-type(4) {
+            border-bottom: $statistic-block-border;
+          }
+
+          &:nth-of-type(4) {
+            border-right: 0;
+          }
+
+          &:nth-of-type(5),
+          &:nth-of-type(6) {
+            @include custom-column-width(3 * $statistic-block-width / 2);
+          }
+        }
+      }
+    }
+  }
+
+  &.statistics-column-glucose,
+  &.statistics-column-insulin {
+    max-width: 385px;
+    margin: 0 auto;
+  }
+
+  @include media-breakpoint-up(sm) {
+    .statistic-group {
+      @include statistic-group-sizes(4);
+      @include statistic-group-sizes(5);
+    }
+
+    &.statistics-column-glucose,
+    &.statistics-column-insulin {
+      max-width: map-get($grid-breakpoints, "sm");
+      margin: 0 auto;
+    }
+
+    &.statistics-column-glucose {
+      .statistic-group {
+        &.statistic-group-4 {
+          .statistic-block {
+            &:nth-of-type(1),
+            &:nth-of-type(2) {
+              border-bottom: 0;
+              @include custom-column-width($statistic-block-width);
+            }
+
+            &:nth-of-type(2) {
+              border-right: $statistic-block-border;
+            }
+
+            &:nth-of-type(3),
+            &:nth-of-type(4) {
+              @include custom-column-width($statistic-block-width);
+            }
+          }
+        }
+
+        &.statistic-group-5 {
+          .statistic-block {
+            &:nth-of-type(1),
+            &:nth-of-type(2),
+            &:nth-of-type(3) {
+              border-bottom: 0;
+            }
+
+            &:nth-of-type(3) {
+              border-right: $statistic-block-border;
+            }
+
+            &:nth-of-type(4),
+            &:nth-of-type(5) {
+              @include custom-column-width($statistic-block-width);
+            }
+          }
+        }
+      }
+    }
+
+    &.statistics-column-insulin {
+      .statistic-group {
+        &.statistic-group-5 {
+          .statistic-block {
+            &:nth-of-type(2),
+            &:nth-of-type(3),
+            &:nth-of-type(4) {
+              border-bottom: 0;
+            }
+
+            &:nth-of-type(4) {
+              border-right: $statistic-block-border;
+            }
+
+            &:nth-of-type(5),
+            &:nth-of-type(6) {
+              @include custom-column-width($statistic-block-width);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-left: $statistic-title-width;
+    padding-top: 0;
+
+    &.statistics-column-glucose,
+    &.statistics-column-insulin {
+      max-width: none;
+      margin: 0;
+    }
+
+    .statistic-group {
+      margin: 0 10px 10px 0;
+
+      &.statistic-group-glucose-variability {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  // @include media-breakpoint-up(xl) {
+  //     $statistic-block-width-xl: 5vw;
+
+  //     .statistic-group {
+  //         @for $i from 0 through 5 {
+  //             &.statistic-group-#{$i} {
+  //                 @include custom-column-width($i * $statistic-block-width-xl);
+
+  //                 &.statistic-group-with-header,
+  //                 &.statistic-group-with-footer {
+  //                     .statistic-block {
+  //                         height: $statistic-block-height -
+  //                             2 *
+  //                             $statistic-padding -
+  //                             $statistic-block-header-footer-height;
+  //                     }
+
+  //                     .statistic-block-header,
+  //                     .statistic-block-footer {
+  //                         @include custom-column-width($i * $statistic-block-width-xl);
+  //                         line-height: $statistic-block-header-footer-height;
+  //                     }
+  //                 }
+  //             }
+  //         }
+
+  //         .statistics-column .statistic-group .statistic-block {
+  //             @include custom-column-width($statistic-block-width-xl);
+  //         }
+  //     }
+
+  //     .statistic-block {
+  //         .statistic-header {
+  //             padding: 0 16px;
+  //         }
+  //     }
+
+  //     &.statistics-column-glucose,
+  //     &.statistics-column-insulin {
+  //         .statistic-group {
+  //             @for $i from 0 to 5 {
+  //                 &.statistic-group-#{$i} {
+  //                     .statistic-block {
+  //                         @for $j from 0 to 5 {
+  //                             &:nth-of-type(#{$j}) {
+  //                                 @include custom-column-width($statistic-block-width-xl);
+  //                             }
+  //                         }
+  //                     }
+  //                 }
+  //             }
+
+  //             &.statistic-group-5 {
+  //                 .statistic-block {
+  //                     &:nth-of-type(1),
+  //                     &:nth-of-type(2),
+  //                     &:nth-of-type(3),
+  //                     &:nth-of-type(4),
+  //                     &:nth-of-type(5),
+  //                     &:nth-of-type(6) {
+  //                         @include custom-column-width($statistic-block-width-xl);
+  //                     }
+  //                 }
+  //             }
+  //         }
+  //     }
+  // }
+}

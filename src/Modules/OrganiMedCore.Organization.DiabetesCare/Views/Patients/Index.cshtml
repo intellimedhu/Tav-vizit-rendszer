@@ -1,0 +1,22 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h1>
+            @RenderTitleSegments(T["Táv-vizit adatok"])
+        </h1>
+
+        @await DisplayAsync(await New.PatientProfileNav(
+            EVisitPatientProfileId: ViewData["EVisitPatientProfileId"],
+            IsNew: false,
+            ActiveNavigation: "Agp"))
+
+        <div class="mt-3">
+            <a asp-area="OrganiMedCore.Organization.DiabetesCare"
+               asp-controller="Patients"
+               asp-action="Agp"
+               asp-route-eVisitPatientProfileId="@ViewData["EVisitPatientProfileId"]"
+               class="btn btn-primary">
+                @T["Vércukor és inzulin adatok elemzése"]
+            </a>
+        </div>
+    </div>
+</div>

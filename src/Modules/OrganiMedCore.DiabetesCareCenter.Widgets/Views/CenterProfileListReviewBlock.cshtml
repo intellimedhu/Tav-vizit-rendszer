@@ -1,0 +1,141 @@
+﻿@model CenterProfileListReviewStatisticsViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Helpers
+@using OrganiMedCore.DiabetesCareCenter.Core.Constants
+@using OrganiMedCore.DiabetesCareCenter.Widgets.ViewModels
+@{
+    var multipleRoles = Model.ReviewerStatistics.ReviewStatisticsByRoles.Count > 1;
+    var oneRoleOnly = Model.ReviewerStatistics.ReviewStatisticsByRoles.Count == 1;
+    var firstRoleGroup = Model.ReviewerStatistics.ReviewStatisticsByRoles.FirstOrDefault();
+}
+<h6>
+    <strong>@T["Illetékességi körömbe tartozó szakellátóhelyek áttekintése"]</strong>
+</h6>
+<ul class="list-unstyled m-0">
+    <li class="mb-2 border-bottom border-white">
+        <div class="row@(multipleRoles ? " mb-0" : "")">
+            <span class="col-8">
+                <strong>@T["Összesen"]</strong>:
+            </span>
+            <span class="col-4 text-right">
+                @Model.ReviewerStatistics.TotalCount
+            </span>
+        </div>
+    </li>
+    @if (Model.ReviewerStatistics.ReviewStatisticsByRoles.Count > 0)
+    {
+        var roleGroups = Model.ReviewerStatistics.ReviewStatisticsByRoles.OrderBy(x =>
+        {
+            if (x.RoleName == CenterPosts.TerritorialRapporteur)
+            {
+                return 0;
+            }
+
+            if (x.RoleName == CenterPosts.OMKB)
+            {
+                return 1;
+            }
+
+            if (x.RoleName == CenterPosts.MDTManagement)
+            {
+                return 2;
+            }
+
+            return 3;
+        });
+        var roleTexts = new Dictionary<string, string>()
+{
+{ CenterPosts.MDTManagement, T["MDT vezetőség"].Value },
+{ CenterPosts.OMKB, T["MDT-OMKB"].Value },
+{ CenterPosts.TerritorialRapporteur, T["Területi referens"].Value }
+};
+
+<li class="border-bottom border-white">
+    @await DisplayAsync(await New.CenterProfileListStatisticsBlock(
+        MultipleRoles: multipleRoles,
+        OneRoleOnly: oneRoleOnly,
+        Caption: T["Véleményezhető"].Value,
+        RoleGroup: roleGroups,
+        RoleTexts: roleTexts,
+        Property: (Func<ReviewStatisticsByRoles, int>)(x => x.ReviewableCount)
+    ))
+</li>
+<li class="border-bottom border-white">
+    @await DisplayAsync(await New.CenterProfileListStatisticsBlock(
+        MultipleRoles: multipleRoles,
+        OneRoleOnly: oneRoleOnly,
+        Caption: T["Véleményezett"].Value,
+        RoleGroup: roleGroups,
+        RoleTexts: roleTexts,
+        Property: (Func<ReviewStatisticsByRoles, int>)(x => x.ReviewedCount)
+    ))
+</li>
+<li class="border-bottom border-white">
+    @await DisplayAsync(await New.CenterProfileListStatisticsBlock(
+        MultipleRoles: multipleRoles,
+        OneRoleOnly: oneRoleOnly,
+        Caption: T["Még nem véleményezhető"].Value,
+        RoleGroup: roleGroups,
+        RoleTexts: roleTexts,
+        Property: (Func<ReviewStatisticsByRoles, int>)(x => x.NonReviewableCount)
+    ))
+</li>
+<li class="mt-2">
+    @if (multipleRoles)
+    {
+        <strong>@T["Készültségi szint"]:</strong>
+        <ul class="list-unstyled pl-4 row">
+            @foreach (var group in roleGroups)
+            {
+                int totalCount;
+                if (group.RoleName == CenterPosts.TerritorialRapporteur)
+                {
+                    totalCount = group.NonReviewableCount + group.ReviewableCount + group.ReviewedCount;
+                }
+                else
+                {
+                    totalCount = Model.ReviewerStatistics.TotalCount;
+                }
+
+                var percentage = (double)group.ReviewedCount / totalCount * 100;
+                var percentageStyleWidth = Math.Round(percentage, 1).ToString().Replace(',', '.');
+                var tooltip = $"{totalCount} / {group.ReviewedCount}";
+
+                <li class="col-8">@roleTexts[group.RoleName]:</li>
+                <li class="col-4 text-right" title="@tooltip">@string.Format("{0:0.#} %", percentage)</li>
+                <li class="col-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-safe"
+                             role="progressbar"
+                             style="width: @(percentageStyleWidth)%"
+                             aria-valuenow="@percentageStyleWidth"
+                             aria-valuemin="0"
+                             aria-valuemax="100"></div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else if (oneRoleOnly)
+    {
+        var percentage = (double)firstRoleGroup.ReviewedCount / Model.ReviewerStatistics.TotalCount * 100;
+        var percentageStyleWidth = Math.Round(percentage, 1).ToString().Replace(',', '.');
+        var tooltip = $"{Model.ReviewerStatistics.TotalCount} / {firstRoleGroup.ReviewedCount}";
+
+        <div class="row">
+            <strong class="col-8">@T["Kitöltési szint"]:</strong>
+            <span class="col-4 text-right" title="@tooltip">@string.Format("{0:0.#} %", percentage)</span>
+            <div class="col-12">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-safe"
+                         role="progressbar"
+                         style="width:@(percentageStyleWidth)%"
+                         aria-valuenow="@percentageStyleWidth"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    }
+</li>
+}
+</ul>

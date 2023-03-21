@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CenterProfileComplexViewModel>
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Core.Services
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@using OrchardCore.Modules
+@inject IClock clock
+@inject IRenewalPeriodSettingsService renewalPeriodSettingsService
+@{
+    ViewBag.Title = T["Szakellátóhely, ahol vezető vagyok, vagy újat szeretnék létesíteni"];
+    RenderTitleSegments(ViewBag.Title);
+
+    var renewalSettings = await renewalPeriodSettingsService.GetCenterRenewalSettingsAsync();
+    var isRenewalPeriod = renewalSettings?.GetCurrentFullPeriod(clock.UtcNow) != null;
+    var anyInReview = Model.Any(x => x.Renewal.IsInRenewalProcess());
+
+    var groupSubmitted = Model.Where(x =>
+        x.Renewal.Submitted() ||
+        (isRenewalPeriod && x.Renewal.RenewalCenterProfileStatus == CenterProfileStatus.MDTAccepted));
+    var groupNotCreated = Model.Where(x => !x.BasicData.Created || string.IsNullOrEmpty(x.Renewal.AssignedTenantName));
+
+    var ids = groupSubmitted.Select(x => x.ContentItemId).Concat(groupNotCreated.Select(x => x.ContentItemId));
+
+    var groupNotSubmitted = Model.Where(x => !ids.Contains(x.ContentItemId));
+}
+
+@await DisplayAsync(await New.OwnCenterProfileGroup(
+    CenterProfiles: groupSubmitted,
+    Flavor: "success",
+    Title: T["Véleményezett vagy véleményezés alatt álló szakellátóhelyek"],
+    IsRenewalPeriod: isRenewalPeriod,
+    AnyInReview: anyInReview,
+    IsCreateGroup: false))
+
+
+@await DisplayAsync(await New.OwnCenterProfileGroup(
+    CenterProfiles: groupNotSubmitted,
+    Flavor: "info",
+    Title: T["Területi referensi véleményezésre még nem elküldött szakellátóhelyek"],
+    IsRenewalPeriod: isRenewalPeriod,
+    AnyInReview: anyInReview,
+    IsCreateGroup: false))
+
+@await DisplayAsync(await New.OwnCenterProfileGroup(
+    CenterProfiles: groupNotCreated,
+    Flavor: "warning",
+    Title: T["Új szakellátóhely létesítésére vonatkozó tervezetek"],
+    TitleClass: "text-dark",
+    IsRenewalPeriod: isRenewalPeriod,
+    AnyInReview: anyInReview,
+    IsCreateGroup: true))
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+    }))
+
+@if (groupNotCreated.Any())
+{
+    <script at="Foot" asp-name="InformationOrientedBsModals"></script>
+    <script at="Foot">
+        ; (function ($) {
+            $(function () {
+                var $btnDiscard = $('.btn-discard');
+                $btnDiscard.on('click', function () {
+                    confirmationModal({
+                        title: '<i class="fas fa-trash"></i> @T["Törlés megerősítése"]',
+                        message: '@T["Biztos, hogy törölni szeretné a szakellátóhely létrehozási kérelmet?"]',
+                        callback: function (confirmed) {
+                            if (confirmed) {
+                                window.location.href = $btnDiscard.data('discardUrl');
+                            }
+                        }
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+}

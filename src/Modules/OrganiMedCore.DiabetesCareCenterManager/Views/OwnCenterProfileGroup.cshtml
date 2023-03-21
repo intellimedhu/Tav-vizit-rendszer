@@ -1,0 +1,148 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrganiMedCore.DiabetesCareCenter.Core.Settings
+@{
+    var centerProfiles = ((IEnumerable<CenterProfileComplexViewModel>)Model.CenterProfiles).OrderBy(x => x.BasicData.CenterName);
+    string tableId = "center-profiles-group-" + Model.Flavor;
+    bool isCreateGroup = Model.IsCreateGroup;
+    bool isRenewalPeriod = Model.IsRenewalPeriod;
+    bool anyInReview = (bool)Model.AnyInReview;
+}
+<div class="card card-center-profiles card-center-profiles-@Model.Flavor mb-4" id="@tableId">
+    <div class="card-header">
+        <h4 class="m-0 @Model.TitleClass">
+            @Model.Title
+        </h4>
+    </div>
+    <div class="card-body datatable-center-profiles">
+        @if (isCreateGroup)
+        {
+            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+               asp-controller="CenterProfile"
+               asp-action="Edit"
+               class="btn btn-success mb-3">
+                <i class="fas fa-plus"></i>
+                @T["Újat létesítek"]
+            </a>
+        }
+
+        @if (centerProfiles.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-striped table-separated table-v-top">
+                    <thead class="thead-half-dark">
+                        <tr>
+                            <th>@T["Szakellátóhely neve"]</th>
+                            <th>@T["Cím"]</th>
+                            @if (isRenewalPeriod || anyInReview)
+                            {
+                                <th>@T["A szakellátóhely minősítés felülvizsgálatának jelenlegi állapota"]</th>
+                            }
+                            <th>@T["Lehetséges művelet"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var complex in centerProfiles)
+                        {
+                            var underReview = complex.Renewal.IsInRenewalProcess();
+
+                            <tr>
+                                <td>
+                                    @if (string.IsNullOrEmpty(complex.BasicData.CenterName))
+                                    {
+                                        <em>@T["Név nélküli szakellátóhely"]</em>
+                                    }
+                                    else
+                                    {
+                                        <span>@complex.BasicData.CenterName</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(complex.BasicData.CenterAddress) && complex.BasicData.CenterZipCode != 0 && !string.IsNullOrEmpty(complex.BasicData.CenterSettlementName))
+                                    {
+                                        <address>
+                                            @complex.BasicData.FullAddress
+                                        </address>
+                                    }
+                                </td>
+                                @if (isRenewalPeriod || anyInReview)
+                                {
+                                    <td class="text-center">
+                                        @if (!isCreateGroup)
+                                        {
+                                            if (isRenewalPeriod || underReview)
+                                            {
+                                                @await DisplayAsync(await New.CenterProfileStatus(
+                                                              CenterProfileStatus: complex.Renewal.RenewalCenterProfileStatus,
+                                                              HugeSized: false))
+                                            }
+
+                                            if (!isRenewalPeriod && !underReview)
+                                            {
+                                                <small class="text-muted">@T["Jelenleg nincs felülvizsgálat"]</small>
+                                            }
+                                        }
+                                    </td>
+                                }
+                                <td class="text-center">
+                                    @if (!complex.BasicData.Created)
+                                    {
+                                        <i class="fas fa-info-circle fa-2x text-info mb-1" title="@T["A létrehozási kérelem még nem lett benyújtva."]"></i>
+                                    }
+                                    else if (string.IsNullOrEmpty(complex.Renewal.AssignedTenantName))
+                                    {
+                                        <i class="fas fa-info-circle fa-2x text-info mb-1" title="@T["A létrehozási kérelem be lett nyújtva, jelenleg nincs vele teendője."]"></i>
+                                    }
+
+                                    @if (!complex.BasicData.Created)
+                                    {
+                                        <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                           asp-controller="CenterProfile"
+                                           asp-action="Edit"
+                                           asp-route-id="@complex.ContentItemId"
+                                           class="btn btn-primary d-block">
+                                            <i class="fas fa-pencil-alt"></i>
+                                            @T["Szerkesztem"]
+                                        </a>
+
+                                        <button data-discard-url="@Url.Action("DeleteOwnCenterProfile", "CenterProfile", new { area = "OrganiMedCore.DiabetesCareCenterManager", id = complex.ContentItemId })"
+                                                class="btn btn-danger d-block w-100 btn-discard mt-1">
+                                            <i class="fas fa-trash"></i>
+                                            @T["Elvetem"]
+                                        </button>
+                                    }
+                                    else if (!string.IsNullOrEmpty(complex.Renewal.AssignedTenantName))
+                                    {
+                                        if (complex.Renewal.Submitted())
+                                        {
+                                            <i class="fas fa-info-circle fa-2x text-info"
+                                               title="@T["A szakellátóhely akkreditációja folyamatban van. További műveletek elvégzése jelenleg nem lehetséges."]"></i>
+                                        }
+                                        else
+                                        {
+                                            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                               asp-controller="CenterProfile"
+                                               asp-action="Forward"
+                                               asp-route-id="@complex.ContentItemId"
+                                               class="btn btn-primary d-block"
+                                               target="_blank">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                @T["Szerkesztem"]
+                                            </a>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <span class="text-muted d-block">
+                @T["Jelenleg nincs megjeleníthető szakellátóhely"]
+            </span>
+        }
+    </div>
+</div>

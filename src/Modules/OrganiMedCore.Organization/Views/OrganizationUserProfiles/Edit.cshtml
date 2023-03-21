@@ -1,0 +1,38 @@
+﻿@model dynamic
+
+@{
+    var profileId = (string)ViewData["ProfileId"];
+    var eVisitProfileId = (string)ViewData["EVisitProfileId"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Intézményi felhasználó szerkesztése"])</h1>
+        <hr />
+
+        @await DisplayAsync(await New.OrganizationUserProfileNav(
+            EVisitProfileId: eVisitProfileId,
+            ProfileId: profileId,
+            EVisitProfileLinkActive: true))
+
+        <form asp-area="OrganiMedCore.Organization"
+              asp-controller="OrganizationUserProfiles"
+              asp-action="Edit"
+              asp-route-id="@eVisitProfileId"
+              method="post"
+              enctype="multipart/form-data">
+            @Html.ValidationSummary()
+
+            @await DisplayAsync(Model)
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <a asp-area="OrganiMedCore.Organization"
+           asp-controller="OrganizationUserProfiles"
+           asp-action="Index"
+           class="btn btn-secondary">
+            @T["Vissza a listához"]
+        </a>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@{
+    var eVisitProfileId = (string)ViewData["EVisitProfileId"];
+    var profileId = (string)ViewData["ProfileId"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Intézményi felhasználó szerkesztése"])</h1>
+        <hr />
+
+        @await DisplayAsync(await New.OrganizationUserProfileNav(
+            EVisitProfileId: eVisitProfileId,
+            ProfileId: profileId,
+            EVisitProfileLinkActive: false))
+
+        <form asp-area="OrganiMedCore.Organization"
+              asp-controller="OrganizationUserProfiles"
+              asp-action="EditAdditional"
+              asp-route-eVisitProfileId="@eVisitProfileId"
+              asp-route-id="@profileId"
+              method="post"
+              enctype="multipart/form-data">
+            @Html.ValidationSummary()
+
+            @await DisplayAsync(Model)
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <a asp-area="OrganiMedCore.Organization"
+           asp-controller="OrganizationUserProfiles"
+           asp-action="Index"
+           class="btn btn-secondary">
+            @T["Vissza a listához"]
+        </a>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@model EVisitPatientProfilePartViewModel
+@using OrganiMedCore.Core.ViewModels
+
+<ul>
+    <li>
+        <strong>@T["Név"]: </strong>@Model.FullName
+    </li>
+    <li>
+        <strong>@T["E-mail"]: </strong>@Model.Email
+    </li>
+    @if (!string.IsNullOrEmpty(Model.PatientIdentifierViewModel.Value))
+    {
+    <li>
+        <strong>@Model.PatientIdentifierViewModel.Type: </strong>@Model.PatientIdentifierViewModel.Value
+    </li>
+    }
+</ul>

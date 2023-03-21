@@ -1,0 +1,12 @@
+﻿@model OrganiMedCore.DiabetesCareCenter.Core.Models.Territory
+
+<h1>@T["{0} megye települései", Model.Name]</h1>
+
+<div id="settlement-editor"
+     data-api-url="@Url.RouteUrl("SettlementsApi", new { territoryId = Model.Id })"></div>
+
+<a asp-route-action="Index" class="btn btn-secondary">
+    @T["Vissza"]
+</a>
+
+<script asp-name="SettlementEditor" at="Foot"></script>

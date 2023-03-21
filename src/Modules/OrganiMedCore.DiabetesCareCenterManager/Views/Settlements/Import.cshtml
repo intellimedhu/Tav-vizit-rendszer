@@ -1,0 +1,108 @@
+﻿<h1>@T["Irányítószámok importálása"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info m-0 p-3">
+            <h5>
+                <i class="fa fa-warning"></i>
+                @T["Feltöltés előtt győződj meg a feltöltendő excel fájlokat illetően az alábbiakról:"]
+            </h5>
+
+            <ul class="m-0">
+                <li>@T["Pontosan 2 db fájl tölthető fel"]: posta.xlsx, megyek.xlsx</li>
+                <li>@T["Ha már léteznek az adatbázisban települések korábbi felöltésből, akkor ne töltsd fel őket újra, helyette végezz módosításokat ha szükséges"]</li>
+            </ul>
+
+            <hr />
+
+            <h6>posta.xlsx</h6>
+            <ul class="m-0">
+                <li>@T["Minden munkalapon az első sor a fejléc legyen és a második sortól kezdődjenek az adatok"]</li>
+                <li>
+                    @T["Az első munkalap a magyarországi településeket tartalmazza"]
+                    <br />
+                    @T["Csak azon települések neve után legyen * karakter, amelyek irányítószámai más munkalapon vannak listázva"]
+                    <br />
+                    @T["Ezeknél viszont legyen az első munkalapon *"]
+
+                </li>
+                <li>@T["A második munkalap a magyarázat (maradjon meg)"]</li>
+                <li>@T["A 3-8-ig lévő munkalapok sorrendben: Budapest, Miskolc, Debrecen, Szeged, Pécs, Győr"]</li>
+            </ul>
+
+            <hr />
+
+            <h6>megyek.xlsx</h6>
+            <ul class="m-0">
+                <li>
+                    @T["Két munkalap szükséges"]
+                    <ol>
+                        <li>
+                            @T["Oszlopok sorban: irányítószám, település, megye"]
+                            <div>
+                                @T["Minden olyan településnek szerepelnie kell benne, amely a postai adatbázisban is szerepel"]
+                            </div>
+                        </li>
+                        <li>
+                            @T["oszlopok sorban: megye, referens, szaktanácsadó"]
+                        </li>
+                    </ol>
+                </li>
+                <li>@T["Az első sor mindkét munkalapon a fejléc legyen"]</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr />
+
+<form asp-area="OrganiMedCore.DiabetesCareCenterManager" asp-controller="Settlements" asp-action="Import" method="post" enctype="multipart/form-data">
+    <div class="from-group row">
+        <div class="col">
+            <div class="input-group mb-3">
+                <div class="custom-file">
+                    <input type="file" name="files" class="custom-file-input" id="input-file" aria-describedby="@T["Excel file"]" multiple />
+                    <label class="custom-file-label" for="input-file">@T["Fájlok kiválasztása..."]</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="from-group row">
+        <div class="col-sm-10 offset-sm-2 text-right">
+            <button type="submit" class="btn btn-primary">
+                @T["Feltöltés"]
+            </button>
+        </div>
+    </div>
+</form>
+
+<script asp-name="jQuery"></script>
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            $('#input-file').on('change', function (e) {
+                var files = e.target.files;
+                var $label = $('[for="input-file"]');
+                if (!files || !files.length) {
+                    $label.text('@T["Fájlok kiválasztása..."]');
+
+                    return;
+                }
+
+                var fileNames = [];
+                for (var i = 0; i < files.length; i++) {
+                    fileNames.push(files[i].name);
+                    if (files[i].type.indexOf("spreadsheetml") == -1) {
+                        alert('@T["Nem engedélyezett formátum!"]');
+                        $label.text('@T["Fájlok kiválasztása..."]');
+                        $('#input-file').val(null);
+                        return;
+                    }
+                }
+
+                $label.text(fileNames.join(', '));
+            });
+        });
+    })(jQuery);
+</script>

@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "wwwroot/styles/qpo.css",
+    "inputFile": "Assets/qualification-per-occupation-editor.scss"
+  },
+  {
+    "outputFile": "wwwroot/styles/datatable-center-profiles.css",
+    "inputFile": "Assets/datatable-center-profiles.scss"
+  }
+]

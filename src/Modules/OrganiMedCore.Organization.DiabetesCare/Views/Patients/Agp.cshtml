@@ -1,0 +1,9 @@
+﻿@{
+    Layout = "Layout-Agp";
+    RenderTitleSegments(T["Táv-vizit adatok elemzése"]);
+
+    // TODO: change data2.json
+}
+<div id="charts-main-container"
+     data-base-url="/OrganiMedCore.Organization.DiabetesCare/agp/data2.json"
+     data-patient-profile-url="@Url.Action("Index", "Patients", new { area = "OrganiMedCore.Organization.DiabetesCare", id = ViewData["EVisitPatientProfileId"] })"></div>

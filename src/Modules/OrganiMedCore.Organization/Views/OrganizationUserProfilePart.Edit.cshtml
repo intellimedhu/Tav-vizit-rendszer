@@ -1,0 +1,126 @@
+﻿@model OrganiMedCore.Organization.ViewModels.OrganizationUserProfilePartViewModel
+@using OrganiMedCore.Core.Helpers
+@using OrganiMedCore.Core.Models.Enums
+
+<input type="hidden" asp-for="OrganizationUserProfileType" />
+
+<div class="form-group row">
+    <label class="col-md-3 text-md-right">
+        @T["Felhasználói profil típusa"]
+    </label>
+    <div class="col-md-5">
+        @OrganizationUserHelper.ConvertToTextOrganizationUserProfileType(Model.OrganizationUserProfileType)
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Phone" class="col-md-3 col-form-label text-md-right">
+        @T["Telefonszám"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="Phone" class="form-control" />
+    </div>
+    <span asp-validation-for="Phone" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Email" class="col-md-3 col-form-label text-md-right">
+        @T["E-mail"]
+    </label>
+    <div class="col-md-5">
+        <input type="email" asp-for="Email" class="form-control" />
+    </div>
+    <span asp-validation-for="Email" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="OrganizationRank" class="col-md-3 col-form-label text-md-right">
+        @T["Intézményi beosztás"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="OrganizationRank" class="form-control" />
+    </div>
+    <span asp-validation-for="OrganizationRank" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+@if (Model.Roles.Any())
+{
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">
+            @T["Engedélyezett szerepkörök"]
+        </label>
+        <div class="col-md-5">
+            @for (var i = 0; i < Model.Roles.Length; i++)
+            {
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" asp-for="Roles[i].IsSelected" />
+                    <label class="custom-control-label" asp-for="Roles[i].IsSelected">
+                        @Model.Roles[i].Role
+                    </label>
+                    <input type="hidden" asp-for="Roles[i].Role" />
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Doctor)
+{
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">
+            @T["Engedélyezett osztályok"]
+        </label>
+        <div class="col-md-5">
+            @for (var i = 0; i < Model.OrganizationUnits.Length; i++)
+            {
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" asp-for="OrganizationUnits[i].IsSelected" />
+                    <label class="custom-control-label" asp-for="OrganizationUnits[i].IsSelected">
+                        @Model.OrganizationUnits[i].OrganizationUnitName
+                    </label>
+                    <input type="hidden" asp-for="OrganizationUnits[i].OrganizationUnitId" />
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Doctor ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.SpecialAssistant)
+{
+    <div class="form-group row">
+        <label asp-for="AntszLicenseNumber" class="col-md-3 col-form-label text-md-right">
+            @T["ANTSZ engedély szám"]
+        </label>
+        <div class="col-md-5">
+            <input type="text" asp-for="AntszLicenseNumber" class="form-control" />
+        </div>
+        <span asp-validation-for="AntszLicenseNumber" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+}
+
+@if (Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Doctor ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.SpecialAssistant ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Assistant ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Receptionist)
+{
+    <div class="form-group row">
+        <label asp-for="ConsultationHours" class="col-md-3 col-form-label text-md-right">
+            @T["Rendelési idő"]
+        </label>
+        <div class="col-md-5">
+            <textarea asp-for="ConsultationHours" class="form-control"></textarea>
+        </div>
+        <span asp-validation-for="ConsultationHours" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="CheckInMode" class="col-md-3 col-form-label text-md-right">
+            @T["Bejelentkezés (tel, idő)"]
+        </label>
+        <div class="col-md-5">
+            <input type="text" asp-for="CheckInMode" class="form-control" />
+        </div>
+        <span asp-validation-for="CheckInMode" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+}

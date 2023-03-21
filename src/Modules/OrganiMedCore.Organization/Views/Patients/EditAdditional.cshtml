@@ -1,0 +1,27 @@
+﻿@{
+    var eVisitPatientProfileId = (string)ViewData["EVisitPatientProfileId"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Páciens szerkesztése"])</h1>
+
+        @await DisplayAsync(await New.PatientProfileNav(
+            EVisitPatientProfileId: eVisitPatientProfileId,
+            IsNew: false,
+            ActiveNavigation: "EditAdditional"))
+
+        <form asp-area="OrganiMedCore.Organization"
+              asp-controller="Patients"
+              asp-action="EditAdditional"
+              asp-route-eVisitPatientProfileId="@eVisitPatientProfileId"
+              method="post">
+            @Html.ValidationSummary()
+
+            @await DisplayAsync(Model)
+        </form>
+    </div>
+</div>
+
+@await DisplayAsync(await New.PatientProfileActions(
+        ContentItemId: eVisitPatientProfileId))

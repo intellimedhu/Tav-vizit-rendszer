@@ -1,0 +1,26 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Core.Services
+@using OrchardCore.Modules
+@inject IRenewalPeriodSettingsService renewalPeriodSettingsService
+@inject ICenterProfileService centerProfileService
+@inject IClock clock
+@if (User.Identity.IsAuthenticated)
+{
+    var renewalSettings = await renewalPeriodSettingsService.GetCenterRenewalSettingsAsync();
+    if (renewalSettings.GetCurrentFullPeriod(clock.UtcNow) != null || (await centerProfileService.GetCenterProfilesAsync()).Any(x => x.IsInRenewalProcess()))
+    {
+        <div class="alert alert-info m-0">
+            <strong>@T["A minősítés felülvizsgálatának állapota"]</strong>
+            <hr />
+            <ul class="m-0 list-unstyled">
+                <li class="mb-2">@await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: null))</li>
+                <li class="mb-2">@await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: CenterProfileStatus.Unsubmitted))</li>
+                <li class="mb-2">@await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: CenterProfileStatus.UnderReviewAtTR))</li>
+                <li class="mb-2">@await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: CenterProfileStatus.UnderReviewAtOMKB))</li>
+                <li class="mb-2">@await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: CenterProfileStatus.UnderReviewAtMDT))</li>
+                <li class="mb-2">@await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: CenterProfileStatus.MDTAccepted))</li>
+            </ul>
+        </div>
+    }
+}

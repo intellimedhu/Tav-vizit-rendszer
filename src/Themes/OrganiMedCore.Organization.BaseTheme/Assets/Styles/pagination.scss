@@ -1,0 +1,14 @@
+﻿.pager
+{
+    @extend .pagination;
+}
+
+.pager li
+{
+    @extend .page-item;
+}
+
+.pager li a
+{
+    @extend .page-link;
+}

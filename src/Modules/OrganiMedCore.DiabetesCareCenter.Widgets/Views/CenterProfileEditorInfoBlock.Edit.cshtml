@@ -1,0 +1,69 @@
+﻿@model CenterProfileEditorInfoBlockPartViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Widgets.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Widgets.ViewModels
+@{
+    var editorStepOptions = CenterProfileEditorStepExtensions.GetLocalizedValues(T)
+        .Select(x => new SelectListItem()
+        {
+            Text = x.Value,
+            Value = x.Key.ToString(),
+            Selected = Model.CenterProfileEditorStep == x.Key
+        });
+
+    var tenantOptions = new[]
+    {
+        new SelectListItem()
+        {
+            Value = DiabetesCareCenterTenants.Manager.ToString(),
+            Text = T["Kérelem szakellátóhely létrehozására"].Value,
+            Selected = Model.DiabetesCareCenterTenants == DiabetesCareCenterTenants.Manager
+        },
+        new SelectListItem()
+        {
+            Value = DiabetesCareCenterTenants.Organization.ToString(),
+            Text = T["Meglévő szakellátóhely szerkesztése"].Value,
+            Selected = Model.DiabetesCareCenterTenants == DiabetesCareCenterTenants.Organization
+        },
+        new SelectListItem()
+        {
+            Value = DiabetesCareCenterTenants.Both.ToString(),
+            Text = T["Mindkettő"].Value,
+            Selected = Model.DiabetesCareCenterTenants == DiabetesCareCenterTenants.Both
+        }
+    };
+
+    var i = 0;
+}
+
+<fieldset class="form-group" asp-validation-class-for="CenterProfileEditorStep">
+    <label asp-for="CenterProfileEditorStep">@T["Editor step"]</label>
+    @{
+        i = 0;
+        foreach (var option in editorStepOptions)
+        {
+            <div class="custom-control custom-switch">
+                @Html.RadioButton(nameof(Model.CenterProfileEditorStep), option.Value, option.Selected, new { @class = "custom-control-input", id = Html.IdFor(m => m.CenterProfileEditorStep) + "_" + i })
+                <label class="custom-control-label" for="@(Html.IdFor(m => m.CenterProfileEditorStep) + "_" + i)">@option.Text</label>
+            </div>
+            i++;
+        }
+    }
+    <span asp-validation-for="CenterProfileEditorStep"></span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="DiabetesCareCenterTenants">
+    <label asp-for="DiabetesCareCenterTenants">@T["Tenant"]</label>
+    @{
+        i = 0;
+        foreach (var option in tenantOptions)
+        {
+            <div class="custom-control custom-radio">
+                @Html.RadioButton(nameof(Model.DiabetesCareCenterTenants), option.Value, option.Selected, new { @class = "custom-control-input", id = Html.IdFor(m => m.DiabetesCareCenterTenants) + "_" + i })
+                <label class="custom-control-label" for="@(Html.IdFor(m => m.DiabetesCareCenterTenants) + "_" + i)">@option.Text</label>
+            </div>
+            i++;
+        }
+    }
+    <span asp-validation-for="DiabetesCareCenterTenants"></span>
+</fieldset>

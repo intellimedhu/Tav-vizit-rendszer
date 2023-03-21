@@ -1,0 +1,106 @@
+﻿@model OrganizationUserIdentifierViewModel
+@using OrganiMedCore.Organization.ViewModels
+@using OrganiMedCore.Core.Models.Enums
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Azonosító ellenőrzése"])</h1>
+        <hr />
+
+        <form asp-action="CheckExistingProfile" method="post">
+            @Html.ValidationSummary()
+
+            <div class="form-group row">
+                <label asp-for="Identifier" class="col-md-3 col-form-label text-md-right">
+                    @T["Azonosító"]
+                </label>
+                <div class="col-md-5">
+                    <input type="text" asp-for="Identifier" class="form-control" />
+                </div>
+                <span asp-validation-for="Identifier" class="col-md-9 offset-md-3 text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="IdentifierType" class="col-md-3 col-form-label text-md-right">
+                    @T["Azonosító típus"]
+                </label>
+                <div class="col-md-5">
+                    <select asp-for="IdentifierType"
+                            class="form-control">
+                        <option value="@OrganizationUserIdentifierTypes.StampNumber"> @T["Pecsétszám"]</option>
+                        <option value="@OrganizationUserIdentifierTypes.Email"> @T["E-mail"]</option>
+                    </select>
+                </div>
+            </div>
+
+            <fieldset class="form-group row">
+                <div class="col-md-6">
+                    <a asp-area="OrganiMedCore.Organization"
+                       asp-controller="OrganizationUserProfiles"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        @T["Vissza a listához"]
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary" type="submit">@T["Ellenőrzés"]</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    @if (Model.IdentifierChecked)
+    {
+    <div class="col-md-12">
+        @if (Model.OrganizationUserExist)
+        {
+            <div class="alert alert-primary" role="alert">
+                @T["Ezzel az azonosítóval már létezik intézményi felhasználó. Az alábbi gombra kattintva hozzáadhatja az intézményhez."]
+            </div>
+
+            <form asp-area="OrganiMedCore.Organization"
+                  asp-controller="OrganizationUserProfiles"
+                  asp-action="AddToOrganization">
+                <input type="hidden" name="identifier" value="@Model.Identifier" />
+                <input type="hidden" name="identifierType" value="@Model.IdentifierType" />
+                <button type="submit" class="btn btn-success">
+                    @T["Hozzáadás az intézményhez"]
+                </button>
+            </form>
+
+
+        }
+        else
+        {
+            <div class="alert alert-primary" role="alert">
+                @T["Ezzel az azonosítóval még nem létezik intézményi felhasználó. Az alábbi gombra kattintva létrehozhat egyet."]
+            </div>
+
+            <form asp-area="OrganiMedCore.Organization"
+                  asp-controller="OrganizationUserProfiles"
+                  asp-action="Create"
+                  method="get">
+                <input type="hidden" name="identifier" value="@Model.Identifier" />
+                <input type="hidden" name="identifierType" value="@Model.IdentifierType" />
+
+                <label>
+                    @T["Felhasználó típusa"]
+                </label>
+                <div class="input-group">
+                    <select name="organizationUserProfileType"
+                            class="form-control">
+                        <option value="@OrganizationUserProfileTypes.Doctor"> @T["Doktor"]</option>
+                        <option value="@OrganizationUserProfileTypes.SpecialAssistant"> @T["Szakasszisztens"]</option>
+                        <option value="@OrganizationUserProfileTypes.Assistant"> @T["Asszisztens"]</option>
+                        <option value="@OrganizationUserProfileTypes.Receptionist"> @T["Recepciós"]</option>
+                        <option value="@OrganizationUserProfileTypes.Other"> @T["Egyéb"]</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">@T["Tovább a létrehozáshoz"]</button>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+    }
+</div>

@@ -1,0 +1,33 @@
+﻿@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@{
+    IEnumerable<BarButton> buttons = Model.Buttons;
+}
+
+@if (buttons.Any())
+{
+    <div class="mt-5 text-sm-right">
+        @foreach (var button in buttons)
+        {
+            if (button.IsButton)
+            {
+                <button type="@button.Action" class="@button.Classes">
+                    @if (!string.IsNullOrEmpty(button.IconClasses))
+                    {
+                        <i class="@button.IconClasses"></i>
+                    }
+                    @button.Text
+                </button>
+            }
+            else
+            {
+                <a href="@button.Action" class="@button.Classes">
+                    @if (!string.IsNullOrEmpty(button.IconClasses))
+                    {
+                        <i class="@button.IconClasses"></i>
+                    }
+                    @button.Text
+                </a>
+            }
+        }
+    </div>
+}

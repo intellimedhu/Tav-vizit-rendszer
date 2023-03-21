@@ -1,0 +1,63 @@
+﻿@using IntelliMed.DokiNetIntegration.ViewModels
+
+@{
+    var prefix = (string)Model.Prefix;
+    var model = Model.ViewModel as EditDokiNetMemberViewModel;
+    var editorContainerId = "user-picker-container";
+    var searchFieldId = "search-user";
+
+    var memberRightIdFieldId = nameof(EditDokiNetMemberViewModel.MemberRightId);
+    var memberRightIdFieldName = nameof(EditDokiNetMemberViewModel.MemberRightId);
+    if (!string.IsNullOrEmpty(prefix))
+    {
+        memberRightIdFieldId = prefix + "_" + memberRightIdFieldId;
+        memberRightIdFieldName = prefix + "." + memberRightIdFieldName;
+    }
+
+    var memberRightIdAsString = model?.MemberRightId?.ToString();
+}
+
+<input type="hidden" id="@memberRightIdFieldId" name="@memberRightIdFieldName" value="@(model?.MemberRightId)" />
+
+<div class="form-group row" id="@editorContainerId">
+    <label for="@searchFieldId" class="col-form-label col-md-3 text-md-right">@T["MDT tag neve"]</label>
+    <div class="col-md-9">
+        <input type="text" class="form-control doki-net-member-search" placeholder="@T["MDT Tag keresése..."]" />
+        <span class="text-muted doki-net-member-search-no-result d-none">
+            @T["Nincs találat"]
+        </span>
+
+        <div class="input-group doki-net-member-selected d-none">
+            <input type="text" class="form-control doki-net-member-selected-name" readonly />
+            <div class="input-group-append">
+                <button type="button" class="btn btn-danger doki-net-member-selected-remove" title="@T["Keresés törlése"]">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script at="Foot" asp-name="MemberSearch"></script>
+<style at="Foot" asp-name="jQuery-UI"></style>
+<script at="Foot" depends-on="MemberSearch">
+    (function ($) {
+        $(function () {
+            memberSearch({
+                apiUrl: '@Url.RouteUrl("DokiNetMembersApi")',
+                memberRightIdField: '#@memberRightIdFieldId',
+                data: {
+                    memberRightId: @(string.IsNullOrEmpty(memberRightIdAsString) ? "null" : memberRightIdAsString),
+                    fullName: '@Html.Raw(model?.FullName)',
+                    emails: [@Html.Raw(model?.Emails.Any() == true ? "'" + string.Join("', '", model.Emails) + "'" : "")],
+                    userName: '@Html.Raw(model?.UserName)'
+                },
+                texts: {
+                    stampNumber: '@T["Pecsétszám"]',
+                    hasMembershipText: '@T["MDT tagsággal rendelkezik"]',
+                    hasNotMembershipText: '@T["MDT tagsággal <u>NEM</u> rendelkezik"]',
+                }
+            });
+        });
+    })(jQuery);
+</script>

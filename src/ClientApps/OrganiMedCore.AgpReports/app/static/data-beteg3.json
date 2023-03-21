@@ -1,0 +1,593 @@
+{
+    "parameters": {
+        "unit": "mmol\/l",
+        "times": {
+            "breakfast": "8:0",
+            "elevenses": null,
+            "lunch": "12:0",
+            "afternoonsnakc": null,
+            "dinner": "18:0"
+        },
+        "targetrange": {
+            "normallow": 3.8,
+            "beforemeallow": 3.8,
+            "aftermeallow": 3.8,
+            "otherlevellow": 3.8,
+            "normalhigh": 6.5,
+            "beforemealhigh": 5.5,
+            "aftermealhigh": 7.7,
+            "otherlevelhigh": 6.5
+        },
+        "patient": {
+            "id": "70565",
+            "firstname": "",
+            "lastname": "Beteg3",
+            "prefix": ""
+        },
+        "insulintypes": [
+            {
+                "type": "basal",
+                "color": "#ff4500"
+            },
+            {
+                "type": "bolus",
+                "color": "#9acd32"
+            }
+        ]
+    },
+    "bgms": [
+        {
+            "bgmrangelow": 1.1,
+            "bgmrangehigh": 33.3,
+            "values": [
+                {
+                    "measuredate": "2019-03-08T17:44:30",
+                    "measuretype": 0,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2019-02-16T13:42:30",
+                    "measuretype": 0,
+                    "glucose": 6.7
+                },
+                {
+                    "measuredate": "2019-01-17T13:56:30",
+                    "measuretype": 0,
+                    "glucose": 14.3
+                },
+                {
+                    "measuredate": "2019-01-17T13:54:30",
+                    "measuretype": 0,
+                    "glucose": 6.5
+                },
+                {
+                    "measuredate": "2019-01-17T12:25:30",
+                    "measuretype": 0,
+                    "glucose": 6.4
+                },
+                {
+                    "measuredate": "2019-01-17T12:21:30",
+                    "measuretype": 0,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2019-01-17T12:17:30",
+                    "measuretype": 0,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2019-01-14T14:41:30",
+                    "measuretype": 0,
+                    "glucose": 6.7
+                },
+                {
+                    "measuredate": "2019-01-14T14:35:30",
+                    "measuretype": 0,
+                    "glucose": 7.4
+                },
+                {
+                    "measuredate": "2019-01-14T14:28:30",
+                    "measuretype": 0,
+                    "glucose": 7.7
+                },
+                {
+                    "measuredate": "2019-01-14T14:26:30",
+                    "measuretype": 0,
+                    "glucose": 7.5
+                },
+                {
+                    "measuredate": "2018-12-03T11:51:30",
+                    "measuretype": 0,
+                    "glucose": 5.9
+                },
+                {
+                    "measuredate": "2018-12-03T11:50:30",
+                    "measuretype": 0,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2018-12-03T11:23:30",
+                    "measuretype": 0,
+                    "glucose": 5.4
+                },
+                {
+                    "measuredate": "2018-12-03T11:20:30",
+                    "measuretype": 0,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2018-12-03T11:18:30",
+                    "measuretype": 0,
+                    "glucose": 2.4
+                },
+                {
+                    "measuredate": "2018-09-20T15:17:30",
+                    "measuretype": 0,
+                    "glucose": 6.3
+                },
+                {
+                    "measuredate": "2018-09-20T15:15:30",
+                    "measuretype": 0,
+                    "glucose": 6.2
+                },
+                {
+                    "measuredate": "2018-09-20T12:54:30",
+                    "measuretype": 0,
+                    "glucose": 7.2
+                },
+                {
+                    "measuredate": "2018-09-14T11:44:30",
+                    "measuretype": 0,
+                    "glucose": 12
+                },
+                {
+                    "measuredate": "2018-09-14T11:43:30",
+                    "measuretype": 0,
+                    "glucose": 5.7
+                },
+                {
+                    "measuredate": "2018-09-04T12:15:30",
+                    "measuretype": 0,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2018-09-03T14:09:30",
+                    "measuretype": 0,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2018-08-15T13:40:30",
+                    "measuretype": 0,
+                    "glucose": 6.2
+                },
+                {
+                    "measuredate": "2018-03-22T12:53:30",
+                    "measuretype": 0,
+                    "glucose": 4.3
+                },
+                {
+                    "measuredate": "2018-02-12T15:14:30",
+                    "measuretype": 1,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2018-01-24T15:51:30",
+                    "measuretype": 2,
+                    "glucose": 4.8
+                },
+                {
+                    "measuredate": "2018-01-24T15:50:30",
+                    "measuretype": 0,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2018-01-24T11:42:30",
+                    "measuretype": 0,
+                    "glucose": 5.8
+                },
+                {
+                    "measuredate": "2018-01-24T11:09:30",
+                    "measuretype": 0,
+                    "glucose": 6.7
+                },
+                {
+                    "measuredate": "2017-03-24T16:13:30",
+                    "measuretype": 0,
+                    "glucose": 2.6
+                },
+                {
+                    "measuredate": "2017-01-05T09:47:30",
+                    "measuretype": 2,
+                    "glucose": 5.7
+                },
+                {
+                    "measuredate": "2016-12-13T12:49:30",
+                    "measuretype": 0,
+                    "glucose": 4.1
+                },
+                {
+                    "measuredate": "2016-11-18T13:08:30",
+                    "measuretype": 0,
+                    "glucose": 4.7
+                },
+                {
+                    "measuredate": "2016-11-17T16:58:30",
+                    "measuretype": 0,
+                    "glucose": 4.7
+                },
+                {
+                    "measuredate": "2016-09-28T10:21:30",
+                    "measuretype": 0,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2016-09-15T18:16:30",
+                    "measuretype": 2,
+                    "glucose": 7.8
+                },
+                {
+                    "measuredate": "2016-09-12T19:44:30",
+                    "measuretype": 0,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2016-07-12T16:47:30",
+                    "measuretype": 2,
+                    "glucose": 4.7
+                },
+                {
+                    "measuredate": "2016-07-06T15:37:30",
+                    "measuretype": 2,
+                    "glucose": 4.8
+                },
+                {
+                    "measuredate": "2016-06-07T12:35:30",
+                    "measuretype": 0,
+                    "glucose": 4.8
+                },
+                {
+                    "measuredate": "2016-05-24T14:46:30",
+                    "measuretype": 2,
+                    "glucose": 7.3
+                },
+                {
+                    "measuredate": "2016-05-24T13:06:30",
+                    "measuretype": 1,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2016-05-03T12:25:30",
+                    "measuretype": 1,
+                    "glucose": 4.3
+                },
+                {
+                    "measuredate": "2016-03-18T14:49:30",
+                    "measuretype": 2,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2016-03-16T14:16:30",
+                    "measuretype": 2,
+                    "glucose": 6.2
+                },
+                {
+                    "measuredate": "2016-03-16T11:27:30",
+                    "measuretype": 0,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2016-03-16T11:03:30",
+                    "measuretype": 0,
+                    "glucose": 4.3
+                },
+                {
+                    "measuredate": "2016-03-11T15:02:30",
+                    "measuretype": 2,
+                    "glucose": 4
+                },
+                {
+                    "measuredate": "2016-03-11T14:49:30",
+                    "measuretype": 2,
+                    "glucose": 5.8
+                },
+                {
+                    "measuredate": "2016-03-03T12:03:30",
+                    "measuretype": 2,
+                    "glucose": 3.7
+                },
+                {
+                    "measuredate": "2016-02-24T10:29:30",
+                    "measuretype": 2,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2016-02-15T13:51:30",
+                    "measuretype": 2,
+                    "glucose": 6.9
+                },
+                {
+                    "measuredate": "2016-02-03T15:55:30",
+                    "measuretype": 2,
+                    "glucose": 6.3
+                },
+                {
+                    "measuredate": "2016-01-28T18:27:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2016-01-21T15:43:30",
+                    "measuretype": 2,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2016-01-20T18:48:30",
+                    "measuretype": 1,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2016-01-20T09:57:30",
+                    "measuretype": 2,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2016-01-12T10:15:30",
+                    "measuretype": 2,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2016-01-11T13:25:30",
+                    "measuretype": 2,
+                    "glucose": 6.6
+                },
+                {
+                    "measuredate": "2016-01-07T09:34:30",
+                    "measuretype": 2,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2015-12-21T18:02:30",
+                    "measuretype": 0,
+                    "glucose": 5.3
+                },
+                {
+                    "measuredate": "2015-12-07T19:25:30",
+                    "measuretype": 0,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-12-07T17:02:30",
+                    "measuretype": 0,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2015-12-07T16:34:30",
+                    "measuretype": 2,
+                    "glucose": 5.7
+                },
+                {
+                    "measuredate": "2015-12-07T13:38:30",
+                    "measuretype": 0,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2015-12-01T10:50:30",
+                    "measuretype": 0,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-11-26T18:47:30",
+                    "measuretype": 0,
+                    "glucose": 5.3
+                },
+                {
+                    "measuredate": "2015-11-26T16:17:30",
+                    "measuretype": 2,
+                    "glucose": 6.2
+                },
+                {
+                    "measuredate": "2015-11-24T19:13:30",
+                    "measuretype": 2,
+                    "glucose": 6.5
+                },
+                {
+                    "measuredate": "2015-11-23T18:00:30",
+                    "measuretype": 2,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2015-11-20T10:31:30",
+                    "measuretype": 0,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2015-11-11T18:54:30",
+                    "measuretype": 0,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-11-09T14:22:30",
+                    "measuretype": 0,
+                    "glucose": 7
+                },
+                {
+                    "measuredate": "2015-10-26T16:51:30",
+                    "measuretype": 2,
+                    "glucose": 4.1
+                },
+                {
+                    "measuredate": "2015-10-26T16:50:30",
+                    "measuretype": 2,
+                    "glucose": 4.1
+                },
+                {
+                    "measuredate": "2015-10-26T10:55:30",
+                    "measuretype": 0,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2015-10-16T19:09:30",
+                    "measuretype": 2,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-10-14T19:14:30",
+                    "measuretype": 0,
+                    "glucose": 4.3
+                },
+                {
+                    "measuredate": "2015-10-12T13:29:30",
+                    "measuretype": 1,
+                    "glucose": 4.2
+                },
+                {
+                    "measuredate": "2015-10-09T17:04:30",
+                    "measuretype": 2,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2015-10-08T19:03:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2015-10-08T17:58:30",
+                    "measuretype": 2,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2015-10-02T15:58:30",
+                    "measuretype": 0,
+                    "glucose": 5.4
+                },
+                {
+                    "measuredate": "2015-10-02T10:05:30",
+                    "measuretype": 2,
+                    "glucose": 4.2
+                },
+                {
+                    "measuredate": "2015-10-01T12:31:30",
+                    "measuretype": 0,
+                    "glucose": 4.5
+                },
+                {
+                    "measuredate": "2015-10-01T11:17:30",
+                    "measuretype": 2,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-09-30T15:51:30",
+                    "measuretype": 2,
+                    "glucose": 7.5
+                },
+                {
+                    "measuredate": "2015-09-30T09:14:30",
+                    "measuretype": 2,
+                    "glucose": 4.8
+                },
+                {
+                    "measuredate": "2015-09-29T09:51:30",
+                    "measuretype": 2,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-09-28T13:21:30",
+                    "measuretype": 0,
+                    "glucose": 5.7
+                },
+                {
+                    "measuredate": "2015-09-25T16:26:30",
+                    "measuretype": 2,
+                    "glucose": 6.1
+                },
+                {
+                    "measuredate": "2015-09-25T11:07:30",
+                    "measuretype": 0,
+                    "glucose": 4
+                },
+                {
+                    "measuredate": "2015-09-25T10:40:30",
+                    "measuretype": 2,
+                    "glucose": 4.7
+                },
+                {
+                    "measuredate": "2015-09-24T18:39:30",
+                    "measuretype": 0,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2015-09-24T17:02:30",
+                    "measuretype": 0,
+                    "glucose": 5.6
+                },
+                {
+                    "measuredate": "2015-09-24T13:07:30",
+                    "measuretype": 1,
+                    "glucose": 4.1
+                },
+                {
+                    "measuredate": "2015-09-23T16:49:30",
+                    "measuretype": 0,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2015-09-23T13:20:30",
+                    "measuretype": 1,
+                    "glucose": 4.6
+                },
+                {
+                    "measuredate": "2015-09-22T19:10:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2015-09-22T17:24:30",
+                    "measuretype": 0,
+                    "glucose": 4.4
+                },
+                {
+                    "measuredate": "2015-09-22T15:21:30",
+                    "measuretype": 0,
+                    "glucose": 5.5
+                },
+                {
+                    "measuredate": "2015-09-22T14:44:30",
+                    "measuretype": 2,
+                    "glucose": 6.3
+                },
+                {
+                    "measuredate": "2015-09-21T17:56:30",
+                    "measuretype": 0,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2015-09-18T17:08:30",
+                    "measuretype": 0,
+                    "glucose": 6
+                },
+                {
+                    "measuredate": "2015-09-18T14:33:30",
+                    "measuretype": 0,
+                    "glucose": 7.5
+                },
+                {
+                    "measuredate": "2015-09-18T12:00:30",
+                    "measuretype": 1,
+                    "glucose": 4.6
+                }
+            ]
+        }
+    ],
+    "insulins": [
+        {
+            "type": "basal",
+            "name": "Inzulin1",
+            "values": []
+        },
+        {
+            "type": "bolus",
+            "name": "Inzulin2",
+            "values": []
+        }
+    ]
+}

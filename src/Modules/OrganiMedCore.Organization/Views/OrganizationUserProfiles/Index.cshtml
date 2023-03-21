@@ -1,0 +1,118 @@
+﻿@using OrchardCore.ContentManagement
+@using OrganiMedCore.Core.Models
+
+@{
+    var viewModel = Model as IEnumerable<ContentItem>;
+    const string tableId = "organization-users-table";
+    const string searchInputId = "organization-users-table-search";
+}
+
+<script asp-name="Commons" at="Foot"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Intézményi felhasználók"])</h1>
+        <hr />
+
+        <p class="text-right">
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="OrganizationUserProfiles"
+               asp-action="CheckExistingProfile"
+               class="btn btn-success">
+                @T["Intézményi felhasználó hozzáadása"]
+            </a>
+        </p>
+
+        @if (viewModel.Any())
+        {
+            <script asp-name="DataTables" at="Foot"></script>
+            <style asp-name="DataTables"></style>
+
+            <div class="col-12">
+                <div class="bg-light p-3 border border-dark rounded">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="input-group">
+                                <input id="@searchInputId"
+                                       class="form-control form-control-lg text-center"
+                                       placeholder="@T["Keresés az összes mezőben."]"
+                                       autofocus />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="@tableId" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @T["Név"]
+                            </th>
+                            <th>
+                                @T["Pecsétszám"]
+                            </th>
+                            <th>
+                                @T["E-mail"]
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in viewModel)
+                        {
+                            var part = item.As<EVisitOrganizationUserProfilePart>();
+
+                            <tr>
+                                <td>
+                                    <a asp-area="OrganiMedCore.Organization"
+                                       asp-controller="OrganizationUserProfiles"
+                                       asp-action="Edit"
+                                       asp-route-id="@item.ContentItemId">
+                                        @part.Name
+                                    </a>
+                                </td>
+                                <td>@part.StampNumber</td>
+                                <td>@part.Email</td>
+                                <td class="text-right">
+                                    <a asp-area="OrganiMedCore.Organization"
+                                       asp-controller="OrganizationUserProfiles"
+                                       asp-action="Remove"
+                                       asp-route-id="@item.ContentItemId"
+                                       itemprop="RemoveUrl UnsafeUrl"
+                                       data-message="@T["Biztosan eltávolítja {0}-t?", part.Name]"
+                                       class="btn btn-sm btn-danger">
+                                        @T["Eltávolítás"]
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <script at="Foot">
+                    ; (function ($) {
+                        $(function () {
+                            var $table = $('#@tableId').DataTable({
+                                // Drawing just the table.
+                                'dom': 'lrtp',
+                                'language': {
+                                    'zeroRecords': 'Nem tartozik az intézményhez ilyen keresési feltételnek megfelelő intézményi dolgozó.'
+                                }
+                            });
+
+                            $('#@searchInputId').on('keyup', function () {
+                                $table.search(this.value).draw();
+                            });
+                        });
+                    })(jQuery);
+            </script>
+        }
+        else
+        {
+            <p class="text-muted text-center p-1 m-0">@T["Az intézményhez nem tartozik intézményi dolgozó."]</p>
+        }
+    </div>
+</div>

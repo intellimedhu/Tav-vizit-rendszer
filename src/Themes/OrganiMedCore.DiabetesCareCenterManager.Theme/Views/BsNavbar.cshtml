@@ -1,0 +1,15 @@
+﻿@*@using OrchardCore.Settings
+@inject ISiteService SiteService*@
+<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-info fixed-top">
+    <div class="container">
+        @*<a class="navbar-brand" href="~/">@((await SiteService.GetSiteSettingsAsync()).SiteName)</a>*@
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            @await DisplayAsync(await New.CustomNavbar())
+            @await DisplayAsync(await New.ContentMenu())
+            @await DisplayAsync(await New.CustomUserMenu())
+        </div>
+    </div>
+</nav>

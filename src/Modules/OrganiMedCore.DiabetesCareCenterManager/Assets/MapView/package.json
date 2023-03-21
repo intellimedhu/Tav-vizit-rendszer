@@ -1,0 +1,43 @@
+{
+    "name": "organimedcore.diabetes-care-center-manager.map-view",
+    "description": "Map view for Diabetes Care Center Manager",
+    "version": "1.0.0",
+    "author": "Szilárd Csere <szilard.csere@intellimed.eu>",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "watch-build-production": "cross-env NODE_ENV=production webpack --progress --hide-modules --watch",
+        "watch-build-development": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch",
+        "build-production": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+        "build-development": "cross-env NODE_ENV=development webpack --progress --hide-modules"
+    },
+    "dependencies": {
+        "axios": "^0.18.1",
+        "babel-polyfill": "^6.26.0",
+        "bootstrap": "^4.3.1",
+        "bootstrap-vue": "^2.0.0-rc.24",
+        "moment": "^2.24.0",
+        "npm": "^6.11.3",
+        "vue": "^2.6.10"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ],
+    "devDependencies": {
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.2",
+        "babel-preset-env": "^1.6.0",
+        "babel-preset-stage-3": "^6.24.1",
+        "cross-env": "^5.0.5",
+        "css-loader": "^0.28.7",
+        "file-loader": "^1.1.4",
+        "node-sass": "^4.12.0",
+        "sass-loader": "^6.0.6",
+        "vue-loader": "^13.0.5",
+        "vue-template-compiler": "^2.6.10",
+        "webpack": "^3.6.0",
+        "webpack-dev-server": "^2.11.5"
+    }
+}

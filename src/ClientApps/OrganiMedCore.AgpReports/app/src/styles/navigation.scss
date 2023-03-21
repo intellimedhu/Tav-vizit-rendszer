@@ -1,0 +1,321 @@
+@import "./mixins/mixins";
+
+$dashboard-filter-container-height: 50px;
+$dashboard-filter-container-height-md: 80px;
+
+body {
+  padding-top: 50px;
+}
+
+.date-range-container-fluid {
+  .year-pager {
+    padding-right: 0;
+    padding-left: 0;
+    @include custom-column-width(25px);
+
+    .btn-range-step {
+      padding: 0;
+      height: $dashboard-filter-container-height + 2;
+      height: 100%;
+      width: 100%;
+
+      @include media-breakpoint-up(md) {
+        min-height: $dashboard-filter-container-height-md + 2;
+      }
+    }
+
+    &.year-pager-backward {
+      .btn-range-step {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    &.year-pager-forward {
+      .btn-range-step {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+
+  .dashboard-filter-container {
+    border-top: 1px solid $primary;
+    border-bottom: 1px solid $primary;
+    min-height: $dashboard-filter-container-height; // SettingsBar.vue: chartHeight prop.
+
+    @include media-breakpoint-up(md) {
+      min-height: $dashboard-filter-container-height-md;
+    }
+  }
+}
+
+.navbar-charts-navigation {
+  border-bottom: 3px solid #999;
+  @include box-shadows(0 5px 10px #aaa);
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .row-date-range {
+    width: 100%;
+  }
+
+  .navbar-collapse-button {
+    padding: 2px 3px 3px 3px;
+    outline: none;
+
+    .navbar-toggler-icon {
+      height: 21px;
+      width: 25px;
+    }
+  }
+
+  .date-wrapper {
+    position: fixed;
+    top: 8px;
+    left: 50px;
+    z-index: 1000;
+    width: calc(100% - 60px);
+
+    .date-component {
+      font-size: 12px;
+      height: 30px;
+      text-align: center;
+    }
+
+    .datepicker {
+      width: 40%;
+      max-width: 200px;
+    }
+
+    .total-days {
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+  }
+
+  $navbar-start-date-width: 38%;
+  .navbar-start-date {
+    @include custom-column-width($navbar-start-date-width);
+  }
+
+  .navbar-end-date {
+    @include custom-column-width(100% - $navbar-start-date-width);
+  }
+
+  .navbar-date {
+    .form-control,
+    .input-group-text {
+      padding: 0.25rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      border-radius: 0.2rem;
+      text-align: center;
+    }
+  }
+
+  .navbar-collapse-buttons {
+    z-index: 500;
+    $col-left-width: 86%;
+    .col-left {
+      font-size: 0;
+      @include custom-column-width($col-left-width);
+    }
+
+    .col-right {
+      @include custom-column-width(100% - $col-left-width);
+      text-align: right;
+    }
+  }
+
+  .btn-settings,
+  .btn-print {
+    padding: 2px 8px;
+  }
+
+  .btn-settings-sm,
+  .btn-print-lg {
+    display: none;
+  }
+
+  .btn-print-sm {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xs) {
+    .btn-locale {
+      &.btn-locale-fixed {
+        display: inline-block;
+        position: fixed;
+        top: 8px;
+
+        .flag {
+          height: 29px;
+          width: 35px;
+        }
+
+        &.btn-locale-hu {
+          right: 51px;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        &.btn-locale-en {
+          right: 15px;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+
+      &.btn-locale-menu {
+        display: none;
+      }
+    }
+
+    .navbar-collapse-buttons {
+      .col-left {
+        @include custom-column-width(100%);
+      }
+
+      .col-right {
+        display: none;
+      }
+    }
+
+    .btn-settings-sm {
+      display: block;
+    }
+
+    .btn-settings {
+      position: absolute;
+      top: 8px;
+      right: 15px;
+    }
+
+    .date-wrapper {
+      width: calc(100% - 105px);
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    .btn-print-sm {
+      display: block;
+      position: absolute;
+      top: 8px;
+      right: 52px;
+    }
+
+    .date-wrapper {
+      width: calc(100% - 145px);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    min-height: 50px;
+    flex-flow: wrap;
+
+    .navbar-collapse-buttons {
+      position: fixed;
+      margin: 0;
+      // top: 8px;
+      // left: 325px;
+      top: 0;
+      left: 295px;
+
+      .col-left {
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    .date-range-container-fluid {
+      margin-top: 24px;
+      padding: 0;
+    }
+
+    .date-wrapper {
+      left: 15px;
+      width: auto;
+      max-width: none;
+
+      .datepicker {
+        width: 110px;
+        max-width: 110px;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .navbar-collapse-buttons {
+      top: 8px;
+      left: 325px;
+    }
+
+    .date-wrapper {
+      .datepicker {
+        width: 125px;
+        max-width: 125px;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    .navbar-collapse-buttons {
+      left: 385px;
+    }
+
+    .date-wrapper {
+      .date-component {
+        font-size: 14px;
+      }
+
+      .datepicker {
+        width: 150px;
+        max-width: 150px;
+      }
+
+      .total-days {
+        padding-left: 3px;
+        padding-right: 3px;
+      }
+    }
+  }
+}
+
+.navigation-calendar-start-date {
+  right: -159px;
+}
+
+.navigation-calendar-end-date {
+  right: 0;
+}
+
+.date-range-dashboard {
+  position: relative;
+
+  .row-range-filter {
+    position: relative;
+    z-index: 1;
+  }
+
+  .date-range-dashboard-spinner {
+    text-align: center;
+    border-radius: $border-radius;
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    width: calc(100% + 4px);
+    top: 0;
+    right: -2px;
+    left: -2px;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding-top: 20px;
+    @include text-selection-disable;
+
+    small {
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,201 @@
+﻿@model EVisitPatientProfilePartViewModel
+@using IntelliMed.Core
+@using OrganiMedCore.Core.ViewModels
+@using OrganiMedCore.Core.Helpers
+
+<script asp-name="jQuery-ui" at="Head"></script>
+<style asp-name="jQuery-ui" at="Head"></style>
+<script asp-name="IdTypeValuePicker" at="Foot"></script>
+
+@{
+    var patientIdentifiers = PatientHelper.GetIdentifierModels(T);
+}
+<div id="id-type-value-picker-app">
+    <id-type-value-picker :identifier-types-init='@Json.Serialize(PatientHelper.GetIdentifierModels(T))'
+                          :selected-identifier-type-value-init="@((int)Model.PatientIdentifierViewModel.Type)"
+                          :identifier-value-init="'@Model.PatientIdentifierViewModel.Value'"
+                          inline-template>
+        <div class="row form-group">
+            <label asp-for="PatientIdentifierViewModel.Value" class="col-md-3 col-form-label text-left text-md-right">
+                @T["Azonosító"]
+            </label>
+
+            <div class="col-md-7 mb-3">
+                <input v-model="selectedIdentifierType.value"
+                       type="hidden"
+                       asp-for="PatientIdentifierViewModel.Type" />
+                <div class="input-group">
+                    <input v-model="identifierValue"
+                           :disabled="selectedIdentifierType.value == 0"
+                           type="text"
+                           asp-for="PatientIdentifierViewModel.Value"
+                           class="form-control bb-2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span>
+                                {{selectedIdentifierType.text}}
+                            </span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a v-for="(identifierType, i) in identifierTypes"
+                               v-on:click="selectIdentifierType(identifierType)"
+                               class="dropdown-item"
+                               href="#">
+                                {{identifierType.text}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <span asp-validation-for="PatientIdentifierViewModel.Value" class="text-danger"></span>
+            </div>
+        </div>
+    </id-type-value-picker>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Title" class="col-md-3 col-form-label text-md-right">
+        @T["Titulus"]
+    </label>
+    <div class="col-md-3">
+        <input type="text" asp-for="Title" class="form-control" />
+    </div>
+    <span asp-validation-for="Title" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="LastName" class="col-md-3 col-form-label text-md-right">
+        @T["Vezetéknév"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="LastName" class="form-control" />
+    </div>
+    <span asp-validation-for="LastName" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="FirstName" class="col-md-3 col-form-label text-md-right">
+        @T["Keresztnév"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="FirstName" class="form-control" />
+    </div>
+    <span asp-validation-for="FirstName" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Suffix" class="col-md-3 col-form-label text-md-right">
+        @T["Utónév"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="Suffix" class="form-control" />
+    </div>
+    <span asp-validation-for="Suffix" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="BirthName" class="col-md-3 col-form-label text-md-right">
+        @T["Születési név"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="BirthName" class="form-control" />
+    </div>
+    <span asp-validation-for="BirthName" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Email" class="col-md-3 col-form-label text-md-right">
+        @T["E-mail"]
+    </label>
+    <div class="col-md-5">
+        <input type="email" asp-for="Email" class="form-control" />
+    </div>
+    <span asp-validation-for="Email" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <div class="offset-md-3 col-md-5">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" asp-for="CreateSharedUser">
+            <label class="custom-control-label" asp-for="CreateSharedUser">
+                @T["OrganiMed felhasználó létrehozása"]
+            </label>
+        </div>
+    </div>
+    <span asp-validation-for="CreateSharedUser" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="MothersName" class="col-md-3 col-form-label text-md-right">
+        @T["Anyja neve"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="MothersName" class="form-control" />
+    </div>
+    <span asp-validation-for="MothersName" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="DateOfBirth" class="col-md-3 col-form-label text-md-right">
+        @T["Születési dátum"]
+    </label>
+    <div class="col-md-5">
+        <input type="date" asp-for="DateOfBirth" class="form-control" />
+    </div>
+    <span asp-validation-for="DateOfBirth" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="PlaceOfBirth" class="col-md-3 col-form-label text-md-right">
+        @T["Születési hely"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="PlaceOfBirth" class="form-control" />
+    </div>
+    <span asp-validation-for="PlaceOfBirth" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Address" class="col-md-3 col-form-label text-md-right">
+        @T["Cím"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="Address" class="form-control" />
+    </div>
+    <span asp-validation-for="Address" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Nationality" class="col-md-3 col-form-label text-md-right">
+        @T["Állampolgárság"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="Nationality" class="form-control" />
+    </div>
+    <span asp-validation-for="Nationality" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Sex" class="col-md-3 col-form-label text-md-right">
+        @T["Nem"]
+    </label>
+    <div class="col-md-5">
+        <select asp-for="Sex" class="form-control">
+            <option value="@Sex.Men"> @T["Férfi"]</option>
+            <option value="@Sex.Women"> @T["Nő"]</option>
+        </select>
+        <span asp-validation-for="Sex" class="col-md-9 offset-md-3 text-danger" />
+    </div>
+</div>
+
+<script at="Foot" asp-name="Popper"></script>
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            // Vue app.
+            var app = new Vue({
+                el: '#id-type-value-picker-app'
+            });
+        });
+    })(jQuery);
+</script>

@@ -1,0 +1,27 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Helpers
+@{
+    bool multipleRoles = Model.MultipleRoles;
+    bool oneRoleOnly = Model.OneRoleOnly;
+    string caption = Model.Caption;
+    IOrderedEnumerable<ReviewStatisticsByRoles> roleGroup = Model.RoleGroup;
+    Dictionary<string, string> roleTexts = Model.RoleTexts;
+    Func<ReviewStatisticsByRoles, int> property = Model.Property;
+}
+@if (multipleRoles)
+{
+    <strong>@caption:</strong>
+    <ul class="list-unstyled pl-4 row mb-1">
+        @foreach (var group in roleGroup)
+        {
+            <li class="col-8">@roleTexts[group.RoleName]:</li>
+            <li class="col-4 text-right">@property(group)</li>
+        }
+    </ul>
+}
+else if (oneRoleOnly)
+{
+    <div class="row">
+        <strong class="col-8">@caption:</strong>
+        <span class="col-4 text-right">@property(roleGroup.First())</span>
+    </div>
+}

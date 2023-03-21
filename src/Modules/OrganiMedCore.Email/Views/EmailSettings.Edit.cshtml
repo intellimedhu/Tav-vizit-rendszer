@@ -1,0 +1,116 @@
+﻿@model OrganiMedCore.Email.ViewModels.EmailSettingsViewModel
+
+@Html.ValidationSummary()
+
+<div class="row form-group" asp-validation-class-for="Enabled">
+    <div class="col-12">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" asp-for="Enabled">
+            <label class="custom-control-label" asp-for="Enabled">@T["Email küldés engedélyezése"]</label>
+        </div>
+        <span class="hint">
+            @T["Email küldés be-és kikapcsolása."]
+            <br />
+            @T["Figyelem! Az elküldendő emailek kikapcsolt állapotban is tárolva lesznek, és a szolgáltatás újbóli engedélyezése esetén kerülnek elküldésre."]
+        </span>
+    </div>
+</div>
+
+<div class="row form-group" asp-validation-class-for="UseFakeEmails">
+    <div class="col-12">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" asp-for="UseFakeEmails">
+            <label class="custom-control-label" asp-for="UseFakeEmails">@T["Hamis email címek használata"]</label>
+        </div>
+        <span class="hint">
+            @T["Email küldés során a címzett leváltása nem létező email címre."]
+        </span>
+    </div>
+</div>
+
+<div class="row form-group" asp-validation-class-for="CcEmailAddresses">
+    <label asp-for="CcEmailAddresses" class="col-form-label col">@T["Cc"]</label>
+    <div class="col-12">
+        <input asp-for="CcEmailAddresses" class="form-control" />
+        <span asp-validation-for="CcEmailAddresses"></span>
+        <span class="hint">
+            @T["Email küldés esetén automatikusan bekerülnek cc-be a címzettek."]
+            @T["Kettősponttal vagy vesszővel elválasztott e-mail cím lista."]
+        </span>
+    </div>
+</div>
+
+<div class="row form-group" asp-validation-class-for="BccEmailAddresses">
+    <label asp-for="BccEmailAddresses" class="col-form-label col">@T["Bcc"]</label>
+    <div class="col-12">
+        <input asp-for="BccEmailAddresses" class="form-control" />
+        <span asp-validation-for="BccEmailAddresses"></span>
+        <span class="hint">
+            @T["Email küldés esetén automatikusan bekerülnek bcc-be a címzettek."]
+            @T["Kettősponttal vagy vesszővel elválasztott e-mail cím lista."]
+        </span>
+    </div>
+</div>
+
+<div class="row form-group" asp-validation-class-for="DebugEmailAddresses">
+    <label asp-for="DebugEmailAddresses" class="col-form-label col">@T["Debug email címek"]</label>
+    <div class="col-12">
+        <input asp-for="DebugEmailAddresses" class="form-control" />
+        <span asp-validation-for="DebugEmailAddresses"></span>
+        <span class="hint">
+            @T["Technikai kontaktok email címei. Bizonyos hibák esetén is értesítést kap."]
+            @T["Kettősponttal vagy vesszővel elválasztott e-mail cím lista."]
+        </span>
+    </div>
+</div>
+
+<div class="row form-group" asp-validation-class-for="EmailFooter">
+    <label asp-for="EmailFooter" class="col-form-label col">@T["Sablon email-ek lébléce"]</label>
+    <div class="col-12">
+        <textarea asp-for="EmailFooter" class="form-control" rows="6"></textarea>
+        <span asp-validation-for="EmailFooter"></span>
+        <span class="hint">
+            @T["HTML engedélyezett, liquid nem!"]
+        </span>
+    </div>
+</div>
+
+<div class="row form-group" asp-validation-class-for="EmailsDequeueLimit">
+    <label asp-for="EmailsDequeueLimit" class="col-form-label col-12">@T["Egy feldolgozás alatt elküldendő emailek száma"]</label>
+    <div class="col-4 col-md-2">
+        <input asp-for="EmailsDequeueLimit" class="form-control" min="5" max="50" />
+    </div>
+    <div class="col-12">
+        <span asp-validation-for="EmailsDequeueLimit"></span>
+        <span class="hint">
+            @T["Példa: ha 10 van megadva, és 15 küldendő levél várakozik, akkor az első feldolgozás során 10, majd a második feldolgozás során a maradék 5 levél kerül elküldésre."]
+        </span>
+    </div>
+</div>
+
+<script asp-name="codemirror" depends-on="admin" at="Foot"></script>
+<script asp-name="codemirror-mode-javascript" at="Foot"></script>
+<script asp-name="codemirror-addon-display-autorefresh" at="Foot"></script>
+<script asp-name="codemirror-addon-mode-simple" at="Foot"></script>
+<script asp-name="codemirror-addon-mode-multiplex" at="Foot"></script>
+<script asp-name="codemirror-mode-xml" at="Foot"></script>
+<script at="Foot">
+window.addEventListener('DOMContentLoaded', function() {
+    var textArea = document.getElementById('@Html.IdFor(x => x.EmailFooter)');
+    if (textArea == null) {
+        return;
+    }
+
+    var editor = CodeMirror.fromTextArea(textArea, {
+        autoRefresh: true,
+        lineNumbers: true,
+        styleActiveLine: true,
+        matchBrackets: true,
+        mode: { name: "text/html" },
+    });
+
+    editor.on('change', function (cm) {
+        document.getElementById('@Html.IdFor(x => x.EmailFooter)').value = cm.getValue();
+    });
+});
+</script>

@@ -1,0 +1,20 @@
+﻿@model EditCenterUserFrontEndViewModel
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels;
+
+@{ 
+    ViewBag.Title = T["Felhasználó szerkesztése"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<form asp-route="EditDccmUserPost" method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary()
+
+    @Html.EditorForModel()
+
+    @await DisplayAsync(await New.ButtonBar(
+        Buttons: new[]
+        {
+            BarButton.Submit(T),
+            BarButton.Cancel(T, Url.Action("Index", "Users", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+        }))
+</form>

@@ -1,0 +1,31 @@
+{
+  "name": "OrganiMedCore DiabetesCareCenter Tenant - Development",
+  "displayName": "OrganiMedCore DiabetesCareCenter Tenant - Development",
+  "description": "Development recipe for sites where DiabetesCareCenterTenant features must be enabled.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "issetuprecipe": true,
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "organimedcore-diabetescarecenter-base"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "DokiNetSettings": {
+        "DokiNetBaseUrl": "http://desktop-fg/",
+        "SocietyId": 20,
+        "PreSharedKey": "x85J3zK7QAriMTUbH80L",
+        "MaxMembersCountPerRequest": 10
+      }
+    }
+  ]
+}

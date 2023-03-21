@@ -1,0 +1,76 @@
+@mixin group-title-container {
+    position: relative;
+    padding: $statistic-title-width 0 0 0;
+
+    @include media-breakpoint-up(md) {
+        padding: $statistic-title-width 0 0 $statistic-title-width;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding: 0 0 0 $statistic-title-width;
+    }
+}
+
+@mixin group-title($md-width) {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    line-height: $statistic-title-width;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+
+    @include media-breakpoint-up(md) {
+        -ms-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+        -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+        transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+        margin-left: 10px;
+        position: absolute;
+        top: 50%;
+        text-align: center;
+        width: $md-width;
+        margin-left: $statistic-title-width / 2;
+        z-index: 0;
+        display: inline;
+        @include text-selection-disable;
+        cursor: default;
+    }
+
+    @content;
+}
+
+@mixin transition($transition-value: 0.2s linear all) {
+    -webkit-transition: $transition-value;
+    -moz-transition: $transition-value;
+    -o-transition: $transition-value;
+    transition: $transition-value;
+}
+
+@mixin text-selection-disable() {
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
+}
+
+@mixin transform($value) {
+    -webkit-transform: $value;
+    -moz-transform: $value;
+    -o-transform: $value;
+    transform: $value;
+}
+
+@mixin custom-column-width($column-width) {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 $column-width;
+    flex: 0 0 $column-width;
+    max-width: $column-width;
+}
+
+@mixin box-shadows($shadow) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+    box-shadow: $shadow;
+}

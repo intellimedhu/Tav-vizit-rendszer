@@ -1,0 +1,24 @@
+﻿.datatable-center-profiles .dataTables_filter > label {
+  text-align: left;
+  margin: 0;
+  display: block;
+  width: 100%; }
+  .datatable-center-profiles .dataTables_filter > label input[type="search"] {
+    display: block;
+    width: 100%;
+    margin: 0; }
+
+.datatable-center-profiles .dataTables_wrapper {
+  padding: 0; }
+  .datatable-center-profiles .dataTables_wrapper div .dataTables_info {
+    padding: 0; }
+  .datatable-center-profiles .dataTables_wrapper div .dataTables_length label {
+    margin: 0; }
+  .datatable-center-profiles .dataTables_wrapper div .dataTables_paginate .pagination {
+    justify-content: center; }
+
+.datatable-center-profiles .table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:first-child {
+  padding-left: 15px; }
+
+.datatable-center-profiles .table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
+  padding-right: 15px; }

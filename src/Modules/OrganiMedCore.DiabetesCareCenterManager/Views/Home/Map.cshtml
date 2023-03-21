@@ -1,0 +1,46 @@
+﻿@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@{
+    ViewBag.Title = T["MDT által minősített Cukorbeteg Szakellátóhelyek - Térképes nézet"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<div id="organimedcore-diabetes-care-center-manager-map-view"></div>
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+    }))
+
+<script asp-name="DiabetesCareCenterManager.MapView" at="Foot"></script>
+@* Consciously not placing this script into the Foot *@
+<script>
+    var mapViewOptions = {
+        mapKey: '@Html.Raw(ViewData["GoogleMapsApiKey"])',
+        urls: {
+            init: '@Url.RouteUrl("HomeApi")',
+            getTerritorialRapporteur: '@Url.RouteUrl("CenterProfileApi.SearchSettlement")'
+        },
+        texts: {
+            centerTypesTitle: '@T["Szakellátóhely profilok"]',
+            centerProfile: '@T["Szakellátóhely"]',
+            centerLeader: '@T["Vezető"]',
+            address: '@T["Cím"]',
+            centerType: '@T["Profil"]',
+            centerProfileStatus: '@T["Akkreditációs státusz"]',
+            accreditationStatus: '@T["Akkreditáltsági állapot"]',
+            legend: '@T["Jelmagyarázat"]',
+            noResult: '@T["Nincs találat."]',
+            modalTitle: '@T["Szakellátóhely adatlap"]',
+            centerProfileName: '@T["Név"]',
+            territorialRapporteur: '@T["Területi referens"]',
+            openingHours: '@T["Rendelési idő"]',
+            close: '@T["Bezár"]'
+        },
+        markers: {
+            adult: '@Url.Content("~/OrganiMedCore.DiabetesCareCenterManager.Theme/img/marker_adult.png")',
+            child: '@Url.Content("~/OrganiMedCore.DiabetesCareCenterManager.Theme/img/marker_child.png")',
+            both: '@Url.Content("~/OrganiMedCore.DiabetesCareCenterManager.Theme/img/marker_both.png")'
+        }
+    };
+</script>

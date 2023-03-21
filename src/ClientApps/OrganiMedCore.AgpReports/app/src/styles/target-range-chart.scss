@@ -1,0 +1,152 @@
+.target-range-chart {
+  .chart-inner {
+    width: 50px;
+    height: 100%;
+    max-width: 480px;
+    margin: 0 auto -2px auto;
+    display: inline-block;
+  }
+
+  .targe-range-limits {
+    @include custom-column-width(20px);
+
+    .range-limit-list {
+      margin: 0;
+      font-size: 8px;
+      line-height: 8px;
+      display: block;
+      height: 100%;
+      text-align: right;
+      position: relative;
+
+      li {
+        position: absolute;
+        right: 0;
+        z-index: 5;
+      }
+    }
+  }
+
+  .col-target-range-chart {
+    @include custom-column-width(45px);
+  }
+
+  .target-range-column-percent {
+    .percent-list {
+      $list-font-size: 10.5px;
+
+      margin: 0;
+      font-size: $list-font-size;
+      line-height: $list-font-size + 2;
+
+      li {
+        position: absolute;
+        left: 2px;
+        z-index: 5;
+        width: 100%;
+        max-width: 100%;
+        height: 2 * ($list-font-size + 2);
+
+        .range-labels {
+          font-weight: normal;
+        }
+
+        .hour-scale {
+          font-weight: normal;
+        }
+
+        &.shigh {
+          bottom: 100%;
+
+          &::before {
+            content: "";
+            position: absolute;
+            width: 22px;
+            height: 5px;
+            background: transparent;
+            left: -27px;
+            bottom: 1px;
+            border-top: 1px solid $black;
+            border-left: 1px solid $black;
+            border-top-left-radius: 5px;
+          }
+        }
+
+        &.slow {
+          top: 100%;
+
+          &::before {
+            content: "";
+            position: absolute;
+            width: 22px;
+            height: 5px;
+            background: transparent;
+            left: -27px;
+            top: 1px;
+            border-bottom: 1px solid $black;
+            border-left: 1px solid $black;
+            border-bottom-left-radius: 5px;
+          }
+        }
+      }
+
+      .col-percent {
+        @include custom-column-width(48px);
+      }
+
+      .col-count {
+        @include custom-column-width(62px);
+      }
+
+      .col-reference {
+        @include custom-column-width(167px);
+      }
+
+      .col-hours {
+        @include custom-column-width(50px);
+      }
+
+      @include media-breakpoint-up(md) {
+        .col-range-name {
+          @include custom-column-width(270px);
+        }
+
+        .col-hours {
+          @include custom-column-width(120px);
+        }
+      }
+
+      @include media-breakpoint-up(lg) {
+        .col-percent {
+          @include custom-column-width(44px);
+        }
+
+        .col-range-name {
+          @include custom-column-width(265px);
+        }
+
+        .col-hours {
+          @include custom-column-width(85px);
+        }
+      }
+
+      @include media-breakpoint-up(xl) {
+        .col-percent {
+          @include custom-column-width(50px);
+        }
+
+        .col-count {
+          @include custom-column-width(70px);
+        }
+
+        .col-range-name {
+          @include custom-column-width(280px);
+        }
+
+        .col-hours {
+          @include custom-column-width(100px);
+        }
+      }
+    }
+  }
+}

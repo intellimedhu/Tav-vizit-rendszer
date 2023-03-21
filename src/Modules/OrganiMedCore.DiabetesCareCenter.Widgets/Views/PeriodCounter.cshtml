@@ -1,0 +1,56 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Widgets.ViewModels
+@{
+    RenewalPeriodViewModel renewalPeriodViewModel = Model.RenewalPeriodViewModel;
+}
+@if (renewalPeriodViewModel.IsPeriod)
+{
+    var periodStartDateClass = $"{renewalPeriodViewModel.HtmlPrefix}-period-start-date";
+    var periodEndDateClass = $"{renewalPeriodViewModel.HtmlPrefix}-period-end-date";
+    var remainingDaysClass = $"{renewalPeriodViewModel.HtmlPrefix}-period-remaining-days";
+    var remainingTimeClass = $"{renewalPeriodViewModel.HtmlPrefix}-period-remaining-time";
+    var remainingTimeCaptionClass = $"{renewalPeriodViewModel.HtmlPrefix}-period-remaining-time-caption";
+    var remainingTimeWrapperClass = $"{renewalPeriodViewModel.HtmlPrefix}-period-remaining-time-wrapper";
+
+    <div class="period-counter-inner">
+        <p class="text-center">
+            <span class="d-block">
+                @Model.FirstLineText:
+                <strong class="d-block" style="font-size:20px;">
+                    <span class="@periodStartDateClass">@renewalPeriodViewModel.PeriodStartDateUtc.ToShortDateString()</span>
+                    -
+                    <span class="@periodEndDateClass">@renewalPeriodViewModel.PeriodEndDateUtc.ToShortDateString()</span>
+                </strong>
+            </span>
+
+            <span class="d-block @remainingTimeCaptionClass">&nbsp;</span>
+
+            <strong class="d-block @remainingTimeWrapperClass" style="font-size:20px;">
+                <span class="@remainingDaysClass">-</span> @T["nap"],
+                <span class="@remainingTimeClass">-- @T["óra"] -- @T["perc"] --@T["mp"]</span>
+            </strong>
+        </p>
+    </div>
+
+    <script asp-name="RenewalPeriodCounter" at="Foot"></script>
+    <script at="Foot">
+        (function () {
+            $(function () {
+                initializePeriodCounter({
+                    periodStartDateClass: '@periodStartDateClass',
+                    periodEndDateClass: '@periodEndDateClass',
+                    periodStartDateUtc: '@renewalPeriodViewModel.PeriodStartDateUtc.ToString("r")',
+                    remainingTimeWrapperClass: '@remainingTimeWrapperClass',
+                    remainingTimeCaptionClass: '@remainingTimeCaptionClass',
+                    remainingTimeCaption: '@T["Hátralévő idő"]:',
+                    remainingTimeExpiredCaption: '@T["A rendelkezésre álló idő lejárt!"]',
+                    periodEndDateUtc: '@renewalPeriodViewModel.PeriodEndDateUtc.ToString("r")',
+                    remainingDaysClass: '@remainingDaysClass',
+                    remainingTimeClass: '@remainingTimeClass',
+                    hh: ' @T["óra"] ',
+                    mm: ' @T["perc"] ',
+                    ss: ' @T["mp"]'
+                });
+            })
+        })(jQuery);
+    </script>
+}

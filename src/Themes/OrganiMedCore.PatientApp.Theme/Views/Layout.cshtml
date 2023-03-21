@@ -1,0 +1,21 @@
+﻿@using OrchardCore.Settings
+@inject ISiteService SiteService
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@RenderTitleSegments((await SiteService.GetSiteSettingsAsync()).SiteName, "before")</title>
+    <style asp-name="font-awesome" use-cdn="true" version="5"></style>
+    <style asp-name="OrganiMedCore.PatientApp.Styles"></style>
+    <resources type="Meta" />
+    <resources type="HeadLink" />
+    <resources type="Stylesheet" />
+    <resources type="HeadScript" />
+</head>
+<body>
+    @await RenderBodyAsync()
+    @await RenderSectionAsync("Footer", required: false)
+    <resources type="FootScript" />
+</body>
+</html>

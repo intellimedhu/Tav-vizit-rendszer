@@ -1,0 +1,20 @@
+﻿{% for contentItem in Model.ContentItem.Content.BagPart.ContentItems %}
+	{% if contentItem.CenterProfileEditorInfoBlockPart.DiabetesCareCenterTenants == 0 or contentItem.CenterProfileEditorInfoBlockPart.DiabetesCareCenterTenants == Model.DiabetesCareCenterTenants %}	
+	{% comment %} "d-none" will hide the block. The client app manages the visibility. {% endcomment %}
+	<div class="d-none alert alert-{{ contentItem.BootstrapStylePart.Style }} show
+			center-profile-editor-info center-profile-editor-info-{{ contentItem.CenterProfileEditorInfoBlockPart.CenterProfileEditorStep }}" role="alert">
+		{% if contentItem.InfoBlockPart.BlockTitle %}
+			<strong class="d-block">
+  			{{ contentItem.InfoBlockPart.BlockTitle | t }}
+			</strong>
+		{% endif %}
+		{% if contentItem.InfoBlockPart.BlockTitle and contentItem.LiquidPart.Liquid %}
+		<hr />
+		{% endif %}
+		{% if contentItem.LiquidPart.Liquid %}
+		
+			{{ contentItem | shape_build_display | shape_render }}
+		{% endif %}
+	</div>
+	{% endif %}
+{% endfor %}

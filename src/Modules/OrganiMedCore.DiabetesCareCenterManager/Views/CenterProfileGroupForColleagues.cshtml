@@ -1,0 +1,200 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using IntelliMed.DokiNetIntegration.Models
+@{
+    var centerProfiles = ((IEnumerable<CenterProfileComplexViewModel>)Model.CenterProfiles).OrderBy(x => x.BasicData.CenterName);
+    var dokiNetMember = (DokiNetMember)Model.DokiNetMember;
+
+    var occupations = OccupationExtensions.GetLocalizedValues(T);
+    var colleagueStatusCaptions = ColleagueStatusExtensions.GetLocalizedValues(T);
+
+    var anyStatus = centerProfiles.Any(c => c.Colleagues.Colleagues.Any(x => x.MemberRightId == dokiNetMember.MemberRightId));
+    var tableId = "center-profiles-group-" + Model.Flavor;
+}
+
+<div class="card card-center-profiles card-center-profiles-@Model.Flavor mb-4">
+    <div class="card-header">
+        <h4 class="m-0">
+            @Model.Title
+        </h4>
+    </div>
+    <div class="card-body datatable-center-profiles">
+        @if (centerProfiles.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-striped table-v-top" id="@tableId">
+                    <thead class="thead-half-dark">
+                        <tr>
+                            @if (anyStatus)
+                            {
+                                <th class="align-top bg-@Model.Flavor text-white">@T["Státusz"]</th>
+                                <th class="align-top border-highlight border-highlight-@Model.Flavor">@T["Munkakör"]</th>
+                            }
+                            <th class="align-top">@T["Szakellátóhely neve"]</th>
+                            <th class="align-top">@T["Vezető neve"]</th>
+                            <th class="align-top">@T["Cím"]</th>
+                            <th class="align-top">@T["A szakellátóhely minősítés felülvizsgálatának jelenlegi állapota"]</th>
+                            <th class="align-top">@T["Lehetséges művelet"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var complex in centerProfiles)
+                        {
+                            var colleagueViewModel = complex.Colleagues.Colleagues.FirstOrDefault(x => x.MemberRightId == dokiNetMember.MemberRightId);
+                            var ownCenter = complex.Leader.MemberRightId == dokiNetMember.MemberRightId;
+
+                            <tr class="@(ownCenter ? "table-active" : "")">
+                                @if (anyStatus)
+                                {
+                                    <td class="bg-@Model.Flavor text-white">
+                                        @(colleagueStatusCaptions.FirstOrDefault(x => x.Key == colleagueViewModel?.LatestStatusItem.Status).Value)
+                                    </td>
+                                    <td class="border-highlight border-highlight-@Model.Flavor">
+                                        @occupations.FirstOrDefault(x => x.Key == colleagueViewModel?.Occupation).Value
+                                    </td>
+                                }
+                                <td>
+                                    @complex.BasicData.CenterName
+                                </td>
+                                <td>
+                                    @(complex.Leader?.FullName)
+                                </td>
+                                <td>
+                                    @complex.BasicData.CenterZipCode @complex.BasicData.CenterSettlementName, @complex.BasicData.CenterAddress
+                                </td>
+                                <td>
+                                    @if (complex.Renewal.RenewalCenterProfileStatus.HasValue)
+                                    {
+                                        @await DisplayAsync(await New.CenterProfileStatus(
+                                            CenterProfileStatus: complex.Renewal.RenewalCenterProfileStatus.Value,
+                                            HugeSized: false))
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (complex.Renewal.ApplicationEnabled())
+                                    {
+                                        if (!ownCenter)
+                                        {
+                                            if (colleagueViewModel == null || ColleagueStatusExtensions.AllowedStatusesToApply.Contains(colleagueViewModel.LatestStatusItem.Status))
+                                            {
+                                                <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                                   asp-controller="Colleagues"
+                                                   asp-action="Apply"
+                                                   asp-route-id="@complex.ContentItemId"
+                                                   class="btn btn-sm btn-success d-block">
+                                                    <i class="fas fa-check"></i>
+                                                    @if (colleagueViewModel == null || colleagueViewModel.LatestStatusItem.Status != ColleagueStatus.Invited)
+                                                    {
+                                                        @T["Munkakörre jelentkezem"]
+                                                    }
+                                                    else
+                                                    {
+                                                        @T["Meghívást elfogadom"]
+                                                    }
+                                                </a>
+                                            }
+
+                                            if (colleagueViewModel != null)
+                                            {
+                                                if (ColleagueStatusExtensions.AllowedStatusesToCancel.Contains(colleagueViewModel.LatestStatusItem.Status))
+                                                {
+                                                    <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                                       asp-controller="Colleagues"
+                                                       asp-action="Cancel"
+                                                       asp-route-id="@complex.ContentItemId"
+                                                       class="btn btn-sm btn-outline-danger d-block">
+                                                        <i class="fas fa-undo"></i>
+                                                        @if (colleagueViewModel.LatestStatusItem.Status == ColleagueStatus.Invited)
+                                                        {
+                                                            @T["Meghívást elutasítom"]
+                                                        }
+                                                        else
+                                                        {
+                                                            @T["Jelentkezést visszavonom"]
+                                                        }
+                                                    </a>
+                                                }
+                                                else if (colleagueViewModel.LatestStatusItem.Status == ColleagueStatus.ApplicationSubmitted)
+                                                {
+                                                    <span class="btn btn-outline-success disabled d-block">
+                                                        @T["Jelentkezés elküldve"]
+                                                    </span>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-info-circle fa-2x text-success" title="@T["Ön a szakellátóhely vezetője."]"></i>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (complex.Renewal.Submitted())
+                                        {
+                                            <i class="fas fa-info-circle fa-2x text-info" title="@T["A szakellátóhely akkreditációja folyamatban van. További műveletek elvégzése jelenleg nem lehetséges."]"></i>
+                                        }
+                                        else if (!complex.Renewal.RenewalCenterProfileStatus.HasValue)
+                                        {
+                                            <i class="fas fa-info-circle fa-2x text-info" title="@T["A szakellátóhely vezető nem indította el az akkreditációs folyamatot. További műveletek elvégzése jelenleg nem lehetséges."]"></i>
+                                        }
+                                        else if (complex.Renewal.RenewalCenterProfileStatus == CenterProfileStatus.MDTAccepted)
+                                        {
+                                            <i class="fas fa-info-circle fa-2x text-info" title="@T["A szakellátóhely akkreditációs folyamata lezárult, a vezető azóta még nem indított el újabb akkreditációs folyamatot. További műveletek elvégzése jelenleg nem lehetséges."]"></i>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <script asp-name="jQueryHighlight" at="Foot"></script>
+            <script at="Foot">
+                (function () {
+                    $(function () {
+                        var hasPager = '@((centerProfiles.Count() > 10).ToString().ToLower())' === 'true';
+                        var bInfoClasses = hasPager ? 'bg-light border border-secondary rounded p-2 mt-2 mb-2 text-primary' : '';
+                        var $datatableCp = $('#@tableId').DataTable({
+                            dom: '"<"search-wrapper"f><"table-responsive"t><"row"<"col-12"<" ' + bInfoClasses + '"<"row"<"col align-self-center text-right"i><"col align-self-center text-left"l>>>><"col-12"p>>',
+                            bPaginate: hasPager,
+                            bInfo: hasPager,
+                            language: {
+                                searchPlaceholder: '',
+                                lengthMenu: '@T["_MENU_ szakellátóhely oldalanként"]',
+                                emptyTable: '@T["A tábla nem tartalmaz szakellátóhelyket"]',
+                                zeroRecords: '@T["Nincs találat."]',
+                                info: '@T["Oldalak: _PAGE_/_PAGES_"]',
+                                infoEmpty: '@T["Nincs találat"]',
+                                infoFiltered: "",
+                                search: '@T["Keresés, szűkítés"]:',
+                                paginate: {
+                                    first: '@T["Első"]',
+                                    last: '@T["Utolsó"]',
+                                    next: '@T["Következő"]',
+                                    previous: '@T["Előző"]'
+                                }
+                            }
+                        });
+
+                        $('#@(tableId)_filter input[type="search"]')
+                            .removeClass('form-control-sm');
+
+                        $datatableCp.on('draw', function () {
+                            var body = $($datatableCp.table().body());
+
+                            body.unhighlight();
+                            body.highlight($datatableCp.search());
+                        });
+                    })
+                })(jQuery);
+            </script>
+        }
+        else
+        {
+            <p class="text-muted m-0">
+                @T["Nincsenek szakellátóhelyek"]
+            </p>
+        }
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+<div class="alert alert-info m-0">
+    <strong>@T["Minősítési (akkreditációs) szint"]</strong>
+    <hr />
+    <ul class="list-unstyled m-0">
+        <li class="mb-2" title="@(User.Identity.IsAuthenticated ? T["Akkreditált szakellátóhely feltétele, hogy legalább 1 fő diabetológiai szakápoló képzettséggel rendelkező szakápoló munkatárs ott dolgozzon."].Value : "")">
+            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: AccreditationStatus.Accredited))
+        </li>
+        <li class="mb-2" title="@(User.Identity.IsAuthenticated ? T["Ideiglenes akkreditációt abban az esetben kap egy szakellátóhely, ha az ott dolgozó kollégák közül megszerzett diabetológiai szakápoló képzettséggel senki nem rendelkezik, de legalább 1 fő esetén ennek a képzettségnek a megszerzése folyamatban van."].Value : "")">
+            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: AccreditationStatus.TemporarilyAccredited))
+        </li>
+        <li class="mb-2" title="@(User.Identity.IsAuthenticated ? T["Olyan szakellátóhely, amelyek tárgyi és/vagy személyi feltételek alapján nem teljesíti legalább az ideiglenesen akkreditált minősítési szintet, de a cukorbeteg szakellátóhely-nyilvántartó rendszerben szerepel."].Value : "")">
+            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: AccreditationStatus.Registered))
+        </li>
+        <li title="@(User.Identity.IsAuthenticated ? T["Olyan szakellátóhely, amely korábban még nem kapott akkreditációs minősítést."].Value : "")">
+            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: AccreditationStatus.New))
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,358 @@
+﻿@model IEnumerable<CenterProfileComplexViewModel>
+@using OrganiMedCore.DiabetesCareCenter.Core
+@using OrganiMedCore.DiabetesCareCenter.Core.Constants
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using Microsoft.AspNetCore.Authorization
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.Services
+@using OrchardCore.Modules
+@inject IAuthorizationService authorizationService
+@inject IClock clock
+@inject IRenewalPeriodSettingsService renewalPeriodSettingsService
+@{
+    ViewBag.Title = T["Illetékességi körömbe tartozó szakellátóhelyek"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+@if (Model.Any())
+{
+    var utcNow = clock.UtcNow;
+
+    var renewalSettings = await renewalPeriodSettingsService.GetCenterRenewalSettingsAsync();
+    var currentFullPeriod = renewalSettings.GetCurrentFullPeriod(utcNow);
+
+    var isRenewalPeriod = currentFullPeriod != null;
+
+    var calculatedStatusOverridable = (bool)ViewData["CalculatedStatusOverridable"];
+    var accreditationStatusSelectList = AccreditationStatusCaptions.GetLocalizedValues(T)
+        .Where(x => x.Key != AccreditationStatus.New);
+
+    var reviewableCenterProfileIds = (List<string>)ViewData["ReviewableCenterProfileIds"];
+
+    var userCanMakeDecision = await authorizationService.AuthorizeAsync(User, ManagerPermissions.MakingDecisionAboutCenterProfiles);
+    var anyDecidable = userCanMakeDecision && Model.Any(x => x.Renewal.RenewalCenterProfileStatus == CenterProfileStatus.UnderReviewAtMDT);
+    var anyInReview = Model.Any(x => x.Renewal.IsInRenewalProcess());
+
+    var canManageCenterProfileLeaders = await authorizationService.AuthorizeAsync(User, ManagerPermissions.ManageCenterProfileLeaders);
+    var canDeleteCenterProfile = await authorizationService.AuthorizeAsync(User, ManagerPermissions.DeleteCenterProfile);
+    var showMoreOperationInDropdown = canManageCenterProfileLeaders || canDeleteCenterProfile;
+
+    var tableId = "center-profile-datatable";
+
+    <div class="datatable-center-profiles">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped table-v-top" id="@tableId">
+                <thead class="thead-half-dark">
+                    <tr>
+                        <th class="border-highlight border-highlight-primary">@T["A szakellátóhely érvényben lévő minősítési (akkreditációs) szintje"]</th>
+                        <th>@T["Szakellátóhely neve"]</th>
+                        <th>@T["Cím"]</th>
+                        <th class="">@T["Vezető"]</th>
+                        @if (isRenewalPeriod || anyInReview)
+                        {
+                            <th class="">
+                                @T["A szakellátóhely minősítés felülvizsgálatának jelenlegi állapota"]
+                                @if (isRenewalPeriod)
+                                {
+                                    <span>
+                                        (<span>@T["Felülvizsgálat kezdete"]:</span>
+                                        <span class="time-format" data-datetime="@(currentFullPeriod?.RenewalStartDate.ToString("r"))"></span>)
+                                    </span>
+                                }
+                            </th>
+                            <th class="border-highlight border-highlight-primary">@T["Várható minősítés"]</th>
+                        }
+                        @if (anyDecidable)
+                        {
+                            if (calculatedStatusOverridable)
+                            {
+                                <th>@T["Várható minősítés felülbírálata"]</th>
+                            }
+
+                            <th>@T["Kijelöl"]</th>
+                        }
+                        <th>@T["Lehetséges művelet"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var centerProfilesInOrder = Model
+                            .OrderBy(complex => reviewableCenterProfileIds.Contains(complex.ContentItemId) ? 0 : 1)
+                            .ThenBy(complex => complex.Renewal.RenewalCenterProfileStatus)
+                            .ThenBy(complex => complex.BasicData.CenterName);
+                    }
+                    @foreach (var complex in centerProfilesInOrder)
+                    {
+                        var basicData = complex.BasicData;
+                        var renewal = complex.Renewal;
+                        var underReview = renewal.IsInRenewalProcess();
+                        var leader = complex.Leader;
+
+                        var decidable = renewal.RenewalCenterProfileStatus == CenterProfileStatus.UnderReviewAtMDT;
+                        var canReview = reviewableCenterProfileIds.Contains(complex.ContentItemId);
+
+                        <tr class="@(canReview ? "table-safe" : string.Empty)">
+                            <td class="border-highlight border-highlight-@(canReview ? "safe" : "primary")">
+                                @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: basicData.AccreditationStatus))
+                                <span class="time-format" data-datetime="@basicData.AccreditationStatusDateUtc.ToString("r")"
+                                      title="@T["Érvényben lévő minősítés megszerzésének dátuma"]"></span>
+                            </td>
+                            <td>
+                                @basicData.CenterName
+                            </td>
+                            <td>
+                                @basicData.FullAddress
+                            </td>
+                            <td>
+                                @(leader?.FullName)
+                            </td>
+                            @if (isRenewalPeriod || anyInReview)
+                            {
+                                <td class="text-center">
+                                    @if (isRenewalPeriod || underReview)
+                                    {
+                                        @await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: renewal.RenewalCenterProfileStatus))
+                                    }
+
+                                    @if (!isRenewalPeriod && !underReview)
+                                    {
+                                        <small class="text-muted">@T["Jelenleg nincs felülvizsgálat"]</small>
+                                    }
+                                </td>
+                                <td class="border-highlight border-highlight-@(canReview ? "safe" : "primary")">
+                                    @if ((isRenewalPeriod || underReview) && renewal.RenewalAccreditationStatus.HasValue)
+                                    {
+                                        <span>
+                                            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: renewal.RenewalAccreditationStatus.Value))
+                                        </span>
+                                    }
+                                </td>
+                            }
+
+                            @if (anyDecidable)
+                            {
+                                if (calculatedStatusOverridable)
+                                {
+                                    <td>
+                                        @if (userCanMakeDecision && decidable)
+                                        {
+                                            var borderClass = string.Empty;
+                                            @switch (renewal.RenewalAccreditationStatus)
+                                            {
+                                                case AccreditationStatus.Accredited: borderClass = "border-success"; break;
+                                                case AccreditationStatus.TemporarilyAccredited: borderClass = "border-primary"; break;
+                                                case AccreditationStatus.Registered: borderClass = "border-warning"; break;
+                                            }
+
+                                            var selectList = new SelectList(accreditationStatusSelectList, "Key", "Value", renewal.RenewalAccreditationStatus);
+
+                                            <select id="current-accreditation-status-@complex.ContentItemId"
+                                                    class="form-control form-control-sm @borderClass current-accreditation-status-selectlist"
+                                                    asp-items="selectList">
+                                                <option value="">@T["Kérem, válasszon!"]</option>
+                                            </select>
+                                        }
+                                    </td>
+                                }
+
+                                <td class="text-center">
+                                    @if (decidable)
+                                    {
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox"
+                                                   class="custom-control-input make-decision-checkbox"
+                                                   id="make-decision-checkbox-@complex.ContentItemId"
+                                                   data-content-item-id="@complex.ContentItemId">
+                                            <label class="custom-control-label" for="make-decision-checkbox-@complex.ContentItemId"></label>
+                                        </div>
+                                    }
+                                </td>
+                            }
+
+                            <td class="text-center">
+                                <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                   asp-controller="CenterProfile"
+                                   asp-action="Display"
+                                   asp-route-id="@complex.ContentItemId"
+                                   class="btn btn-sm btn-primary d-block mb-1">
+                                    @T["Megtekintés"]
+                                </a>
+
+                                @if (canReview)
+                                {
+                                    <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                       asp-controller="CenterProfile"
+                                       asp-action="Display"
+                                       asp-route-id="@complex.ContentItemId"
+                                       class="btn btn-sm btn-safe d-block mb-1">
+                                        @T["Véleményzés"]
+                                    </a>
+                                }
+                                else
+                                {
+                                    if (complex.Renewal.RenewalCenterProfileStatus.HasValue)
+                                    {
+                                        var acceptedByTr =
+                                            (int)complex.Renewal.RenewalCenterProfileStatus.Value > (int)CenterProfileStatus.UnderReviewAtTR &&
+                                            User.IsInRole(CenterPosts.TerritorialRapporteur);
+
+                                        var acceptedByOMKB =
+                                            (int)complex.Renewal.RenewalCenterProfileStatus.Value > (int)CenterProfileStatus.UnderReviewAtOMKB &&
+                                            User.IsInRole(CenterPosts.OMKB);
+
+                                        var acceptedByMDT =
+                                            complex.Renewal.RenewalCenterProfileStatus == CenterProfileStatus.MDTAccepted &&
+                                            User.IsInRole(CenterPosts.OMKB);
+
+                                        if (acceptedByTr || acceptedByOMKB || acceptedByMDT)
+                                        {
+                                            <span class="btn btn-sm btn-outline-safe d-block mb-1 disabled text-success">
+                                                @T["Vélemény: jóváhagyva"]
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="btn btn-sm btn-outline-safe d-block mb-1 disabled" title="@T["A véleményezés nem lehetséges"]">
+                                                @T["Véleményzés"]
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-sm btn-outline-safe d-block mb-1 disabled" title="@T["A véleményezés nem lehetséges"]">
+                                            @T["Véleményzés"]
+                                        </span>
+                                    }
+                                }
+
+                                @if (!showMoreOperationInDropdown)
+                                {
+                                    <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                       asp-controller="CenterProfile"
+                                       asp-action="History"
+                                       asp-route-id="@complex.ContentItemId"
+                                       class="btn btn-info btn-sm mb-1">
+                                        @T["Előzmények megtekintése"]
+                                    </a>
+                                }
+                                else
+                                {
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @T["További műveletek"]
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                                               asp-controller="CenterProfile"
+                                               asp-action="History"
+                                               asp-route-id="@complex.ContentItemId"
+                                               class="dropdown-item">
+                                                @T["Előzmények megtekintése"]
+                                            </a>
+
+                                            @if (canManageCenterProfileLeaders)
+                                            {
+                                                <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                                                   asp-controller="CenterProfile"
+                                                   asp-action="ChangeLeader"
+                                                   asp-route-id="@complex.ContentItemId"
+                                                   class="dropdown-item">
+                                                    @T["Vezető leváltása, cseréje"]
+                                                </a>
+                                            }
+
+                                            @if (canDeleteCenterProfile)
+                                            {
+                                                <button type="button"
+                                                        class="dropdown-item delete-center-profile"
+                                                        data-delete-url="@Url.Action("Delete", "CenterProfile", new { area ="OrganiMedCore.DiabetesCareCenterManager", id = complex.ContentItemId })">
+                                                    @T["Szakellátóhely inaktiválása, törlése"]
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if (anyDecidable)
+    {
+        <hr />
+        <div class="text-center">
+            <button type="button" class="btn btn-lg btn-outline-primary" id="btn-make-decision" disabled>
+                @T["Kijelölt adatlapok jóváhagyása"]
+            </button>
+        </div>
+    }
+
+    <style asp-name="DataTableCenterProfiles" at="Head"></style>
+
+    @if (showMoreOperationInDropdown)
+    {
+        <script asp-name="Popper" at="Foot"></script>
+    }
+    <script asp-name="InformationOrientedBsModals" at="Foot"></script>
+    <script asp-name="jQueryHighlight" at="Foot"></script>
+    <script asp-name="DiabetesCareCenterManager.CenterProfilesList" at="Foot"></script>
+    <script asp-src="/OrganiMedCore.DiabetesCareCenterManager/js/center-profiles-list.js"></script>
+    <script at="Foot">
+        ; (function ($) {
+            $(function () {
+                initializeCenterProfilesList({
+                    accreditationStatuses: {
+                        accredited: '@AccreditationStatus.Accredited',
+                        temporarilyAccredited: '@AccreditationStatus.TemporarilyAccredited',
+                        registered: '@AccreditationStatus.Registered'
+                    },
+                    apiUrl: '@Url.RouteUrl("CenterProfileApi.AcceptMany")',
+                    calculatedStatusOverridable: '@calculatedStatusOverridable'.toLocaleLowerCase() === "true",
+                    tableId: '@tableId',
+                    texts: {
+                        areYouSureMakeDecision: '@T["Biztos benne, hogy a kijelölt adatlapokról meghozza a döntést?"]',
+                        areYouSureRemoveCenterProfile: '@T["Biztos, hogy törölni szeretné a szakellátóhelyet?"]',
+                        areYouSureRemoveCenterProfileTitle: '<i class="fas fa-trash"></i> @T["Törlés megerősítése"]',
+                        dataTableLanguage: {
+                            searchPlaceholder: '',
+                            lengthMenu: '@T["_MENU_ szakellátóhely oldalanként"]',
+                            emptyTable: '@T["A tábla nem tartalmaz szakellátóhelyket"]',
+                            zeroRecords: '@T["Nincs találat."]',
+                            info: '@T["Oldalak: _PAGE_/_PAGES_"]',
+                            infoEmpty: '@T["Nincs találat"]',
+                            infoFiltered: '@T["<div class=\"pt-1\"><strong>Összesen: <span style=\"font-size:1.1em\">_MAX_</span>, ebből a keresési feltételnek megfelel: <span  style=\"font-size:1.1em\">_TOTAL_</span></strong></div>"]',
+                            search: '@T["Keresés, szűkítés"]:',
+                            paginate: {
+                                first: '@T["Első"]',
+                                last: '@T["Utolsó"]',
+                                next: '@T["Következő"]',
+                                previous: '@T["Előző"]'
+                            }
+                        },
+                        dokiNetCommunicationFailed: '@T["Hiba történt a társasági rendszerrel történő kapcsolat során."]',
+                        makeDecisionFailed: '@T["Sajnáljuk, a döntés meghozatala nem sikerült."]',
+                        makeDecisionSuccessful: '@T["A döntés meghozatala sikeres volt."]'
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+}
+else
+{
+    <span class="text-muted">
+        @T["Jelenleg nincs megjeleníthető szakellátóhely"]
+    </span>
+}
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+    }))

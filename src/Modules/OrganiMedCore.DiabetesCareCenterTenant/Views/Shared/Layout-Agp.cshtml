@@ -1,0 +1,24 @@
+﻿@using OrchardCore.Settings
+@inject ISiteService siteService
+@{
+    var site = await siteService.GetSiteSettingsAsync();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#007bff" />
+    <title>@RenderTitleSegments(site.SiteName, "before")</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link type="image/x-icon" rel="shortcut icon" href="~/OrganiMedCore.AdminTheme/favicon.ico" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
+    <link href="/OrganiMedCore.DiabetesCareCenterTenant/agp/app.4ced9ec114a2c7acc8d7dcaba8a3afeb.css" rel="stylesheet" />
+</head>
+<body>
+    @RenderBody()
+    <script type="text/javascript" src="/OrganiMedCore.DiabetesCareCenterTenant/agp/manifest.2ae2e69a05c33dfc65f8.js"></script>
+    <script type="text/javascript" src="/OrganiMedCore.DiabetesCareCenterTenant/agp/vendor.7745028e6e512f6d808c.js"></script>
+    <script type="text/javascript" src="/OrganiMedCore.DiabetesCareCenterTenant/agp/app.874aa9de83f7d26a161c.js"></script>
+</body>
+</html>

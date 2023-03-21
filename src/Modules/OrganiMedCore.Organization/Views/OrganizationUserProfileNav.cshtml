@@ -1,0 +1,27 @@
+﻿@{
+    var eVisitProfileId = Model.EVisitProfileId;
+    var profileId = Model.ProfileId;
+    var eVisitProfileLinkActive = Model.EVisitProfileLinkActive;
+}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a asp-area="OrganiMedCore.Organization"
+           asp-controller="OrganizationUserProfiles"
+           asp-action="Edit"
+           asp-route-id="@eVisitProfileId"
+           class="nav-link @(eVisitProfileLinkActive? "active": string.Empty)">
+            @T["Alap adatok"]
+        </a>
+    </li>
+    <li class="nav-item">
+        <a asp-area="OrganiMedCore.Organization"
+           asp-controller="OrganizationUserProfiles"
+           asp-action="EditAdditional"
+           asp-route-eVisitProfileId="@eVisitProfileId"
+           asp-route-id="@profileId"
+           class="nav-link @(!eVisitProfileLinkActive? "active": string.Empty)">
+            @T["Kiegészítő adatok"]
+        </a>
+    </li>
+</ul>

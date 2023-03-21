@@ -1,0 +1,79 @@
+{
+  "name": "OrganiMedCore DiabetesCareCenterManager - Development",
+  "displayName": "OrganiMedCore Diabetes Care Center Manager - Development",
+  "description": "OrganiMedCore Diabetes Care Center Manager setup recipe for development.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "issetuprecipe": true,
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "organimedcore-diabetescarecentermanager-base"
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "CenterManagerSettings": {
+        "GoogleMapsApiKey": "AIzaSyBFioL8RFCuJAfAwkalp8Lpm1mis9eXDSU",
+        "CenterProfileCacheEnabled": false,
+        "CalculatedStatusOverridable": false,
+        "TerritoryCacheEnabled": true
+      },
+      "DokiNetSettings": {
+        "SocietyId": 20,
+        "PreSharedKey": "x85J3zK7QAriMTUbH80L",
+        "DokiNetBaseUrl": "http://desktop-fg/",
+        "MaxMembersCountPerRequest": 10
+      },
+      "EmailSettings": {
+        "CcEmailAddresses": [],
+        "BccEmailAddresses": [ "szilard.csere@intellimed.eu" ],
+        "DebugEmailAddresses": [ "szilard.csere@intellimed.eu" ],
+        "EmailsDequeueLimit": 25,
+        "Enabled": false,
+        "UseFakeEmails": true
+      },
+      "CenterProfileQualificationSettings": {
+        "Qualifications": [
+          {
+            "Id": "01840967-d14a-483d-b371-138a32e44405",
+            "Name": "Állatorvos"
+          },
+          {
+            "Id": "b2a976b5-35c6-462e-99cb-f9e99537dcc5",
+            "Name": "Cipész"
+          },
+          {
+            "Id": "39bbb36f-0c80-4919-9363-4a207ad9d0c4",
+            "Name": "Favágó"
+          },
+          {
+            "Id": "1fa46af0-148c-43c5-9d57-95631d393775",
+            "Name": "Programozó"
+          },
+          {
+            "Id": "5c26b614-1768-4dcb-ba09-3e00df68123e",
+            "Name": "Utcaseprő"
+          },
+          {
+            "Id": "f1990735-3f27-4879-ad31-6218aa141b87",
+            "Name": "Böllér"
+          }
+        ],
+        "QualificationsPerOccupations": {
+          "Doctor": [ "01840967-d14a-483d-b371-138a32e44405" ],
+          "Dietician": [ "b2a976b5-35c6-462e-99cb-f9e99537dcc5" ],
+          "DiabetesNurseEducator": [ "39bbb36f-0c80-4919-9363-4a207ad9d0c4" ],
+          "Nurse": [ "1fa46af0-148c-43c5-9d57-95631d393775" ]
+        }
+      }
+    }
+  ]
+}

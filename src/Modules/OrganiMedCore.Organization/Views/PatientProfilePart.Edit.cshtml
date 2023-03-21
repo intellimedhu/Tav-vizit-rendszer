@@ -1,0 +1,84 @@
+﻿@model PatientProfilePartViewModel
+@using OrganiMedCore.Organization.ViewModels
+
+<script asp-name="jQuery-ui" at="Head"></script>
+<style asp-name="jQuery-ui" at="Head"></style>
+
+<div class="form-group row">
+    <label asp-for="Phone" class="col-md-3 col-form-label text-md-right">
+        @T["Telefonszám"]
+    </label>
+    <div class="col-md-3">
+        <input type="text" asp-for="Phone" class="form-control" />
+    </div>
+    <span asp-validation-for="Phone" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="PhoneSecondary" class="col-md-3 col-form-label text-md-right">
+        @T["Másodlagos telefonszám"]
+    </label>
+    <div class="col-md-3">
+        <input type="text" asp-for="PhoneSecondary" class="form-control" />
+    </div>
+    <span asp-validation-for="PhoneSecondary" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="EmailSecondary" class="col-md-3 col-form-label text-md-right">
+        @T["Másodlagos e-mail"]
+    </label>
+    <div class="col-md-5">
+        <input type="email" asp-for="EmailSecondary" class="form-control" />
+    </div>
+    <span asp-validation-for="EmailSecondary" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Occupation" class="col-md-3 col-form-label text-md-right">
+        @T["Foglalkozás"]
+    </label>
+    <div class="col-md-3">
+        <input type="text" asp-for="Occupation" class="form-control" />
+    </div>
+    <span asp-validation-for="Occupation" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="PublicHealthCardNumber" class="col-md-3 col-form-label text-md-right">
+        @T["Közgyógyigazolvány száma"]
+    </label>
+    <div class="col-md-3">
+        <input type="text" asp-for="PublicHealthCardNumber" class="form-control" />
+    </div>
+    <span asp-validation-for="PublicHealthCardNumber" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="PublicHealthCardValidationDate" class="col-md-3 col-form-label text-md-right">
+        @T["Közgyógyigazolvány érvényességi dátuma"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="PublicHealthCardValidationDate" class="form-control datepicker" />
+    </div>
+    <span asp-validation-for="PublicHealthCardValidationDate" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Remarks" class="col-md-3 col-form-label text-md-right">
+        @T["Megjegyzés"]
+    </label>
+    <div class="col-md-6">
+        <textarea asp-for="Remarks" class="form-control"></textarea>
+    </div>
+    <span asp-validation-for="Remarks" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            // Datetime pickers.
+            $(".datepicker").datepicker();
+        });
+    })(jQuery);
+</script>

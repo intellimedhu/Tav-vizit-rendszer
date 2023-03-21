@@ -1,0 +1,22 @@
+﻿@model BootstrapStylePartEditorViewModel
+@using OrganiMedCore.Bootstrap.ViewModels
+@{
+    var bsStyleOptions = Model.BootstrapStyles
+        .OrderBy(x => x.Name)
+        .Select(x => new SelectListItem()
+        {
+            Text = x.Name,
+            Value = x.TechnicalName
+        });
+}
+
+<fieldset class="form-group" asp-validation-class-for="Style">
+    <label asp-for="Style">@T["Style"]</label>
+    <select asp-for="Style" class="form-control" asp-items="@bsStyleOptions" required>
+            <option value="">@T["Select an option"]</option>
+        </select>
+    <span asp-validation-for="Style"></span>
+    <small class="text-muted">
+        See: <a href="https://getbootstrap.com/docs/4.3/utilities/colors/" target="_blank">bootstrap colors</a>
+    </small>
+</fieldset>

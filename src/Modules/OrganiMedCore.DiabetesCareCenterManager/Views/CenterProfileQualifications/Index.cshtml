@@ -1,0 +1,130 @@
+﻿@model CenterProfileQualificationSettingsViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@{
+    var occupationCaptions = OccupationExtensions.GetLocalizedValues(T);
+    var qualifications = (ViewData["Qualifications"] as IEnumerable<QualificationViewModel>)
+        .OrderByDescending(x => Model.QualificationsPerOccupations.Any(y => y.QualificationId == x.Id.Value && y.IsSelected))
+        .ThenBy(x => x.Name)
+        .Select(x => new
+        {
+            x.Id,
+            x.Name,
+            Selected = Model.QualificationsPerOccupations.Any(y => y.QualificationId == x.Id.Value && y.IsSelected)
+        });
+}
+
+<form asp-area="OrganiMedCore.DiabetesCareCenterManager"
+      asp-controller="CenterProfileQualifications"
+      asp-action="Index"
+      method="post">
+    <div class="qpo-editor">
+        <div class="sticky-top qpo-sticky bg-white">
+            <div class="row">
+                <div class="col">
+                    <h1>@T["Szakképesítések kezelése"]</h1>
+                    <hr />
+
+                    <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                       asp-controller="CenterProfileQualifications"
+                       asp-action="Edit"
+                       class="btn btn-success mb-3">
+                        <i class="fas fa-plus"></i>
+                        @T["Új felvétele"]
+                    </a>
+
+                    <p class="lead">
+                        @T["Kérjük, válassza ki munkakörönként, hogy mely szakképesítések azok, amelyek alapján lehetséges a jelentkezés az adott munkakörbe"]:
+                    </p>
+
+                    <button type="submit" class="btn btn-lg btn-primary">
+                        <i class="fas fa-save"></i>
+                        @T["Mentés"]
+                    </button>
+                </div>
+            </div>
+
+            <div class="row qpo-header-row pt-3 m-0 border-bottom border-dark">
+                <div class="col align-self-end">@T["Szakképesítések"] (@qualifications.Count())</div>
+                @foreach (var caption in occupationCaptions)
+                {
+                    <div class="col col-value text-center align-self-center">
+                        <strong>
+                            @caption.Value
+                        </strong>
+                    </div>
+                }
+                <div class="col col-buttons text-center"></div>
+            </div>
+        </div>
+
+        <div class="row m-0">
+            <div class="col-12">
+                @foreach (var qualification in qualifications)
+                {
+                    <div class="row border-bottom qpo-list-item-row @(qualification.Selected ? "selected" : "")">
+                        <div class="col col-qualification-name border-right border-left">
+                            <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="CenterProfileQualifications"
+                               asp-action="Edit"
+                               asp-route-id="@qualification.Id"
+                               class="m-0 p-0">
+                                @qualification.Name
+                            </a>
+                        </div>
+                        @foreach (var caption in occupationCaptions)
+                        {
+                            var viewModel = Model.QualificationsPerOccupations.First(x => x.Occupation == caption.Key && x.QualificationId == qualification.Id);
+                            var index = Model.QualificationsPerOccupations.IndexOf(viewModel);
+
+                            <div class="col col-value text-center border-right">
+                                <div class="custom-control custom-checkbox">
+                                    <input asp-for="QualificationsPerOccupations[index].IsSelected" type="checkbox" class="custom-control-input">
+                                    <input type="hidden" asp-for="QualificationsPerOccupations[index].Occupation" />
+                                    <input type="hidden" asp-for="QualificationsPerOccupations[index].QualificationId" />
+                                    <label class="custom-control-label" asp-for="QualificationsPerOccupations[index].IsSelected">&nbsp;</label>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col col-buttons border-right text-center">
+                            <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="CenterProfileQualifications"
+                               asp-action="Delete"
+                               asp-route-id="@qualification.Id"
+                               class="m-0 p-0 btn-remove"
+                               title="@T["Törlés"]">
+                                <i class="fas fa-trash text-danger"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                @if (!qualifications.Any())
+                {
+                    <div class="row">
+                        <div class="col">
+                            <p class="text-muted">
+                                @T["Nincs találat."]
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+<style asp-name="QualificationsPerOccupationEditors"></style>
+<script at="Foot">
+    ; (function ($) {
+        $(function () {
+            $('.btn-remove').on('click', function (e) {
+                if (!confirm('@T["Biztos benne?"]')) {
+                    e.preventDefault();
+                    return;
+                }
+            });
+        });
+    })(jQuery);
+</script>

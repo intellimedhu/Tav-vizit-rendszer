@@ -1,0 +1,64 @@
+﻿@model AddToDailyListViewModel
+@using OrganiMedCore.Organization.ViewModels
+@using OrganiMedCore.Organization.Models
+
+<script asp-name="DoctorPicker" at="Foot"></script>
+
+@{
+    var organizationUnits = ViewData["OrganizationUnits"] as IEnumerable<OrganizationUnitPart>;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["{0} felvétele a napi listára", ViewData["PatientName"] as string])</h1>
+        <hr />
+
+        @if (organizationUnits.Any())
+        {
+            <form asp-action="AddToDailyList" method="post">
+                @Html.ValidationSummary()
+
+                <div id="doctor-picker-app">
+                    <fieldset class="form-group" asp-validation-class-for="OrganizationUnitId">
+                        <label asp-for="OrganizationUnitId">@T["Osztály"]</label>
+                        <select v-model="organizationUnitId"
+                                asp-for="OrganizationUnitId"
+                                class="form-control">
+                            @foreach (var organizationUnit in organizationUnits)
+                            {
+                                <option value="@organizationUnit.ContentItem.ContentItemId"
+                                        selected="@(organizationUnit.ContentItem.ContentItemId == Model.OrganizationUnitId)">
+                                    @organizationUnit.Name
+                                </option>
+                            }
+                        </select>
+                        <label asp-for="EVisitOrganizationUserProfileId">@T["Doktor"]</label>
+                        <select asp-for="EVisitOrganizationUserProfileId"
+                                class="form-control">
+                            <option v-for="(doctor, i) in doctors" :value="doctor.value">{{doctor.text}}</option>
+                        </select>
+                    </fieldset>
+                </div>
+
+                @*Vue app init data*@
+                <script>
+                    window.DoctorPickerInitData = {};
+                    window.DoctorPickerInitData.OrganizationUnitId = "@(string.IsNullOrEmpty(Model.OrganizationUnitId) ? organizationUnits.ElementAt(0).ContentItem.ContentItemId : Model.OrganizationUnitId)";
+                    window.DoctorPickerInitData.DoctorApiUrlBase = "@Url.RouteUrl("GetDoctorsByOrganizationUnitId")";
+                </script>
+
+                <input asp-for="EVisitPatientProfileId" type="hidden" />
+
+                <fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">@T["Felvétel"]</button>
+                    </div>
+                </fieldset>
+            </form>
+        }
+        else
+        {
+            <h2>@T["Nincs létrehozva osztály, először hozzon létre egyet."]</h2>
+        }
+    </div>
+</div>

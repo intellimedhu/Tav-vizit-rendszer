@@ -1,0 +1,36 @@
+﻿@model ChangeLeaderViewModel
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+
+@{ 
+    ViewBag.Title = T["Szakellátóhely vezető leváltása"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<form asp-area="OrganiMedCore.DiabetesCareCenterManager" asp-route="ChangeLeaderPost" method="post">
+    @Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
+
+    <div class="form-group row">
+        <label class="col-form-label col-md-3 text-md-right" asp-for="CenterProfileName">
+            @T["Szakellátóhely neve"]
+        </label>
+        <div class="col-md-9">
+            <div class="form-control">@Model.CenterProfileName</div>
+        </div>
+    </div>
+
+    <doki-net-member view-model="@Model.EditDokiNetMemberViewModel" prefix="@nameof(Model.EditDokiNetMemberViewModel)"></doki-net-member>
+
+    @await DisplayAsync(await New.ButtonBar(
+        Buttons: new[]
+        {
+            new BarButton()
+            {
+                Action = "submit",
+                IsButton = true,
+                Text = T["Levált"].Value,
+                Classes = "btn btn-lg btn-primary",
+                IconClasses = "fas fa-check"
+            },
+            BarButton.Cancel(T, Url.Action("Index", "CenterProfile", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+        }))
+</form>

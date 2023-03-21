@@ -1,0 +1,36 @@
+﻿.qpo-editor {
+  min-width: 1100px;
+  padding-bottom: 30px; }
+  .qpo-editor .qpo-sticky {
+    top: 49px; }
+  .qpo-editor .qpo-header-row .col,
+  .qpo-editor .qpo-list-item-row .col {
+    padding: 3px; }
+  .qpo-editor .qpo-header-row .col-qualification-name,
+  .qpo-editor .qpo-list-item-row .col-qualification-name {
+    word-break: break-word; }
+  .qpo-editor .qpo-header-row .col-value,
+  .qpo-editor .qpo-list-item-row .col-value {
+    max-width: 180px; }
+  .qpo-editor .qpo-header-row .col-buttons,
+  .qpo-editor .qpo-list-item-row .col-buttons {
+    max-width: 30px; }
+  .qpo-editor .qpo-list-item-row .custom-control-label {
+    cursor: pointer; }
+    .qpo-editor .qpo-list-item-row .custom-control-label::before {
+      border: 1px solid darkgray; }
+  .qpo-editor .qpo-list-item-row:first-of-type {
+    border-top: 1px solid gray; }
+  .qpo-editor .qpo-list-item-row:nth-of-type(odd) {
+    background-color: #f8f9fa; }
+  .qpo-editor .qpo-list-item-row:nth-of-type(even) {
+    background-color: #fff; }
+  .qpo-editor .qpo-list-item-row.selected:nth-of-type(odd) {
+    background-color: #bcf5bc; }
+  .qpo-editor .qpo-list-item-row.selected:nth-of-type(even) {
+    background-color: #d2f8d2; }
+  .qpo-editor .qpo-list-item-row:hover {
+    text-decoration: underline;
+    color: darkgreen; }
+    .qpo-editor .qpo-list-item-row:hover:nth-of-type(odd), .qpo-editor .qpo-list-item-row:hover:nth-of-type(even) {
+      background-color: #90ee90; }

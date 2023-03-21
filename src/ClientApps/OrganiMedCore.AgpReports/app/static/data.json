@@ -1,0 +1,188 @@
+{
+    "parameters": {
+        "unit": "mmol\/l",
+        "times": {
+            "breakfast": "0:0",
+            "elevenses": null,
+            "lunch": "0:0",
+            "afternoonsnakc": null,
+            "dinner": "0:0"
+        },
+        "targetrange": {
+            "normallow": "3.8",
+            "beforemeallow": "3.8",
+            "aftermeallow": "3.8",
+            "otherlevellow": "3.8",
+            "normalhigh": "6.5",
+            "beforemealhigh": "5.5",
+            "aftermealhigh": "7.7",
+            "otherlevelhigh": "6.5"
+        },
+        "patient": {
+            "id": "167957",
+            "firstname": "M\u00c9RYk\u00e9k 1000",
+            "lastname": "!!!",
+            "prefix": ""
+        },
+        "insulintypes": [
+            {
+                "type": "basal",
+                "color": "#ff4500"
+            },
+            {
+                "type": "bolus",
+                "color": "#9acd32"
+            }
+        ]
+    },
+    "bgms": [
+        {
+            "bgmrangelow": 1.1,
+            "bgmrangehigh": 33.3,
+            "values": [
+                {
+                    "measuredate": "2019-04-28T11:00:30",
+                    "measuretype": 0,
+                    "glucose": 4.8
+                },
+                {
+                    "measuredate": "2019-04-28T09:48:30",
+                    "measuretype": 0,
+                    "glucose": 4.8
+                },
+                {
+                    "measuredate": "2019-04-27T09:02:30",
+                    "measuretype": 0,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2019-04-26T17:05:30",
+                    "measuretype": 0,
+                    "glucose": 15.9
+                },
+                {
+                    "measuredate": "2019-04-26T15:01:30",
+                    "measuretype": 0,
+                    "glucose": 14.1
+                },
+                {
+                    "measuredate": "2019-04-26T11:33:30",
+                    "measuretype": 0,
+                    "glucose": 16.8
+                },
+                {
+                    "measuredate": "2019-04-26T11:32:30",
+                    "measuretype": 0,
+                    "glucose": 15.9
+                },
+                {
+                    "measuredate": "2019-04-26T11:19:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2019-04-26T11:18:30",
+                    "measuretype": 0,
+                    "glucose": 4.9
+                },
+                {
+                    "measuredate": "2019-04-26T11:16:30",
+                    "measuretype": 0,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2019-04-23T18:52:30",
+                    "measuretype": 0,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2019-04-08T14:23:30",
+                    "measuretype": 0,
+                    "glucose": 13.1
+                },
+                {
+                    "measuredate": "2019-04-08T13:15:30",
+                    "measuretype": 0,
+                    "glucose": 16.2
+                },
+                {
+                    "measuredate": "2019-04-08T09:20:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2019-04-03T12:03:30",
+                    "measuretype": 0,
+                    "glucose": 15.7
+                },
+                {
+                    "measuredate": "2019-03-21T09:04:30",
+                    "measuretype": 0,
+                    "glucose": 5.5
+                },
+                {
+                    "measuredate": "2019-03-20T13:08:30",
+                    "measuretype": 0,
+                    "glucose": 5
+                },
+                {
+                    "measuredate": "2019-03-20T12:11:30",
+                    "measuretype": 0,
+                    "glucose": 16.4
+                },
+                {
+                    "measuredate": "2019-03-14T14:09:30",
+                    "measuretype": 0,
+                    "glucose": 5.2
+                },
+                {
+                    "measuredate": "2019-03-14T09:48:30",
+                    "measuretype": 0,
+                    "glucose": 5.1
+                },
+                {
+                    "measuredate": "2019-03-13T12:21:30",
+                    "measuretype": 0,
+                    "glucose": 16
+                },
+                {
+                    "measuredate": "2019-03-13T11:02:30",
+                    "measuretype": 0,
+                    "glucose": 16.7
+                },
+                {
+                    "measuredate": "2019-03-06T14:59:30",
+                    "measuretype": 0,
+                    "glucose": 14.8
+                },
+                {
+                    "measuredate": "2019-03-06T09:33:30",
+                    "measuretype": 0,
+                    "glucose": 16.3
+                },
+                {
+                    "measuredate": "2019-03-05T18:02:30",
+                    "measuretype": 0,
+                    "glucose": 16.3
+                },
+                {
+                    "measuredate": "2019-03-05T12:16:30",
+                    "measuretype": 0,
+                    "glucose": 16.3
+                }
+            ]
+        }
+    ],
+    "insulins": [
+        {
+            "type": "basal",
+            "name": "Inzulin1",
+            "values": []
+        },
+        {
+            "type": "bolus",
+            "name": "Inzulin2",
+            "values": []
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@{
+    var toolsInOrder = (Model.Equipments as IEnumerable<CenterProfileEquipmentSetting>).OrderBy(x => x.Order);
+    var toolsAtCenter = (Model.EquipmentsAtCenter as IEnumerable<Tuple<string, string>>);
+}
+
+<h5 class="summary-group-title">@Model.Title</h5>
+@foreach (var tool in toolsInOrder)
+{
+    var toolAtCenter = toolsAtCenter.FirstOrDefault(x => x.Item1 == tool.Id);
+
+    <div class="row">
+        <div class="col-md-5 text-md-right">@tool.Caption</div>
+        <div class="col-md-7">
+            @if (toolAtCenter == null)
+            {
+                <span>-</span>
+            }
+            else
+            {
+                @if (tool.Type == EquipmentType.Boolean)
+                {
+                    <span>Igen</span>
+                }
+                else if (tool.Type == EquipmentType.Numeric)
+                {
+                    <span>@toolAtCenter.Item2</span>
+                }
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,12 @@
+﻿@model dynamic
+
+<h1>@RenderTitleSegments(T["doki.NET-es adatok megadása"])</h1>
+
+<form asp-area="IntelliMed.DokiNetIntegration"
+      asp-controller="DokiNet"
+      asp-action="Edit"
+      method="post"
+      enctype="multipart/form-data">
+    @Html.ValidationSummary()
+    @await DisplayAsync(Model)
+</form>

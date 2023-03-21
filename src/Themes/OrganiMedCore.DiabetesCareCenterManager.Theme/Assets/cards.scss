@@ -1,0 +1,21 @@
+﻿.card {
+    &.card-center-profiles {
+        @each $color, $value in $theme-colors {
+            &.card-center-profiles-#{$color} {
+                border-color: darken($value, 20%);
+                box-shadow: 2px 2px 0 darken($value, 20%);
+
+                .card-header {
+                    color: $white;
+
+                    @if ($enable-gradients) {
+                        @include gradient-bg($value);
+                    }
+                    @else {
+                        background-color: $value;
+                    }
+                }
+            }
+        }
+    }
+}

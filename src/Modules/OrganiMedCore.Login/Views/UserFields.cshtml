@@ -1,0 +1,5 @@
+@using OrchardCore.Users.Models
+@using OrchardCore.Users.ViewModels
+@model SummaryAdminUserViewModel
+
+<h5>@((Model.User as User).Email) (@Model.User.UserName)</h5>

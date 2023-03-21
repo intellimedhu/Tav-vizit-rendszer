@@ -1,0 +1,284 @@
+$enable-gradients: true !default;
+
+@import "../../../../Modules/Bootstrap/bootstrap/scss/functions";
+@import "../../../../Modules/Bootstrap/bootstrap/scss/variables";
+@import "../../../../Modules/Bootstrap/bootstrap/scss/mixins";
+
+.center-profile-editor-app
+{
+    .center-profile-validation-error
+    {
+        padding: $alert-padding-x / 3 $alert-padding-y;
+        @include border-radius($border-radius);
+        margin: .5rem 0 0;
+        border: 1px solid;
+        @include alert-variant(lighten($danger, 35%), darken($danger, 15%), darken($danger, 20%));
+    }
+
+    .label-required
+    {
+        position: relative;
+
+        span
+        {
+            position: relative;
+            display: inline-block;
+
+            &::before
+            {
+                content: '*';
+                position: absolute;
+                right: -8px;
+                top: -3px;
+                color: red;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.center-profile-editor-steps
+{
+    border-radius: $border-radius;
+    box-shadow: 2px 2px 0 black;
+
+    .center-profile-editor-step-item
+    {
+        padding: 0;
+        position: relative;
+        background-color: $light;
+        border: 1px solid $secondary;
+
+        .center-profile-editor-route-link
+        {
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            line-height: 20px;
+            padding: 10px 0;
+            color: $dark;
+            text-decoration: none;
+
+            .center-profile-editor-step-number
+            {
+                display: block;
+                font-weight: bold;
+                font-size: 24px;
+                line-height: 22px;
+            }
+        }
+
+        &:first-of-type
+        {
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+        }
+
+        &:not(:last-of-type)
+        {
+            border-bottom-width: 0;
+        }
+
+        &:last-of-type
+        {
+            border-bottom-left-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+        }
+        /*&.visited
+        {
+            background-color: lighten($primary, 27%);
+
+            .center-profile-editor-route-link
+            {
+                color: $white;
+            }
+        }*/
+        &.active
+        {
+            //background-color: lighten($success, 5%);
+            border-color: darken($success, 10%);
+
+            .center-profile-editor-route-link
+            {
+                color: $white;
+                font-weight: bold;
+            }
+
+            .arrow-right
+            {
+                position: absolute;
+                z-index: 5;
+                top: -18px;
+                right: -26px;
+                color: lighten($success, 5%);
+                font-size: 85px;
+            }
+
+            .text
+            {
+                position: relative;
+                z-index: 10;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(md)
+    {
+        .col-md-20pc
+        {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+
+        .center-profile-editor-step-item
+        {
+            &:first-of-type
+            {
+                border-top-left-radius: $border-radius;
+                border-top-right-radius: 0;
+                border-bottom-left-radius: $border-radius;
+            }
+
+            &:not(:last-of-type)
+            {
+                border-bottom-width: 1px;
+                border-right-width: 0px;
+            }
+
+            &:last-of-type
+            {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: $border-radius;
+                border-top-right-radius: $border-radius;
+            }
+        }
+    }
+}
+
+.card
+{
+    &.card-center-profile-editor
+    {
+        @each $color, $value in $theme-colors
+        {
+            &.card-center-profile-editor-#{$color}
+            {
+                border-color: darken($value, 20%);
+                box-shadow: 2px 2px 0 darken($value, 20%);
+
+                .card-header
+                {
+                    color: $white;
+
+                    @if ($enable-gradients)
+                    {
+                        @include gradient-bg($value);
+                    }
+                    @else
+                    {
+                        background-color: $value;
+                    }
+                }
+            }
+        }
+
+        .card-neak
+        {
+            .card-body-neak
+            {
+                position: relative;
+                padding-top: 70px;
+
+                .neak-toolbar
+                {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    width: 100%;
+                    font-weight: bold;
+                    padding: 0;
+                    @include gradient-bg($light);
+                    border-bottom: 1px solid $card-border-color;
+                    @include border-top-radius($card-border-radius);
+
+                    .neak-primary
+                    {
+                        padding: 0;
+
+                        label
+                        {
+                            line-height: 31px;
+                            font-size: 1.15em;
+                            padding: 11px 20px 11px 45px;
+                            display: block;
+                            cursor: pointer;
+
+                            &::after, &::before
+                            {
+                                top: 1.2rem;
+                                left: 22px;
+                            }
+                        }
+                    }
+
+                    .btn-remove-neak
+                    {
+                        position: absolute;
+                        top: 10px;
+                        right: 35px;
+                    }
+                }
+            }
+
+            &.card-neak-primary
+            {
+                border-color: lighten($primary, 35%);
+
+                .card-body-neak
+                {
+                    .neak-toolbar
+                    {
+                        @include gradient-bg(lighten($primary, 42%));
+                    }
+                }
+            }
+        }
+    }
+}
+
+.center-profile-summary
+{
+    .card-center-profile-editor
+    {
+        .summary-group
+        {
+            border: 1px solid $gray-400;
+            border-radius: $border-radius;
+            padding: 5px $alert-padding-y $alert-padding-x $alert-padding-y;
+            box-shadow: 2px 2px 0px $gray-600;
+
+            .summary-group-title
+            {
+                padding: 0 8px;
+                display: inline-block;
+            }
+
+            &:not(:last-of-type)
+            {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(sm)
+{
+    .col.col-sm-equipment-tools
+    {
+        $equipment-tools-col-width: 120px;
+
+        flex: 0 0 $equipment-tools-col-width;
+        max-width: $equipment-tools-col-width;
+    }
+}

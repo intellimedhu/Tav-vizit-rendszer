@@ -1,0 +1,10 @@
+﻿@{
+    var errorMessage = ViewData["ErrorMessage"]?.ToString();
+}
+
+@if(!string.IsNullOrEmpty(errorMessage))
+{
+    <p class="alert alert-error">
+        @errorMessage
+    </p>
+}

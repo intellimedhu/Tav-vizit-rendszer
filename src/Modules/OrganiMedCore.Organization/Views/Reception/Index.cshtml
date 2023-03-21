@@ -1,0 +1,195 @@
+﻿@using OrchardCore.ContentManagement
+@using OrganiMedCore.Organization.Helpers
+@using OrganiMedCore.Core.Helpers
+@using OrganiMedCore.Organization.Models.Enums
+@using OrganiMedCore.Core.Models.Enums
+@using OrganiMedCore.Core.Models
+@using OrganiMedCore.Organization.ViewModels
+@using OrganiMedCore.Organization.Models
+
+<script asp-name="jQuery-ui" at="Head"></script>
+<style asp-name="jQuery-ui" at="Head"></style>
+
+@{
+    var viewModel = Model as DailyListViewModel;
+    var patientIdentifiers = PatientHelper.GetIdentifierModels(T).Where(x => x.Value != PatientIdentifierTypes.None);
+    var checkInStatuses = CheckInHelper.GetStatusModels(T);
+    const string tableId = "reception-patients-table";
+    const string searchInputId = "reception-patients-table-search";
+
+    var date = (DateTime)ViewData["Date"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Recepció"])</h1>
+        <hr />
+
+        <div class="col-md-4">
+            <form asp-area="OrganiMedCore.Organization"
+                  asp-controller="Reception"
+                  asp-action="Index"
+                  method="get">
+                <div class="input-group">
+                    <input value="@date.ToString("yyyy.MM.dd")"
+                           type="text"
+                           class="form-control datepicker"
+                           name="date">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">@T["Betöltés"]</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <p class="text-right">
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="Reception"
+               asp-action="Search"
+               class="btn btn-primary">
+                @T["Felvétel a napi listára"]
+            </a>
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="Patients"
+               asp-action="CheckId"
+               class="btn btn-success">
+                @T["Új páciens létrehozása"]
+            </a>
+        </p>
+
+        @if (viewModel.DailyListItems.Any())
+        {
+            <script asp-name="DataTables" at="Foot"></script>
+            <style asp-name="DataTables"></style>
+
+            <div class="col-12">
+                <div class="bg-light p-3 border border-dark rounded">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <div class="input-group">
+                                <input id="@searchInputId"
+                                       class="form-control form-control-lg text-center"
+                                       placeholder="@T["Keresés az összes mezőben."]"
+                                       autofocus />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="@tableId" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @T["Név"]
+                            </th>
+                            <th>
+                                @T["Páciens azonosító"]
+                            </th>
+                            <th>
+                                @T["E-mail"]
+                            </th>
+                            <th>
+                                @T["Születési dátum"]
+                            </th>
+                            <th>
+                                @T["Anyja neve"]
+                            </th>
+                            <th>
+                                @T["Státusz"]
+                            </th>
+                            <th>
+                                @T["Osztály"]
+                            </th>
+                            <th>
+                                @T["Doktor"]
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < viewModel.DailyListItems.Count; i++)
+                        {
+                            var eVisitPatientProfilePart = viewModel.DailyListItems[i].EVisitPatientProfile.As<EVisitPatientProfilePart>();
+                            var checkInPart = viewModel.DailyListItems[i].CheckIn.As<CheckInPart>();
+                            var organizationUnitPart = viewModel.DailyListItems[i].OrganizationUnit.As<OrganizationUnitPart>();
+                            var patientIdentifier = patientIdentifiers.Where(x => x.Value == eVisitPatientProfilePart.PatientIdentifierType).FirstOrDefault();
+                            var checkInStatus = checkInStatuses.Where(x => x.Value == checkInPart.CheckInStatus).FirstOrDefault();
+                            var progressbarValue = 0;
+                            switch (checkInPart.CheckInStatus)
+                            {
+                                case CheckInStatuses.TreatmentInProgress:
+                                    progressbarValue = 50;
+                                    break;
+                                case CheckInStatuses.TreatementFinished:
+                                    progressbarValue = 100;
+                                    break;
+                            }
+
+                            <tr>
+                                <td data-order="(@eVisitPatientProfilePart.LastName+@eVisitPatientProfilePart.FirstName)">
+                                    <a asp-area="OrganiMedCore.Organization"
+                                       asp-controller="Patients"
+                                       asp-action="Edit"
+                                       asp-route-id="@eVisitPatientProfilePart.ContentItem.ContentItemId">
+                                        @eVisitPatientProfilePart.FullName
+                                    </a>
+                                </td>
+                                <td data-order="@eVisitPatientProfilePart.PatientIdentifierValue"
+                                    data-search="@eVisitPatientProfilePart.PatientIdentifierValue">
+                                    <strong>@(patientIdentifier == null ? "" : patientIdentifier.Text + ": ")</strong>@eVisitPatientProfilePart.PatientIdentifierValue
+                                </td>
+                                <td>@eVisitPatientProfilePart.Email</td>
+                                <td data-order="@(eVisitPatientProfilePart.DateOfBirth.HasValue?eVisitPatientProfilePart.DateOfBirth.Value.ToString("yyyy-MM-dd"):"")">@(eVisitPatientProfilePart.DateOfBirth.HasValue ? eVisitPatientProfilePart.DateOfBirth.Value.ToString("yyyy.MM.dd") : "")</td>
+                                <td>@eVisitPatientProfilePart.MothersName</td>
+                                <td>
+                                    @checkInStatus.Text
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: @progressbarValue%" aria-valuenow="@progressbarValue" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @organizationUnitPart.Name
+                                </td>
+                                <td>
+                                    @viewModel.DailyListItems[i].Doctor.Name
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <script at="Foot">
+                    ; (function ($) {
+                        $(function () {
+                            var $table = $("#@tableId").DataTable({
+                                // Drawing just the table.
+                                dom: 't',
+                                "language": {
+                                    "zeroRecords": "Nincs ilyen keresési feltételnek megfelelő páciens a napi listán."
+                                }
+                            });
+
+                            $('#@searchInputId').on('keyup', function () {
+                                $table.search(this.value).draw();
+                            });
+                        });
+                    })(jQuery);
+            </script>
+        }
+        else
+        {
+            <p class="text-muted text-center p-1 m-0">@T["Még nincs páciens felvéve a napi listára."]</p>
+        }
+    </div>
+</div>
+
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            // Datetime pickers.
+            $(".datepicker").datepicker({ dateFormat: 'yy.mm.dd' });
+        });
+    })(jQuery);
+</script>

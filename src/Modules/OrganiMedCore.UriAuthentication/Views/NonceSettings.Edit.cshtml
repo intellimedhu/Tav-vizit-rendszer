@@ -1,0 +1,19 @@
+﻿@model NonceSettingsViewModel
+@using OrganiMedCore.UriAuthentication.ViewModels
+
+<div class="row form-group">
+    <label class="col-12 col-form-label" asp-for="NonceExpirationInDays">@T["A nonce lejár"]</label>
+    <div class="col-sm-4 col-md-3 col-lg-3 col-xl-2">
+        <div class="input-group">
+            <input type="number" class="form-control" min="1" asp-for="NonceExpirationInDays" step="1" />
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">@T["napon belül"]</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <small class="text-muted">
+            @T["Ez egy alapértelmezett érték. Egy-egy nonce lejárati idejét kódból is lehet szabályozni, ekkor ez az érték figyelmen kívül lesz hagyva."]
+        </small>
+    </div>
+</div>

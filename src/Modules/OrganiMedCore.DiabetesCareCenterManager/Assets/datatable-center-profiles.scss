@@ -1,0 +1,53 @@
+﻿.datatable-center-profiles {
+    .dataTables_filter {
+        > label {
+            text-align: left;
+            margin: 0;
+            display: block;
+            width: 100%;
+
+            input[type="search"] {
+                display: block;
+                width: 100%;
+                margin: 0;
+            }
+        }
+    }
+
+    .dataTables_wrapper {
+        padding: 0;
+
+        div {
+            .dataTables_info {
+                padding: 0;
+            }
+
+            .dataTables_length {
+                label {
+                    margin: 0;
+                }
+            }
+
+            .dataTables_paginate {
+                .pagination {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    .table-responsive > div.dataTables_wrapper > div {
+
+        &.row {
+            > div[class^="col-"] {
+                &:first-child {
+                    padding-left: 15px;
+                }
+
+                &:last-child {
+                    padding-right: 15px;
+                }
+            }
+        }
+    }
+}

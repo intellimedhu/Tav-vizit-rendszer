@@ -1,0 +1,17 @@
+﻿@* Permission based menu until the built-in menu isn't permission based. *@
+@using OrganiMedCore.InformationOrientedTheme.Constants
+@using OrganiMedCore.Navigation.Services
+@inject IMenuManager menuManager
+@{
+    var menuItems = await menuManager.BuildMenuAsync(ViewContext, MenuIds.NavMainMenu);
+}
+@if (User.Identity.IsAuthenticated && menuItems.Any())
+{
+    <ul class="navbar-nav">
+        @await DisplayAsync(await New.NavigationMenuItems(
+            MenuItems: menuItems,
+            ListItemClass: "nav-item",
+            NavLinkDefaultClass: "nav-link"
+        ))
+    </ul>
+}

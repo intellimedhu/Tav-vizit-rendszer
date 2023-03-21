@@ -1,0 +1,5 @@
+﻿@model RenewalPeriodViewModel
+@using OrganiMedCore.DiabetesCareCenter.Widgets.ViewModels
+@await DisplayAsync(await New.PeriodCounter(
+    RenewalPeriodViewModel: Model,
+    FirstLineText: T["A szakellátóhelyek minősítésének éves felülvizsgálati időszaka"]))

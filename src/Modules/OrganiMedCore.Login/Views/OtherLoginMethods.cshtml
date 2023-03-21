@@ -1,0 +1,69 @@
+﻿@using OrganiMedCore.Login.Settings
+@using OrganiMedCore.Login.Settings.Enums
+@using Microsoft.AspNetCore.Authentication
+@{
+    OmcLoginSettings omcLoginSettings = Model.OmcLoginSettings;
+    List<AuthenticationScheme> loginProviders = Model.LoginProviders;
+    OmcLoginMethods currentLoginMethod = Model.CurrentLoginMethod;
+}
+
+@if (omcLoginSettings.UseDokiNetLogin || omcLoginSettings.UseOrganiMedCoreLogin || loginProviders.Count > 0)
+{
+    <div class="col-md-10 offset-md-1 mt-5">
+        <section class="mt-5">
+            <h6>@T["Egyéb bejelentkezési lehetőségek"]</h6>
+            <hr />
+
+            <p>
+                @if (omcLoginSettings.UseDokiNetLogin && currentLoginMethod != OmcLoginMethods.DokiNet)
+                {
+                    <a asp-route-area="OrganiMedCore.Login"
+                       asp-controller="DokiNetLogin"
+                       asp-route-action="Login"
+                       asp-route-returnurl="@ViewData["ReturnUrl"]"
+                       class="btn btn-sm btn-outline-secondary">
+                        @T["doki.NET bejelentkezés"]
+                    </a>
+                }
+
+                @if (omcLoginSettings.UseOrganiMedCoreLogin && currentLoginMethod != OmcLoginMethods.OrganiMedCore)
+                {
+                    <a asp-route-area="OrganiMedCore.Login"
+                       asp-controller="OrganiMedCoreLogin"
+                       asp-route-action="Login"
+                       asp-route-returnurl="@ViewData["ReturnUrl"]"
+                       class="btn btn-sm btn-outline-secondary">
+                        @T["OrganiMed bejelentkezés"]
+                    </a>
+                }
+
+                @if (omcLoginSettings.UseLocalLogin && currentLoginMethod != OmcLoginMethods.Local)
+                {
+                    <a asp-route-area="OrchardCore.Users"
+                       asp-controller="Account"
+                       asp-route-action="Login"
+                       asp-route-returnurl="@ViewData["ReturnUrl"]"
+                       class="btn btn-sm btn-outline-secondary">
+                        @T["Lokális bejelentkezés"]
+                    </a>
+                }
+            </p>
+
+            @if (loginProviders.Count > 0)
+            {
+                <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in loginProviders)
+                            {
+                                <button type="submit" class="btn btn-sm btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                    @provider.DisplayName
+                                </button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        </section>
+    </div>
+}

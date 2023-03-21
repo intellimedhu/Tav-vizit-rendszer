@@ -1,0 +1,83 @@
+﻿@model IEnumerable<LocalUserWithDokiNetMemberViewModel>
+@using OrganiMedCore.DiabetesCareCenter.Core
+@using OrganiMedCore.DiabetesCareCenter.Core.Constants
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+
+@{
+    var mdtManagement = Model.Where(x =>
+        x.LocalUser.RoleNames.Contains(CenterPosts.MDTManagement));
+
+    var mdtSecretaries = Model.Where(x =>
+        !x.LocalUser.RoleNames.Contains(CenterPosts.MDTManagement) &&
+        x.LocalUser.RoleNames.Contains(CenterPosts.MDTSecretary));
+
+    var omkbs = Model.Where(x =>
+        !x.LocalUser.RoleNames.Contains(CenterPosts.MDTManagement) &&
+        !x.LocalUser.RoleNames.Contains(CenterPosts.MDTSecretary) &&
+        x.LocalUser.RoleNames.Contains(CenterPosts.OMKB));
+
+    var rapporteurs = Model.Where(x =>
+        !x.LocalUser.RoleNames.Contains(CenterPosts.MDTManagement) &&
+        !x.LocalUser.RoleNames.Contains(CenterPosts.MDTSecretary) &&
+        !x.LocalUser.RoleNames.Contains(CenterPosts.OMKB) &&
+        x.LocalUser.RoleNames.Contains(CenterPosts.TerritorialRapporteur));
+
+    ViewBag.Title = T["Belső felhasználók megtekintése, hozzáadása, törlése"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @await Html.PartialAsync("UserRoleGroupList", new UserRoleGroupListViewModel()
+        {
+            AuthorizedToManageUsers = (bool)ViewData[nameof(ManagerPermissions.ManageMDTManagement)],
+            Users = mdtManagement,
+            RoleName = T["MDT Vezetőség"],
+            CenterRole = CenterPosts.MDTManagement
+        })
+    </div>
+
+    <div class="col-12 mt-4 d-md-none"></div>
+
+    <div class="col-md-6">
+        @await Html.PartialAsync("UserRoleGroupList", new UserRoleGroupListViewModel()
+        {
+            AuthorizedToManageUsers = (bool)ViewData[nameof(ManagerPermissions.ManageMDTSecretary)],
+            Users = mdtSecretaries,
+            RoleName = T["OMKB titkár"],
+            CenterRole = CenterPosts.MDTSecretary
+        })
+    </div>
+
+    <div class="col-12 mt-4"></div>
+
+    <div class="col-md-6">
+        @await Html.PartialAsync("UserRoleGroupList", new UserRoleGroupListViewModel()
+        {
+            AuthorizedToManageUsers = (bool)ViewData[nameof(ManagerPermissions.ManageOMKB)],
+            Users = omkbs,
+            RoleName = T["OMKB tagok"],
+            CenterRole = CenterPosts.OMKB
+        })
+    </div>
+
+    <div class="col-12 mt-4 d-md-none"></div>
+
+    <div class="col-md-6">
+        @await Html.PartialAsync("UserRoleGroupList", new UserRoleGroupListViewModel()
+        {
+            AuthorizedToManageUsers = (bool)ViewData[nameof(ManagerPermissions.ManageTerritorialRapporteurs)],
+            Users = rapporteurs,
+            RoleName = T["Területi referensek"],
+            CenterRole = CenterPosts.TerritorialRapporteur
+        })
+    </div>
+</div>
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+    }))
+
+<script asp-name="CenterUsers" at="Foot"></script>

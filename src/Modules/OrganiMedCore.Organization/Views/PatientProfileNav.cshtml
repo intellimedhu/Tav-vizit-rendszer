@@ -1,0 +1,61 @@
+﻿@using OrganiMedCore.Navigation.Services
+@using OrganiMedCore.Organization.Constants
+@using OrganiMedCore.Organization.Helpers
+@inject IMenuManager menuManager
+@{
+    string eVisitPatientProfileId = Model.EVisitPatientProfileId;
+    bool isNew = Model.IsNew;
+    string activeNavigation = Model.ActiveNavigation;
+
+    var additionalData = new PatientProfileNavHelper()
+    {
+        EVisitPatientProfileId = eVisitPatientProfileId,
+        IsNew = isNew,
+        ActiveNavigation = activeNavigation
+    };
+
+    var patientProfileMenuItems = await menuManager.BuildMenuAsync(
+        ViewContext,
+        MenuIds.PatientProfileAdditonalNavigation,
+        additionalData);
+}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a asp-area="OrganiMedCore.Organization"
+           asp-controller="Patients"
+           asp-action="Edit"
+           asp-route-eVisitPatientProfileId="@eVisitPatientProfileId"
+           class="nav-link @(activeNavigation == "Edit" ? "active": string.Empty)">
+            @T["Alap adatok"]
+        </a>
+    </li>
+    @if (!isNew)
+    {
+        <li class="nav-item">
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="Patients"
+               asp-action="EditAdditional"
+               asp-route-eVisitPatientProfileId="@eVisitPatientProfileId"
+               class="nav-link @(activeNavigation == "EditAdditional" ? "active" : string.Empty)">
+                @T["Kiegészítő adatok"]
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <span class="nav-link disabled">
+                @T["Kiegészítő adatok"]
+            </span>
+        </li>
+    }
+
+    @if (User.Identity.IsAuthenticated && patientProfileMenuItems.Any())
+    {
+        @await DisplayAsync(await New.NavigationMenuItems(
+            MenuItems: patientProfileMenuItems,
+            ListItemClass: "nav-item",
+            NavLinkDefaultClass: "nav-link"
+        ))
+    }
+</ul>

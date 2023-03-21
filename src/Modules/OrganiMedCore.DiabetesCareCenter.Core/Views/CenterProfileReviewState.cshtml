@@ -1,0 +1,71 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Constants
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+
+@{
+    var reviewState = (CenterProfileReviewState)Model.CenterProfileReviewState;
+}
+
+<div class="row">
+    <div class="col-12 mb-3">
+        <div class="border rounded p-3 alert m-0 @(reviewState.Accepted ? "alert-success border-success" : "alert-danger border-danger")">
+            <ul class="list-unstyled m-0 row">
+                <li class="col-sm-4 col-md-2 text-sm-right">
+                    <strong>@(T["Dátum"])</strong>
+                </li>
+                <li class="col-sm-8 col-md-10">
+                    @{
+                        var dateLocal = reviewState.Date.ToLocalTime();
+                    }
+                    @dateLocal.ToShortDateString() @dateLocal.ToShortTimeString()
+                </li>
+
+                <li class="col-sm-4 col-md-2 text-sm-right">
+                    <strong>@(T["Illetékes"])</strong>
+                </li>
+                <li class="col-sm-8 col-md-10">
+                    @switch (reviewState.Post)
+                    {
+                        case CenterPosts.MDTManagement:
+                            @T["MDT vezetőség"]
+                            break;
+                        case CenterPosts.MDTSecretary:
+                            @T["OMKB titkár"]
+                            break;
+                        case CenterPosts.OMKB:
+                            @T["MDT-OMKB"]
+                            break;
+                        case CenterPosts.TerritorialRapporteur:
+                            @T["Területi referens"]
+                            break;
+                    }
+                </li>
+
+                <li class="col-sm-4 col-md-2 text-sm-right">
+                    <strong>@(T["Elfogadva"])</strong>
+                </li>
+                <li class="col-sm-8 col-md-10">
+                    <u>
+                        @if (reviewState.Accepted)
+                        {
+                            @T["Igen"]
+                        }
+                        else
+                        {
+                            @T["Nem"]
+                        }
+                    </u>
+                </li>
+
+                @if (!reviewState.Accepted)
+                {
+                    <li class="col-sm-4 col-md-2 text-sm-right">
+                        <strong>@(T["Indoklás"])</strong>
+                    </li>
+                    <li class="col-sm-8 col-md-10">
+                        @reviewState.Comment
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

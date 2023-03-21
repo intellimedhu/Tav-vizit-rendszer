@@ -1,0 +1,267 @@
+﻿@model IEnumerable<Territory>
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+
+@{
+    var users = ViewData["Users"] as IEnumerable<LocalUserWithDokiNetMemberViewModel>;
+    var managePermission = (bool)ViewData["ManagePermission"];
+
+    if (managePermission)
+    {
+        ViewBag.Title = T["Területi referensek és szaktanácsadók megyékhez történő rendelése"];
+    }
+    else
+    {
+        ViewBag.Title = T["Területi referensek és szaktanácsadók megtekintése"];
+    }
+    RenderTitleSegments(ViewBag.Title);
+}
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-v-top table-sm m-0 table-territories">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@T["Megye"]</th>
+                    <th>@T["Területi referens"]</th>
+                    <th>@T["Szaktanácsadó"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var territory in Model.OrderBy(x => x.Name))
+                {
+                    var rapporteur = users.FirstOrDefault(x => x.LocalUser.Id == territory.TerritorialRapporteurId);
+
+                    <tr>
+                        <td>
+                            <strong>
+                                @territory.Name
+                            </strong>
+                        </td>
+                        <td>
+                            @if (managePermission)
+                            {
+                                var selectList = users
+                                    .Select(user => new SelectListItem()
+                                    {
+                                        Value = user.LocalUser.Id.ToString(),
+                                        Text = user.DokiNetMember.FullName,
+                                        Selected = rapporteur?.LocalUser.Id == user.LocalUser.Id
+                                    });
+
+                                <div class="input-group input-group-sm">
+                                    <select class="form-control" asp-items="selectList" id="select-change-rapporteur-@territory.Id">
+                                        <option value="">@T["-nincs-"]</option>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button type="button"
+                                                data-user-id="@(rapporteur?.LocalUser.Id)"
+                                                data-territory-id="@territory.Id"
+                                                class="btn @(rapporteur == null ? "btn-outline-primary" : "btn-primary") btn-change-rapporteur">
+                                            @T[rapporteur != null ? "Leváltás" : "Választás"]
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                var email = rapporteur?.DokiNetMember?.Emails.FirstOrDefault();
+
+                                <span class="d-block">@(rapporteur?.DokiNetMember?.FullName ?? "-")</span>
+                                @if (!string.IsNullOrEmpty(email))
+                                {
+                                    <small>
+                                        <a href="mailto:@email">@email</a>
+                                    </small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @if (managePermission)
+                            {
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" value="@territory.Consultant" id="territory-consultant-@territory.Id" />
+                                    <div class="input-group-append">
+                                        <button type="button"
+                                                data-territory-id="@territory.Id"
+                                                data-consultant-name="@territory.Consultant"
+                                                class="btn @(string.IsNullOrEmpty(territory.Consultant) ? "btn-outline-primary" : "btn-primary") btn-submit-consultant">
+                                            @T["Mentés"]
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <span>@(territory.Consultant ?? "-")</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (managePermission)
+    {
+        <script asp-name="jQuery"></script>
+        <script asp-name="InformationOrientedBsModals"></script>
+        <script at="Foot">
+        (function ($) {
+            $(function () {
+                $(".btn-change-rapporteur").on("click", function () {
+                    var $button = $(this);
+                    var territoryId = $button.data('territoryId');
+                    var currentUserId = $button.data('userId');
+                    var userId = $("#select-change-rapporteur-" + territoryId).val();
+                    if (!userId) {
+                        alertModal({
+                            message: '@T["Nem választott területi referenst!"]',
+                            closeOnEsc: true
+                        });
+                        return;
+                    }
+
+                    if (+userId == +currentUserId) {
+                        alertModal({
+                            message: '@T["Az új személy azonos a kiválasztott személlyel!"]',
+                            closeOnEsc: true
+                        });
+                        return;
+                    }
+
+                    $button.prop('disabled', true);
+                    $.ajax({
+                        url: '@Url.Action("Change", "Territories")',
+                        data: {
+                            territoryId: territoryId,
+                            userId: userId
+                        },
+                        success: function () {
+                            $button
+                                .prop('disabled', false)
+                                .data('userId', userId)
+                                .removeClass('btn-outline-primary')
+                                .addClass('btn-primary')
+                                .text('@T["Leváltás"]');
+
+                            alertModal({
+                                message: '@T["A referens sikeresen hozzárendelve a megyéhez."]',
+                                closeOnEsc: true
+                            });
+                        },
+                        error: function (e) {
+                            $button.prop('disabled', false);
+                            var errorMessage = '@T["A referens megyéhez rendelése nem sikerült!"]';
+                            if (e.status == 400 && e.responseText) {
+                                errorMessage += '<br />' + e.responseText;
+                            }
+
+                            alertModal({
+                                message: errorMessage,
+                                closeOnEsc: true
+                            });
+                        }
+                    });
+                });
+
+                $(".btn-submit-consultant").on("click", function () {
+                    var $button = $(this);
+                    var territoryId = $button.data('territoryId');
+                    var $input = $("#territory-consultant-" + territoryId);
+                    var consultantName = $input.val().trim();
+                    var originalName = $button.data('consultantName');
+
+                    if (originalName && originalName == consultantName) {
+                        alertModal({
+                            message: '@T["Az új személy azonos a kiválasztott személlyel!"]',
+                            closeOnEsc: true
+                        });
+
+                        return;
+                    }
+
+                    if (originalName) {
+                        if (!consultantName) {
+                            confirmationModal({
+                                title: '@T["Törlés megerősítése"]',
+                                message: '@T["Biztos, hogy törölni szeretné a szaktanácsadót?"]',
+                                callback: function (confirmed) {
+                                    if (confirmed) {
+                                        updateConsultant($button, $input, territoryId, consultantName, 400);
+                                    }
+                                }
+                            });
+
+                            return;
+                        }
+                    } else if (!consultantName) {
+                        alertModal({
+                            message: '@T["Nem lett szaktanácsadó megadva!"]',
+                            closeOnEsc: true
+                        });
+
+                        return;
+                    }
+
+                    updateConsultant($button, $input, territoryId, consultantName, 0);
+                });
+
+                function updateConsultant($button, $input, territoryId, consultantName, delay) {
+                    $button.prop('disabled', true);
+                    $input.prop('disabled', true);
+                    $.ajax({
+                        url: '@Url.Action("Consultant", "Territories")',
+                        data: {
+                            territoryId: territoryId,
+                            name: consultantName
+                        },
+                        success: function () {
+                            $button
+                                .prop('disabled', false)
+                                .removeClass(consultantName ? 'btn-outline-primary' : 'btn-primary')
+                                .addClass(consultantName ? 'btn-primary' : 'btn-outline-primary')
+                                .data('consultantName', consultantName);
+                            $input.prop('disabled', false);
+
+                            setTimeout(function () {
+                                alertModal({
+                                    message: consultantName
+                                        ? '@T["A szaktanácsadó sikeresen hozzárendelve a megyéhez."]'
+                                        : '@T["A szaktanácsadó törlése sikeres volt."]',
+                                    closeOnEsc: true
+                                });
+                            }, delay);
+                        },
+                        error: function (e) {
+                            $button.prop('disabled', false);
+                            $input.prop('disabled', false);
+
+                            var errorMessage = '@T["A szaktanácsadó megyéhez rendelése nem sikerült!"]';
+                            if (e.status == 400 && e.responseText) {
+                                errorMessage += '<br />' + e.responseText;
+                            }
+
+                            alertModal({
+                                message: errorMessage,
+                                closeOnEsc: true
+                            });
+                        }
+                    });
+                }
+            });
+        })(jQuery);
+        </script>
+    }
+}
+else
+{
+    <p class="text-muted">@T["Nincsenek területek."]</p>
+}
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+    }))

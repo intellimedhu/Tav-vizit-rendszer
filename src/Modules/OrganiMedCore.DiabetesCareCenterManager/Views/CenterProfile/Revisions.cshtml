@@ -1,0 +1,56 @@
+﻿@model IList<CenterProfileReviewState>
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@{ 
+    ViewBag.Title = T["Szakellátóhely adatlap véleményezése"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+           asp-controller="CenterProfile"
+           asp-action="Review"
+           asp-route-id="@ViewData["Id"]"
+           class="nav-link">
+            @T["Adatlap"]
+        </a>
+    </li>
+    <li class="nav-item">
+        <span class="nav-link active">
+            @T["Ellenőrzés: előzmények"]
+        </span>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col-12">
+        <p class="lead text-info">
+            <i class="fas fa-info-circle"></i>
+            @T["Az alábbi listában látható, hogy az ellenőrzési időszak alatt hogyan változott a szakellátóhely adatlapjának státusza. A lista tetején a legutolsó, ezt követően a korábbi státuszok találhatók."]
+        </p>
+
+        @if (Model.Any())
+        {
+            foreach (var item in Model.OrderByDescending(x => x.Date))
+            {
+                @await DisplayAsync(await New.CenterProfileReviewState(CenterProfileReviewState: item))
+            }
+        }
+        else
+        {
+            <p class="text-muted">
+                @T["Nincsenek előzmények"]
+            </p>
+        }
+    </div>
+
+    <div class="col-12 mt-2 text-right">
+        <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+           asp-controller="CenterProfile"
+           asp-route-action="Index"
+           class="btn btn-secondary">
+            <i class="fas fa-chevron-left"></i>
+            @T["Vissza a listához"]
+        </a>
+    </div>
+</div>

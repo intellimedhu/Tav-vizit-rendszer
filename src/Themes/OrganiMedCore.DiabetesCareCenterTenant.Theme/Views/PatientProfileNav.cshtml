@@ -1,0 +1,51 @@
+﻿@{
+    string eVisitPatientProfileId = Model.EVisitPatientProfileId;
+    bool isNew = Model.IsNew;
+    string activeNavigation = Model.ActiveNavigation;
+}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a asp-area="OrganiMedCore.Organization"
+           asp-controller="Patients"
+           asp-action="Edit"
+           asp-route-eVisitPatientProfileId="@eVisitPatientProfileId"
+           class="nav-link @(activeNavigation == "Edit" ? "active" : string.Empty)">
+            @T["Alap adatok"]
+        </a>
+    </li>
+    @if (!isNew)
+    {
+        <li class="nav-item">
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="Patients"
+               asp-action="EditAdditional"
+               asp-route-eVisitPatientProfileId="@eVisitPatientProfileId"
+               class="nav-link @(activeNavigation == "EditAdditional" ? "active" : string.Empty)">
+                @T["Kiegészítő adatok"]
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-area="OrganiMedCore.DiabetesCareCenterTenant"
+               asp-controller="Agp"
+               asp-action="Index"
+               asp-route-eVisitPatientProfileId="@eVisitPatientProfileId"
+               class="nav-link @(activeNavigation == "EVisit" ? "active" : string.Empty)">
+                @T["Táv-vizit adatok"]
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <span class="nav-link disabled">
+                @T["Kiegészítő adatok"]
+            </span>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link disabled">
+                @T["Táv-vizit adatok"]
+            </span>
+        </li>
+    }
+</ul>

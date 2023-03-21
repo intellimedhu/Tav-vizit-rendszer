@@ -1,0 +1,29 @@
+﻿@model OrganizationUnitSwitcherViewModel
+@using OrganiMedCore.Organization.ViewModels
+@using OrganiMedCore.Organization.Models
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Osztályos bejelentkezés"])</h1>
+        <hr />
+
+        <form asp-action="Index" method="post">
+            @Html.ValidationSummary()
+            <fieldset class="form-group">
+                <label asp-for="SelectedOrganizationId">@T["Kiválasztott osztály"]</label>
+                <select asp-for="SelectedOrganizationId" class="form-control">
+                    <option value="">@T["Kérem, válasszon!"]</option>
+                    @foreach (var organizationUnit in ViewData["OrganizationUnits"] as IEnumerable<OrganizationUnitPart>)
+                    {
+                        <option value="@organizationUnit.ContentItem.ContentItemId" selected="@(organizationUnit.ContentItem.ContentItemId == Model.SelectedOrganizationId)">@organizationUnit.Name</option>
+                    }
+                </select>
+            </fieldset>
+            <fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">@T["Bejelentkezés"]</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

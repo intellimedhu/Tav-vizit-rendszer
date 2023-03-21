@@ -1,0 +1,13 @@
+﻿@model OrganizationSettingsViewModel
+@using OrganiMedCore.Organization.ViewModels
+
+<fieldset class="form-group" asp-validation-class-for="EesztId">
+    <label asp-for="EesztId">@T["EESZT ID"] <span asp-validation-for="EesztId"></span></label>
+    <input asp-for="EesztId" class="form-control" />
+    <span class="hint">@T["The EESZT ID of the organization."]</span>
+</fieldset>
+<fieldset class="form-group" asp-validation-class-for="EesztName">
+    <label asp-for="EesztName">@T["EESZT name"] <span asp-validation-for="EesztName"></span></label>
+    <input asp-for="EesztName" class="form-control" />
+    <span class="hint">@T["The EESZT name of the organization."]</span>
+</fieldset>

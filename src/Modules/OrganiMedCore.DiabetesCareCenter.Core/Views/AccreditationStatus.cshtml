@@ -1,0 +1,34 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@{
+    var model = (AccreditationStatus)Model.AccreditationStatus;
+    var accreditationStatusCaptions = AccreditationStatusCaptions.GetLocalizedValues(T);
+}
+
+@switch (model)
+{
+    case AccreditationStatus.Accredited:
+        <i class="fas fa-check text-success"></i>
+        <span>
+            @accreditationStatusCaptions[AccreditationStatus.Accredited]
+        </span>
+        break;
+    case AccreditationStatus.TemporarilyAccredited:
+        <i class="fas fa-check text-primary"></i>
+        <span>
+            @accreditationStatusCaptions[AccreditationStatus.TemporarilyAccredited]
+        </span>
+        break;
+    case AccreditationStatus.Registered:
+        <i class="fas fa-minus-square text-warning"></i>
+        <span>
+            @accreditationStatusCaptions[AccreditationStatus.Registered]
+        </span>
+        break;
+    case AccreditationStatus.New:
+        <i class="fas fa-file-alt text-secondary"></i>
+        <span>
+            @accreditationStatusCaptions[AccreditationStatus.New]
+        </span>
+        break;
+}

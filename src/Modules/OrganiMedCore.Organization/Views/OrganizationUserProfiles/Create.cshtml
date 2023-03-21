@@ -1,0 +1,13 @@
+﻿@model dynamic
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Intézményi felhasználó létrehozása"])</h1>
+        <hr />
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.ValidationSummary()
+            @await DisplayAsync(Model)
+        </form>
+    </div>
+</div>

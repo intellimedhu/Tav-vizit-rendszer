@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Admin" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Settings" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ContentFields" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ContentManagement.Display" Version="1.0.0-rc1-10004" />    
+    <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Users" Version="1.0.0-rc1-10004" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntelliMed.Core\IntelliMed.Core.csproj" />
+  </ItemGroup>
+
+</Project>

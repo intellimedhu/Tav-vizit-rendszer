@@ -1,0 +1,1962 @@
+{
+  "name": "organimedcore-diabetescarecentermanager-base",
+  "displayName": "organimedcore-diabetescarecentermanager-base",
+  "description": "OrganiMedCore Diabetes Care Center Manager setup recipe.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrchardCore.Admin",
+        "OrchardCore.AdminMenu",
+        "OrchardCore.BackgroundTasks",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.HomeRoute",
+        "OrchardCore.Liquid",
+        "OrchardCore.Localization",
+        "OrchardCore.Features",
+        "OrchardCore.Navigation",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Roles",
+        "OrchardCore.Settings",
+        "OrchardCore.Tenants",
+        "OrchardCore.Themes",
+        "OrchardCore.Users",
+        "IntelliMed.Core",
+        "IntelliMed.DokiNetIntegration",
+        "OrganiMedCore.DiabetesCareCenter.Core",
+        "OrganiMedCore.InfoWidgets",
+        "OrganiMedCore.DiabetesCareCenter.Widgets",
+        "OrganiMedCore.DiabetesCareCenterManager.Widgets",
+        "OrganiMedCore.DiabetesCareCenterManager",
+        "OrganiMedCore.DiabetesCareCenterManager.CenterProfileEditor",
+        "OrganiMedCore.Email",
+        "OrganiMedCore.Login.BaseTheme",
+        "OrganiMedCore.UriAuthentication",
+
+        "TheAdmin",
+        "SafeMode",
+        "OrganiMedCore.AdminTheme",
+        "OrganiMedCore.InformationOrientedTheme",
+        "OrganiMedCore.DiabetesCareCenterManager.Theme"
+      ]
+    },
+    {
+      "name": "Content",
+      "data": [
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "Menu",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "TitlePart": {
+            "Title": "Main menu"
+          },
+          "AliasPart": {
+            "Alias": "main-menu"
+          },
+          "MenuPart": {},
+          "MenuItemsListPart": {
+            "MenuItems": [
+            ]
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Nyitólap",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Nyitólap",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Üdvözöljük az MDT Cukorbeteg Szakellátóhelyek (SZEH) Nyilvántartó Rendszerében!" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "Kérjük, indulásként válasszon egy menüpontot." },
+                "LayerMetadata": {
+                  "Position": 16.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Homepage"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "UpdatePeriodCounter",
+                "DisplayText": "Nyitólap",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "UpdatePeriodCounterPart": {},
+                "LayerMetadata": {
+                  "Position": 16.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Homepage"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "RenewalPeriodCounter",
+                "DisplayText": "Nyitólap",
+                "Latest": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "RenewalPeriodCounterPart": {},
+                "LayerMetadata": {
+                  "Position": 16.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Homepage"
+                }
+              }
+            ]
+          },
+          "InfoBlockContainerPart": {},
+          "LayerMetadata": {
+            "Position": 16.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Homepage",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - Felhasználók",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Felhasználók",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Jelenlegi felhasználók jogosultság szerinti listája, új felhasználó megadása, jogosultágok szerkesztése, törlése.</p>" },
+                "LayerMetadata": {
+                  "Position": 1.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Users"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 1.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Users",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - felhasználó létrehozása / szerkesztése",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - felhasználó létrehozása / szerkesztése",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Új felhasználó létrehozása" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Új felhasználót az MDT tagi adatbázisából kereshet. Kérjük, kezdje el gépelni a nevet, \r\n  ezt követően a megjelenített listából válassza ki a megfelelőt.</p><p><strong>Mentéshez\r\n    a jogosultság megadása szükséges!</strong></p>" },
+                "LayerMetadata": {
+                  "Position": 2.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "User create or edit"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - felhasználó létrehozása / szerkesztése",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Meglévő felhasználók szerkesztése" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>A felhasználó jogosultsága a későbbiekben tetszőlegesen módosítható, változtatható.</p>" },
+                "LayerMetadata": {
+                  "Position": 2.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "User create or edit"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - felhasználó létrehozása / szerkesztése",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "warning" },
+                "LiquidPart": { "Liquid": "<p>Az OMKB titkár egyben OMKB tag is, ezért ez csak együtt állítható be. \r\n  A felhasználóknak több jogosultság is megadható tetszőleges kombinációban,\r\n  a felhasználói listában a nevek a legmagasabb szintű jogosultság szerint csak egy helyen jelennek meg.</p>" },
+                "LayerMetadata": {
+                  "Position": 2.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "User create or edit"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 2.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "User create or edit",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - Területi referensek, szaktanácsadók",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Területi referensek, szaktanácsadók",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Területi referensek és szaktanácsadóik adminisztrációja" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>A referensek hozzárendelhetők, leválthatók adott megyénél. </p>\r\n<p>Ha a megyéhez nem tartozik még referens, akkor a legördülő listából kiválasztott személy \r\n  a <strong>\"Választás\"</strong> gombbal nevezhető ki.</p>\r\n<p>Leváltáshoz először válassza ki a listából az új referenst, \r\n  majd kattintson a <strong>\"Leváltás\"</strong> gombra.</p>" },
+                "LayerMetadata": {
+                  "Position": 3.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Territorial rapporteurs & consultants"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Területi referensek, szaktanácsadók",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "warning" },
+                "LiquidPart": { "Liquid": "<p>Ha a listában nem szerepel az új területi referens, először rögzíteni kell a \"Felhasználók\" menüpontban.</p>\r\n<p>Új területi referens rögzítéséhez kattintson ide:</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"{{ \"~/szeh-felhasznalok/letrehozas?id=0&roleName=TerritorialRapporteur\" | href }}\">Területi referens hozzáadása</a></p>" },
+                "LayerMetadata": {
+                  "Position": 3.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Territorial rapporteurs & consultants"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 3.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Territorial rapporteurs & consultants",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Információ - szeh adatlap",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Információ - szeh adatlap",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "A szakellátóhely adatainak áttekintése" },
+                "BootstrapStylePart": { "Style": "dark" },
+                "LiquidPart": { "Liquid": "<ul>\r\n  <li>Alapadatok</li>\r\n  <li>Kiegészítő adatok</li>\r\n  <li>Tárgyi eszközök</li>\r\n  <li>Munkatársak <br/>(Munkatársak adatlapjainak  megtekintése)</li>\r\n</ul>" },
+                "LayerMetadata": {
+                  "Position": 5.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "One center profile"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Információ - szeh adatlap",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Előzmények" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "A szakellátóhely korábbi minősítéseinek és adatainak elérése." },
+                "LayerMetadata": {
+                  "Position": 5.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "One center profile"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileReviewBlock",
+                "DisplayText": "Információ - szeh adatlap",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "CenterProfileReviewBlockPart": {},
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "safe" },
+                "LiquidPart": { "Liquid": "<strong>Kérjük, az oldal alján található sáv kinyitásával véleményezze a szakellátóhelyet!</strong>" },
+                "LayerMetadata": {
+                  "Position": 5.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "One center profile"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 5.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "One center profile",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - szeh adatlap előzmények",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - szeh adatlap előzmények",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "success" },
+                "LiquidPart": { "Liquid": "<p>A legördülő listában a <strong>dátum kiválasztásával</strong> a szakellátóhely előző lezárt minősítési állapota, valamint az \r\nminősítés megszerzésekor nyilvántartott alap- és kiegészítő adatok, tárgyi eszközök, munkatársak és a betöltött munkakörök  tekinthetők meg.</p>" },
+                "LayerMetadata": {
+                  "Position": 6.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profile history"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - szeh adatlap előzmények",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "warning" },
+                "LiquidPart": { "Liquid": "<p>A dátum a minősítés  megszerzésének <strong>kezdő időpontját</strong> jelöli!</p>" },
+                "LayerMetadata": {
+                  "Position": 6.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profile history"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 6.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Center profile history",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - vezető leváltása",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - vezető leváltása",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>A szakellátóhely vezető leváltásához először a meglévő vezetőt kell törölni a \r\n  név után látható <strong>X</strong> megnyomásával.\r\nEzt követően a mezőben az MDT tagi adatbázisából kereshető ki az új vezető személye.\r\n  Mentéshez a <strong>\"Levált\"</strong> gomb megnyomása szükséges!</p>\r\n<p>A <strong>\"Vissza\"</strong> gomb megnyomásával mentés nélkül elhagyható a felület.</p>" },
+                "LayerMetadata": {
+                  "Position": 7.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Change center profile leader"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 7.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Change center profile leader",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - Szakellátóhelyek",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>A szakellátóhely lista a fejlécek alapján rendezhető. A fenti kereső segítségével szűkíteni lehet a listát.</p>" },
+                "LayerMetadata": {
+                  "Position": 4.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profiles' list"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileListReviewBlock",
+                "DisplayText": "Infó - Szakellátóhelyek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "CenterProfileListReviewBlockPart": {},
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "safe" },
+                "LiquidPart": { "Liquid": "<p><strong>Kérjük, végezze el a lilával jelölt szakellátóhelyek ellenőrzését! <br/>\r\n  Kattinson a <span class=\"btn btn-sm btn-safe\">Véleményezés</span> gombra!</strong></p>\r\n{% if User | has_permission:\"MakingDecisionAboutCenterProfiles\" %}\r\nA szakellátóhelyek minősítésének csoportos jóváhgyásához kérjük, \r\nkapcsolja be a jóváhgyni kívánt szakellátóhelyeken lévő gombot, \r\nmajd nyomja meg az oldal alján található \"Kijelölt adatlapok jóváhagyása\" gombot.\r\n{% endif %}" },
+                "LayerMetadata": {
+                  "Position": 4.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profiles' list"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Lehetséges művelet" },
+                "BootstrapStylePart": { "Style": "dark" },
+                "LiquidPart": { "Liquid": "<p><span class=\"btn btn-sm btn-primary\">Megtekintés</span> Az adott szakellátóhely részletes adatlapja érhető el.</p>\r\n<p><span class=\"btn btn-sm btn-outline-safe bg-white disabled\">Véleményezés</span> Jelenleg még nem véleményezhető a szakellátóhely adatlapja.</p>\r\n<p><span class=\"btn btn-sm btn-safe\">Véleményezés</span> Végezze el a szakellátóhely adatlap véleményezését!</p>\r\n<p><span class=\"btn btn-sm btn-outline-safe disabled bg-white text-success\">Vélemény:<br/>jóváhagyva</span> A szakellátóhely véleményezése az illetékességi körben megtörtént.</p>\r\n\r\n\r\n{% assign canManageCenterProfileLeaders = User | has_permission:\"ManageCenterProfileLeaders\" %}\r\n{% assign canDeleteCenterProfile = User | has_permission:\"DeleteCenterProfile\" %}\r\n{% assign showMoreOperationInDropdown = canManageCenterProfileLeaders or canDeleteCenterProfile %}\r\n{% if showMoreOperationInDropdown==false %}\r\n<p><span class=\"btn btn-sm btn-info\">Előzmények<br/>megtekintése</span> Megtekinthetők a szakellátóhely korábbi évi adatai (amennyiben rendelkezésre áll).</p> \r\n{% else %}\r\n<p><span class=\"btn btn-sm btn-info\">További műveletek</span></p>\r\n<ul>\r\n  <li>Előzmények megtekintése</li>\r\n  {% if canManageCenterProfileLeaders %}<li>Vezető leváltása, cseréje</li>{% endif %}\r\n  {% if canDeleteCenterProfile %}<li>Szakellátóhely inaktiválása, törlése</li>{% endif %}\r\n</ul>\r\n\r\n{% endif %}" },
+                "LayerMetadata": {
+                  "Position": 4.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profiles' list"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "AccreditationStatusBlock",
+                "DisplayText": "Infó - Szakellátóhelyek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "AccreditationStatusBlockPart": {},
+                "LayerMetadata": {
+                  "Position": 4.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profiles' list"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileStatusBlock",
+                "DisplayText": "Infó - Szakellátóhelyek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "CenterProfileStatusBlockPart": {},
+                "LayerMetadata": {
+                  "Position": 4.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Center profiles' list"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 4.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Center profiles' list",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - Szakellátóhelyeim - előfeltételek",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyeim - előfeltételek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "warning" },
+                "LiquidPart": { "Liquid": "<p><strong>Szakellátóhely létesítése vagy \r\n  meglévő szerkesztése előtt szükség van legalább egy szakképesítés megadására.</strong></p>" },
+                "LayerMetadata": {
+                  "Position": 8.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My center profiles - prerequisites"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyeim - előfeltételek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "secondary" },
+                "LiquidPart": { "Liquid": "<p>A teljes képesítés lista szerkesztéséhez kérjük, látogassa meg profil oldalát:</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"{{ \"~/szeh-adataim\" | href }}\">&nbsp;Képesítéseim szerkesztése\r\n  </a>\r\n</p>" },
+                "LayerMetadata": {
+                  "Position": 8.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My center profiles - prerequisites"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyeim - előfeltételek",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "ÁEEK - alap-és működési kereső" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Az ÁEEK keresőben név és nyilvántartási szám alapján minden rendelkezésre álló adat kereshető és ellenőrizhető:</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"https://kereso.enkk.hu/index.php\" target=\"blank\">ÁEEK kereső </a></p>" },
+                "LayerMetadata": {
+                  "Position": 8.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My center profiles - prerequisites"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 8.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "My center profiles - prerequisites",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - Szakellátóhelyeim",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyeim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Véleményezett vagy véleményezés alatt álló szakellátóhelyek" },
+                "BootstrapStylePart": { "Style": "success" },
+                "LiquidPart": { "Liquid": "A szakellátóhely adatlapja benyújtásra került felülvizsgálatra." },
+                "LayerMetadata": {
+                  "Position": 9.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My center profiles"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyeim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Területi referensi véleményezésre még nem elküldött szakellátóhelyek" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Meglévő szakellátóhely adatainak szerkesztéséhez és a \r\n minősítés megújításának elkezdéséhez kattintson a \"<strong>Szerkesztem</strong>\" gombra.</p>" },
+                "LayerMetadata": {
+                  "Position": 9.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My center profiles"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - Szakellátóhelyeim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Szakellátóhely létesítésére vonatkozó tervezetek" },
+                "BootstrapStylePart": { "Style": "warning" },
+                "LiquidPart": { "Liquid": "Új szakellátóhely az \"<strong>Újat létesítek</strong>\" gombbal kezdeményezhető." },
+                "LayerMetadata": {
+                  "Position": 9.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My center profiles"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 9.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "My center profiles",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - szakellátóhely iránti kérelem",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfo",
+                "DisplayText": "Infó - szakellátóhely iránti kérelem",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "CenterProfileEditorInfoPart": {},
+                "LayerMetadata": {
+                  "Position": 10.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Create center profile"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 10.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Create center profile",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - munkahely megerősítés",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - munkahely megerősítés",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Jelentkezését a kiválasztott szakellátóhelyre a munkakör megjelölésével tudja elmenteni.</p>" },
+                "LayerMetadata": {
+                  "Position": 12.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Workplace confirmation"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - munkahely megerősítés",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "secondary" },
+                "LiquidPart": { "Liquid": "<p>Továbblépés előtt szükség van legalább egy, a kiválasztott munkakörhöz tartozó szakképesítés megadására.</p>" },
+                "LayerMetadata": {
+                  "Position": 12.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Workplace confirmation"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - munkahely megerősítés",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "secondary" },
+                "LiquidPart": { "Liquid": "<p>A teljes képesítés lista szerkesztéséhez kérjük, látogassa meg profil oldalát az alábbi linkre kattintva:</p>\r\n<p class=\"text-center\">\r\n                    <a class=\"btn btn-primary\" href=\"/szeh/szeh-adataim\" target=\"_blank\">\r\n                        <em><i class=\"fas fa-pencil-alt\"></i></em>\r\n                        Képesítéseim szerkesztése\r\n                    </a>\r\n                </p>" },
+                "LayerMetadata": {
+                  "Position": 12.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Workplace confirmation"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - munkahely megerősítés",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "ÁEEK - alap-és működési kereső" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Az ÁEEK keresőben név és nyilvántartási szám alapján minden rendelkezésre álló adat kereshető és ellenőrizhető:</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"https://kereso.enkk.hu/index.php\" target=\"blank\">ÁEEK kereső </a></p>" },
+                "LayerMetadata": {
+                  "Position": 12.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Workplace confirmation"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 12.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Workplace confirmation",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - munkahely törlése",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - munkahely törlése",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "warning" },
+                "LiquidPart": { "Liquid": "<p>Törölheti meglévő munkahelyét, vagy visszavonhatja jelentkezését egy munkakörből. \r\n  Törlést követően lehetőség van újra jelentkezni, akár más munkakörbe is.</p>" },
+                "LayerMetadata": {
+                  "Position": 13.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Workplace cancellation"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 13.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Workplace cancellation",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - munkahelyeim",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "ColleagueWorkplaceContainerBlock",
+                "DisplayText": "Infó - munkahelyeim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "ColleagueWorkplaceContainerBlockPart": {},
+                "BagPart": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "[js:uuid()]",
+                      "ContentItemVersionId": null,
+                      "ContentType": "ColleagueWorkplaceBlock",
+                      "DisplayText": "Infó - munkahelyeim",
+                      "Latest": false,
+                      "Published": false,
+                      "Owner": "[js: parameters('AdminUsername')]",
+                      "Author": "[js: parameters('AdminUsername')]",
+                      "InfoBlockPart": { "BlockTitle": "Jelenleg betöltött munkakörök" },
+                      "BootstrapStylePart": { "Style": "success" },
+                      "ColleagueWorkplaceBlockPart": {
+                        "ColleagueWorkplaceTab": 0,
+                        "ColleagueStatusGroup": "GreenZone"
+                      },
+                      "LiquidPart": { "Liquid": "Jelenleg betöltött munkahelyek listája. \r\n<p><strong>Státuszok:</strong></p>\r\n<ul>\r\n  <li><strong>Meglévő:</strong> Azok a szakellátóhelyek, ahol a munkatárs jelenleg is a megjelölt munkakörben van.</li>\r\n  <li><strong>Jelentkezés elfogadva:</strong> Azok a szakellátóhelyek, ahol a jelentkezését az adott munkakörre a szakellátóhely vezetője jóváhagyta.</li>\r\n  <li><strong>Meghívás elfogadva:</strong> Azok a szakellátóhelyek, akik a szakellátóhely vezető meghívása elfogadásra került az adott munkakörre.</li>\r\n</ul>\r\nHa a szakellátóhely a vezető ellenőrzése alatt van, a munkakör törölhető, vagy a jelentkezés viszavonható." },
+                      "LayerMetadata": {
+                        "Position": 11.0,
+                        "Zone": "AsideRightInformation",
+                        "Layer": "My workplaces"
+                      }
+                    },
+                    {
+                      "ContentItemId": "[js:uuid()]",
+                      "ContentItemVersionId": null,
+                      "ContentType": "ColleagueWorkplaceBlock",
+                      "DisplayText": "Infó - munkahelyeim",
+                      "Latest": false,
+                      "Published": false,
+                      "Owner": "[js: parameters('AdminUsername')]",
+                      "Author": "[js: parameters('AdminUsername')]",
+                      "InfoBlockPart": { "BlockTitle": "Függőben lévő jelentkezések és meghívók" },
+                      "BootstrapStylePart": { "Style": "info" },
+                      "ColleagueWorkplaceBlockPart": {
+                        "ColleagueWorkplaceTab": 0,
+                        "ColleagueStatusGroup": "PendingZone"
+                      },
+                      "LiquidPart": { "Liquid": "Azoknak a munkahelyeknek a listája, ahova a szakellátóhely vezető meghívást küldött, \r\n vagy benyújtásra került egy jelentkezés és a szakellátóhely vezető még nem reagált.\r\n<p><strong>Státuszok:</strong></p>\r\n<ul>\r\n  <li><strong>Meghívva:</strong> A szakellátóhely vezető meghívást küldött az adott munkakörre.</li>\r\n  <li><strong>Jelentkezés:</strong> Jelentkezés történt az adott munkakörre.</li>" },
+                      "LayerMetadata": {
+                        "Position": 11.0,
+                        "Zone": "AsideRightInformation",
+                        "Layer": "My workplaces"
+                      }
+                    },
+                    {
+                      "ContentItemId": "[js:uuid()]",
+                      "ContentItemVersionId": null,
+                      "ContentType": "ColleagueWorkplaceBlock",
+                      "DisplayText": "Infó - munkahelyeim",
+                      "Latest": false,
+                      "Published": false,
+                      "Owner": "[js: parameters('AdminUsername')]",
+                      "Author": "[js: parameters('AdminUsername')]",
+                      "InfoBlockPart": { "BlockTitle": "Törlések, visszavonások, elutasítások" },
+                      "BootstrapStylePart": { "Style": "danger" },
+                      "ColleagueWorkplaceBlockPart": {
+                        "ColleagueWorkplaceTab": 0,
+                        "ColleagueStatusGroup": "RemovedZone"
+                      },
+                      "LiquidPart": { "Liquid": "Azoknak a munkaköröknek a listája, melyet a munkatárs vagy a szakellátóhely vezetője törölt.\r\n<p><strong>Státuszok:</strong></p>\r\n<ul>\r\n  <li><strong>Törölve vezető által:</strong> A szakellátóhely vezető törölte a munkatársat az adott munkakörből.</li>\r\n  <li><strong>Törölve munkatárs által:</strong> A munkatárs törölte magát az adott munkakörből.</li>\r\n  <li><strong>Jelentkezés elutasítva:</strong> A szakellátóhely vezető törölte a munkatárs jelentkezését.</li>\r\n    <li><strong>Jelentkezés visszavonva:</strong> A munkatárs visszavonta a jelentkezését, még mielőtt a szakellátóhely vezető reagálhatott volna rá.</li>\r\n  <li><strong>Meghívó elutasítva:</strong> A munkatárs elutasították a meghívást, amit a szakellátóhely vezető küldött neki.</li>\r\n   <li><strong>Meghívó visszavonva:</strong> A szakellátóhely vezető visszavonta a meghívását, még mielőtt a munkatárs reagálhatott volna rá.</li>\r\n</ul>" },
+                      "LayerMetadata": {
+                        "Position": 11.0,
+                        "Zone": "AsideRightInformation",
+                        "Layer": "My workplaces"
+                      }
+                    },
+                    {
+                      "ContentItemId": "[js:uuid()]",
+                      "ContentItemVersionId": null,
+                      "ContentType": "ColleagueWorkplaceBlock",
+                      "DisplayText": "Infó - munkahelyeim",
+                      "Latest": false,
+                      "Published": false,
+                      "Owner": "[js: parameters('AdminUsername')]",
+                      "Author": "[js: parameters('AdminUsername')]",
+                      "InfoBlockPart": { "BlockTitle": null },
+                      "BootstrapStylePart": { "Style": "primary" },
+                      "ColleagueWorkplaceBlockPart": {
+                        "ColleagueWorkplaceTab": 1,
+                        "ColleagueStatusGroup": "GreenZone"
+                      },
+                      "LiquidPart": { "Liquid": "Új munkakörre jelentkezni akkor van lehetőség, \r\n ha a szakellátóhely minősítése nincs folyamatban és a szakellátóhely vezető ellenőrzése alatt áll." },
+                      "LayerMetadata": {
+                        "Position": 11.0,
+                        "Zone": "AsideRightInformation",
+                        "Layer": "My workplaces"
+                      }
+                    }
+                  ]
+                },
+                "LayerMetadata": {
+                  "Position": 11.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My workplaces"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 11.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "My workplaces",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - adataim",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - adataim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Amennyiben személyes adatai nem naprakészek, kérjük frissítse azokat az MDT honlapján.</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"{{ \"https://www.doki.net/tarsasag/diabetes/adatmodositas.aspx\" | web_id}}\" target=\"_blank\">www.diabet.hu </a></p>" },
+                "LayerMetadata": {
+                  "Position": 14.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My datas"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - adataim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "ÁEEK - alap-és működési kereső" },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>Az ÁEEK keresőben név és nyilvántartási szám alapján minden rendelkezésre álló adat kereshető és ellenőrizhető:</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"https://kereso.enkk.hu/index.php\" target=\"blank\">ÁEEK kereső </a></p>" },
+                "LayerMetadata": {
+                  "Position": 14.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My datas"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - adataim",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "secondary" },
+                "LiquidPart": { "Liquid": "<p>Szakellátóhelyre történő jelentkezés esetén az egyes munkakörökhöz az alábbi képesítések szükségesek:</p>\r\n<p><strong>Orvos:</strong></p>\r\n<ul>\r\n<li>Általános orvos</li>\r\n<li>Belgyógyász</li>\r\n<li>Belgyógyász-diabetológus</li>\r\n<li>Endokrinológus</li>\r\n<li>Gyermekgyógyász-diabetológus</li>\r\n<li>Háziorvos</li>\r\n</ul>\r\n<p><strong>Dietetikus:</strong></p>\r\n<ul>\r\n<li>Dietetikus</li>\r\n</ul>\r\n<p><strong>Diabetológiai szakápoló és edukátor:</strong></p>\r\n<ul>\r\n<li>Diabetológiai szakápoló és edukátor<br/>(jelenlegi OKJ szerint: 55.723.03)</li>\r\n</ul>\r\n<p><strong>Ápoló:</strong></p>\r\n<ul>\r\n<li>Ápoló (Jelenlegi OKJ szerint: 55.723.01)</li>\r\n<li>Csecsemő és gyermekápoló <br/>(jelenlegi OKJ szerint 55.723.03)</li>\r\n<li>Felnőtt szakápoló (korábbi OKJ szerint)</li>\r\n<li>Gyermek szakápoló (korábbi OKJ szerint)</li>\r\n<li>Szakápoló (korábbi OKJ szerint)</li>\r\n</ul>\r\n<p><strong>Körzeti közösségi ápoló:</strong></p>\r\n<ul>\r\n<li>Alapellátási közösségi szakápoló <br/>(jelenlegi OKJ szerint: 55.723.16)</li>\r\n</ul>\r\n<p><strong>Gyógytornász:</strong></p>\r\n<ul>\r\n<li>Gyógytornász</li>\r\n</ul>" },
+                "LayerMetadata": {
+                  "Position": 14.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "My datas"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 14.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "My datas",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Infó - térképes nézet",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "InfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - térképes nézet",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>A szakellátóhelyek megjelenítése tetszés szerint szűkíthető. Lehetőség van szabad szavas keresésre. <strong>FONTOS!</strong> \r\n  Keresés esetén a megjelenített szakellátóhelyek szerinti szűrési feltétel is érvényesül!</p>\r\n<p>A lista-nézet a fejlécek szerint rendezhető.</p>" },
+                "LayerMetadata": {
+                  "Position": 15.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Map"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": "Infó - térképes nézet",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "<p>A további adatok megtekintéséhez kattintson a szakellátóhely nevére.</p>" },
+                "LayerMetadata": {
+                  "Position": 15.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Map"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "AccreditationStatusBlock",
+                "DisplayText": "Infó - térképes nézet",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "AccreditationStatusBlockPart": {},
+                "LayerMetadata": {
+                  "Position": 16.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Map"
+                }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileStatusBlock",
+                "DisplayText": "Infó - térképes nézet",
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "CenterProfileStatusBlockPart": {},
+                "LayerMetadata": {
+                  "Position": 16.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Map"
+                }
+              }
+            ]
+          },
+          "LayerMetadata": {
+            "Position": 15.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Map",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "CenterProfileEditorInfoBlockContainer",
+          "DisplayText": null,
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "CenterProfileEditorInfoBlockContainerPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 0,
+                  "DiabetesCareCenterTenants": 1
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, töltse ki a szakellátóhely létrehozásához szükséges alapadatokat!</p>\r\n<p>A kérlemet benyújtó személy lesz a létrehozni kívánt szakellátóhely vezetője.</p>\r\n<p><strong>A csillaggal jelölt mezők megadása kötelező!</strong></p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 0,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, a szakellátóhely minősítésének megújításához ellenőrizze és szükség esetén frissítse az alapadatokat.</p>\r\n<p><strong>A csillaggal jelölt mezők megadása kötelező!</strong></p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 0,
+                  "DiabetesCareCenterTenants": 0
+                },
+                "LiquidPart": { "Liquid": "<p>Amennyiben személyes adatai nem naprakészek, kérjük frissítse azokat az MDT honlapján.</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"{{ \"https://www.doki.net/tarsasag/diabetes/adatmodositas.aspx\" | web_id}}\" target=\"_blank\">www.diabet.hu</a></p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 1,
+                  "DiabetesCareCenterTenants": 1
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, töltse ki a szakellátóhely létrehozásához szükséges kiegészítő adatokat!</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 1,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, a szakellátóhely minősítésének megújításához ellenőrizze és szükség esetén frissítse a kiegészítő adatokat.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 2,
+                  "DiabetesCareCenterTenants": 1
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, töltse ki a szakellátóhely létrehozásához rendelkezésre álló tárgyi eszközök listáját.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 2,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, a szakellátóhely minősítésének megújításához ellenőrizze és szükség esetén frissítse \r\n  a rendelkezésre álló tárgyi eszközök listáját.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Szakellátóhely munkatársai" },
+                "BootstrapStylePart": { "Style": "success" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 3,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>A szakellátóhely aktuális munkatársainak listája Név, email, betöltött munkakör, státusz.</p>\r\n<p><strong>Státuszok:</strong></p>\r\n<ul>\r\n  <li><strong>Meglévő:</strong> Azon munkatársak, amelyek jelenleg is \r\n    a szakellátóhelyen a megjelölt munkakörben dolgoznak.</li>\r\n  <li><strong>Jelentkezés elfogadva:</strong> Azok a munkatársak, akiknek a jelentkezését az adott munkakörre a szakellátóhely\r\n  vezetője jóváhagyta.</li>\r\n  <li><strong>Meghívás elfogadva:</strong> Azok a munkatársak, akik a szakellátóhely vezető meghívását \r\n    elfogadták az adott munkakörre.</li>\r\n</ul>\r\n<p><span class=\"border border-info rounded px-2 py-1 text-white bg-gradient-info\">\r\n  <i class=\"fas fa-info\"></i></span> gombra kattintva a munkatárs adatlapja tekinthető meg.</p>\r\n<p><span class=\"border border-danger rounded px-2 py-1 text-white bg-gradient-danger\"><i class=\"fas fa-trash-alt\"></i></span> gombra kattintva a munkatárs törölhető.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Függőben lévő jelentkezések és meghívók" },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 3,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>A szakellátóhely vezető által meghívott, valamint a jelentkezett munkatársak listája.</p>\r\n<p><p><span class=\"bg-gradient-success rounded px-2 py-1 text-white\"><i class=\"fa fa-user-plus\"></i> Meghívás</span> gombra kattintva új munkatárs hívható meg a kiválaszott munkakörre.</p>\r\n<p><strong>Státuszok:</strong></p>\r\n<ul>\r\n  <li><strong>Meghívva:</strong> Azok a munkatársak, akiket a szakellátóhely vezető meghívott az adott munkakörre.</li>\r\n  <li><strong>Jelentkezés:</strong> Azok a munkatársak, jelentkeztek az adott munkakörre.</li>\r\n  \r\n</ul>\r\n<p><span class=\"border border-info rounded px-2 py-1 text-white bg-gradient-info\">\r\n  <i class=\"fas fa-info\"></i></span> gombra kattintva a munkatárs adatlapja tekinthető meg.</p>\r\n<p><span class=\"border border-info rounded px-2 py-1\"><i class=\"fas fa-envelope text-info\"></i></span> gombra kattintva a meghívó újraküldhető\r\n(a munkakör ez esetben változtatható).</p>\r\n<p><span class=\"border border-success rounded px-2 py-1 text-white bg-gradient-success\"><i class=\"fas fa-check\"></i></span> gombra kattintva a jelentkezés elfogadásra kerül.</p>\r\n<p><span class=\"border border-danger rounded px-2 py-1 text-white bg-gradient-danger\"><i class=\"fas fa-trash-alt\"></i></span> gombra kattintva \r\n  a munkatárs meghívása, vagy a munkatárs jelentkezése törölhető.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Törlések, visszavonások, elutasítások" },
+                "BootstrapStylePart": { "Style": "danger" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 3,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>Szakellátóhely vezető által törölt vagy elutasított, \r\n  vagy munkatárs által törölt vagy visszavont személyek listája.</p>\r\n<p><strong>Státuszok:</strong></p>\r\n<ul>\r\n  <li><strong>Törölve vezető által:</strong> Azok a munkatársak, akiket a szakellátóhely vezető törölt\r\n    az adott munkakörből.</li>\r\n  <li><strong>Törölve munkatárs által:</strong> Azok a munkatársak, törölték magukat az adott munkakörből.</li>\r\n  <li><strong>Jelentkezés elutasítva:</strong> Azok a munkatársak, akiknek a jelentkezését a szakellátóhely vezető\r\n    elutasította.</li>\r\n    <li><strong>Jelentkezés visszavonva:</strong> Azok a munkatársak, akik visszavonták a jelentkezésüket, még \r\n      mielőtt a szakellátóhely vezető reagálhatott volna rá.</li>\r\n  <li><strong>Meghívó elutasítva:</strong> Azok a munkatársak, elutasították a meghívást, amit a\r\n    szakellátóhely vezető küldött nekik.</li>\r\n   <li><strong>Meghívó visszavonva:</strong> Azok a munkatársak, akiknél a szakellátóhely \r\n     vezető visszavonta a meghívását, még mielőtt a munkatárs reagálhatott volna rá.</li>\r\n</ul>\r\n<p><span class=\"border border-info rounded px-2 py-1 text-white bg-gradient-info\">\r\n  <i class=\"fas fa-info\"></i></span> gombra kattintva a munkatárs adatlapja tekinthető meg.</p>\r\n<p><span class=\"border border-danger rounded px-2 py-1 \"><i class=\"fas fa-envelope text-danger\"></i></span> gombra kattintva a meghívó újraküldhető\r\n(a munkakör ez esetben változtatható).</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "ÁEEK - alap-és működési kereső" },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 3,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>Az ÁEEK keresőben név és nyilvántartási szám alapján minden rendelkezésre álló adat kereshető és ellenőrizhető:</p>\r\n<p class=\"text-center\"><a class=\"btn btn-primary\" href=\"https://kereso.enkk.hu/index.php\" target=\"blank\">ÁEEK kereső </a></p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": "Összegzés" },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 4,
+                  "DiabetesCareCenterTenants": 1
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, tekintse át a szakellátóhely létrehozásához megadott adatokat!</p>\r\n<p>Ha változtatni szeretne, kérjük lépjen vissza a megfelelő ponthoz és javítsa az adatokat.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 4,
+                  "DiabetesCareCenterTenants": 2
+                },
+                "LiquidPart": { "Liquid": "<p>Kérjük, tekintse át a szakellátóhely minősítésének megújításához megadott adatokat!</p>\r\n<p>Ha változtatni szeretne, kérjük lépjen vissza a megfelelő ponthoz és javítsa az adatokat.</p>" }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "warning" },
+                "CenterProfileEditorInfoBlockPart": {
+                  "CenterProfileEditorStep": 4,
+                  "DiabetesCareCenterTenants": 0
+                },
+                "LiquidPart": { "Liquid": "<p><strong>Fontos!</strong> A kérelem benyújtását követően a szakellátóhely adatlapja nem módosítható! \r\n  A benyújtott adatok ellenőrzésre kerülnek először a területi referens, majd az OMKB tagok, \r\n  végül az MDT vezetőség által. Az ellenőrzés egyes lépéseiről email-ben értesítjük. \r\nAz ellenőrzési folyamat állapota a szakellátóhely áttkeintő adatlapján folyamatosan követhető. </p>" }
+              }
+            ]
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "CenterProfileOverviewContainerBlock",
+          "DisplayText": null,
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "CenterProfileOverviewContainerBlockPart": {},
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "InfoBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "InfoBlockPart": { "BlockTitle": null },
+                "BootstrapStylePart": { "Style": "info" },
+                "LiquidPart": { "Liquid": "A szakellátóhely adatlap áttekintése. A minősítés megújításának elkezdéséhez kattintson az <strong>\"Adatlap megnyitása szerkesztésre\"</strong> gombra." }
+              },
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "AccreditationStatusBlock",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "Owner": "[js: parameters('AdminUsername')]",
+                "Author": "[js: parameters('AdminUsername')]",
+                "AccreditationStatusBlockPart": {}
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "tokenizedemail",
+      "emails": [
+        {
+          "TemplateId": "CenterProfileCreated",
+          "RawBody": "Tisztelt címzett!\n\nAz alábbi szakellátóhely létrehozása iránti kérelem lett benyújtva:\n\nVezető: -LeaderName-\nSzakellátóhely neve: -CenterName-",
+          "Subject": "Szakellátóhely létrehozása iránti kérelem benyújtva"
+        },
+        {
+          "TemplateId": "CenterProfileCreatedFeedback",
+          "RawBody": "Tisztelt -LeaderName-!\n\nÖn új szakellátóhelyet iránti kérelmet nyújtott be. A szakellátóhely neve <strong>'-CenterName-'</strong>\n\nA szakellátóhely technikai elkészültéig szíves türelmét kérjük, amint elkészült értesíteni fogjuk!",
+          "Subject": "Szakellátóhely adatlap iránti kérelem benyújtva"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_CancelInvitation_ToNonMember",
+          "RawBody": "Tisztelt -ColleagueName-!\n\nA szakellátóhely vezető visszavonta a meghívást:\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n\nÖnnek további teendője nincs.",
+          "Subject": "Felkérés törölve"
+        },
+        {
+          "TemplateId": "CenterProfileLeaderChangedBeforeAssignment",
+          "RawBody": "Tisztelt címzett!\n\nAz alábbi szakellátóhely esetén vezetőváltás történt, még mielőtt a tenant létrejött volna.\nA tenant létrehozása során kérjük, ezt vegye figyelembe!\n\n<strong>Vezető:</strong> -NewLeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-",
+          "Subject": "Szakellátóhely-vezető leváltás történt"
+        },
+        {
+          "TemplateId": "CenterProfileSubmission",
+          "RawBody": "Tisztelt -ReviewerMemberFullName-!\n\nAz Ön területén szakellátóhely minősítési kérelem érkezett.\n\nA szakellátóhely adatai:\n<strong>Vezető:</strong> -CenterLeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n\nA szakellátóhely adatlapját az alábbi hivatkozásra kattintva éri el:\n<a href=\"-Nonce-\">Szakellátóhely adatlap megtekintése</a>",
+          "Subject": "Szakellátóhely bejelentése"
+        },
+        {
+          "TemplateId": "CenterProfileSubmissionFeedback",
+          "RawBody": "Tisztelt -CenterLeaderName-!\n\nÖn sikeresen benyújtotta az alábbi szakellátóhely adatlapját az illetékes területi referens felé:\n\n<strong>Szakellátóhely:</strong> -CenterName-\n<strong>Területi referens:</strong> -Reviewers-",
+          "Subject": "Szakellátóhely bejelentése - visszaigazolás"
+        },
+        {
+          "TemplateId": "CenterProfileAssignedOnTenant",
+          "RawBody": "Tisztelt -LeaderName-!\n\nÉrtesítjük, hogy <strong>-CenterName-</strong> névvel indított szakellátóhelye technikailag elkészült.\n\nA korábban megadott adatokat az alábbi linkre kattintva tudja megtekinteni és módosítani.\n\n<a href=\"-Nonce-\">Belépés a szakellátóhely adatlaphoz</a>",
+          "Subject": "Értesítés a szakellátóhely technikai létrejöttéről"
+        },
+        {
+          "TemplateId": "CenterProfileLeaderChanged",
+          "RawBody": "Tisztelt -NewLeaderName-!\n\nAz MDT vezetősége Önt szakellátóhely vezetővé nevezte ki.\n\n<strong>Szakellátóhely neve: </strong> -CenterName-\n\nA szakellátóhely adatlapját az alábbi linken éri el:\n\n<a href=\"-Nonce-\">Adatlap megtekintése</a>",
+          "Subject": "Szakellátóhely-vezető kinevezés"
+        },
+        {
+          "TemplateId": "ColleagueAction_ApplicationCancelled",
+          "RawBody": "Tisztelt -LeaderName-!\n\nA munkatárs <strong>visszavonta</strong> jelentkezését az Ön szakellátóhelyére.\n\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkatárs neve:</strong> -ColleagueName-\n<strong>Munkakör:</strong> -Occupation-\n\nA szakellátóhely munkatársakat az alábbi linkre kattintva tudja kezelni:\n<a href=\"-Nonce-\">Szakellátóhely adatlap áttekintése</a>",
+          "Subject": "Munkatárs jelenkezés visszavonva"
+        },
+        {
+          "TemplateId": "ColleagueAction_ApplicationSubmitted",
+          "RawBody": "Tisztelt -LeaderName-!\n\nMunkatárs jelentkezett az Ön szakellátóhelyére:\n\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkatárs neve:</strong> -ColleagueName-\n<strong>Munkakör:</strong> -Occupation-\n\nA szakellátóhely munkatársakat az alábbi linkre kattintva tudja kezelni\n<a href=\"-Nonce-\">Szakellátóhely adatlap áttekintése</a>",
+          "Subject": "Munkatárs jelenkezés történt"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_AcceptApplication",
+          "RawBody": "Tisztelt -ColleagueName-!\nA szakellátóhely vezető <strong>elfogadta</strong> jelentkezését\nA szakellátóhely adatai:\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkakör:</strong> -Occupation-\n\nJelenlegi munkaköreit az alábbi linkre kattintva tudja áttekinteni:\n<a href=\"-Nonce-\">Munkaköreim áttekintése</a>",
+          "Subject": "Jelentkezés elfogadva"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_CancelInvitation_ToMember",
+          "RawBody": "Tisztelt -ColleagueName-!\n\nA szakellátóhely vezető visszavonta a meghívást:\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n\nJelenlegi munkaköreit az alábbi linkre kattintva tudja áttekinteni:\n<a href=\"-Nonce-\">Munkaköreim áttekintése</a>",
+          "Subject": "Felkérés törölve"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_ColleagueInvitation_ToMember",
+          "RawBody": "Tisztelt -ColleagueName-!\n\nA szakellátóhely vezető meghívta Önt a munkatársai közé -Occupation- munkakörre.\n\nA szakellátóhely adatai:\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n\nHa elfogadja a meghívást, kérjük kattintson ide:\n<a href=\"-NonceAccept-\">Elfogadom</a>\n\nHa elutasítja a meghívást, kérjük kattintson ide:\n<a href=\"-NonceReject-\">Elutasítom</a>",
+          "Subject": "Munkatársi meghívó"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_ColleagueInvitation_ToNonMember",
+          "RawBody": "Tisztelt -ColleagueName-!\n\nA szakellátóhely vezető meghívta Önt a munkatársai közé -Occupation- munkakörre.\n\nA szakellátóhely adatai:\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n\nÖn még nem tagja a Magyar Diabetes Társaságnak, ezért először az MDT honlapján tudja elindítani tagi regisztrációját:\n<a href=\"https://www.doki.net/tarsasag/diabetes/rar2.aspx?t=2\">Belépés kezdeményezése az MDT tagságába</a>\n\nMiután tagsági kérelmét az MDT elfogadta, az alábbi hivatkozásra kattintva tudja elfogadni a meghívót:\n<a href=\"-AfterSignUpUrl-\">Elfogadom</a>\n\nHa a meghívót nem szeretné elfogadni, úgy kérjük hagyja figyelmen kívül ezt a levelet.",
+          "Subject": "Munkatársi meghívó"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_RejectApplication",
+          "RawBody": "Tisztelt -ColleagueName-!\n\nA szakellátóhely vezető <strong>elutasította</strong> jelentkezését.\n\nA szakellátóhely adatai\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkakör</strong> -Occupation-\n\nTovábbi munkaköreit az alábbi linkre kattintva tudja áttekinteni:\n<a href=\"-Nonce-\">Munkaköreim áttekintése</a>",
+          "Subject": "Jelentkezés elutasítva"
+        },
+        {
+          "TemplateId": "ColleagueAction_ByLeader_RemoveActive",
+          "RawBody": "Tisztelt -ColleagueName-!\n\nA szakellátóhely vezető törölte Önt meglévő munkaköréből\n\nA szakellátóhely adatai\n\n<strong>Vezető:</strong> -LeaderName-\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkakör</strong> -Occupation-\n\n(Jelenlegi munkakörének megszűnése a megújítási időszak lezártultát követően lép érvénybe)\n\nTovábbi munkaköreit az alábbi linkre kattintva tudja áttekinteni:\n<a href=\"-Nonce-\">Munkaköreim áttekintése</a>",
+          "Subject": "Törlés a szakellátóhelyről"
+        },
+        {
+          "TemplateId": "ColleagueAction_InvitationAccepted",
+          "RawBody": "Tisztelt -LeaderName-!\n\nA munkatárs <strong>elfogadta</strong> a meghívást.\n\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkatárs neve:</strong> -ColleagueName-\n<strong>Munkakör:</strong> -Occupation-\n\nA szakellátóhely munkatársakat az alábbi linkre kattintva tudja kezelni\n<a href=\"-Nonce-\">Szakellátóhely adatlap áttekintése</a>",
+          "Subject": "Meghívás elfogadva"
+        },
+        {
+          "TemplateId": "ColleagueAction_InvitationRejected",
+          "RawBody": "Tisztelt -LeaderName-!\n\nA munkatárs <strong>elutasította</strong> a meghívást.\n\n<strong>Szakellátóhely neve:</strong> -CenterName-\n<strong>Munkatárs neve:</strong> -ColleagueName-\n<strong>Munkakör:</strong> -Occupation-\n\nA szakellátóhely munkatársakat az alábbi linkre kattintva tudja kezelni\n<a href=\"-Nonce-\">Szakellátóhely adatlap áttekintése</a>",
+          "Subject": "Meghívás elutasítva"
+        },
+        {
+          "TemplateId": "RenewalPeriodSubmissionReminder",
+          "RawBody": "Tisztelt -LeaderName-!\n\nKérjük, -CenterName- nevű szakellátóhelyéhez a frissített információkat elküldeni szíveskedjék.\n\nA szakellátóhely adatlapját az alábbi linkre kattintva találja:\n<a href=\"-Nonce-\">Szakellátóhelyeim áttekintése</a>\n\nBeküldési határidő: -Deadline-",
+          "Subject": "Szakellátóhely megújítási időszak - emlékeztető"
+        },
+        {
+          "TemplateId": "CenterProfileAccepted",
+          "RawBody": "Tisztelt -PersonName-!\n\nÉrtesítjük, hogy <strong>-CenterName-</strong> nevű szakellátóhely adatlap <u>-CurrentRole-</u> által <strong>elfogadásra</strong> került.\n\nMinősítési szint: <strong>-AccreditationStatus-</strong>",
+          "Subject": "Szakellátóhely adatlap elfogadva"
+        },
+        {
+          "TemplateId": "CenterProfileRejected",
+          "RawBody": "Tisztelt -PersonName-!\n\nÉrtesítjük, hogy <strong>-CenterName-</strong> nevű szakellátóhely adatlap <u>-CurrentRole-</u> által <strong>elutasításra</strong> került.\n\nIndoklás:\n-RejectReason-\n\nA szakellátóhely adatlapját az alábbi linkre kattintva tudja megtekinteni:\n<a href=\"-Nonce-\">Belépés a szakellátóhely adatlaphoz</a>",
+          "Subject": "Szakellátóhely adatlap elutasítva"
+        }
+      ]
+    },
+    {
+      "name": "themes",
+      "admin": "OrganiMedCore.AdminTheme",
+      "site": "OrganiMedCore.DiabetesCareCenterManager.Theme"
+    },
+    {
+      "name": "Layers",
+      "Layers": [
+        {
+          "Name": "Homepage",
+          "Rule": "isHomepage()",
+          "Description": null
+        },
+        {
+          "Name": "Users",
+          "Rule": "url(\"~/szeh-felhasznalok\")",
+          "Description": null
+        },
+        {
+          "Name": "User create or edit",
+          "Rule": "url(\"~/szeh-felhasznalok/*\")",
+          "Description": null
+        },
+        {
+          "Name": "Territorial rapporteurs & consultants",
+          "Rule": "url(\"~/szeh-referensek-es-szaktanacsadok\")",
+          "Description": null
+        },
+        {
+          "Name": "Center profiles' list",
+          "Rule": "url(\"~/szakellatohely/lista\")",
+          "Description": null
+        },
+        {
+          "Name": "One center profile",
+          "Rule": "url(\"~/szakellatohely/adatlap\")",
+          "Description": null
+        },
+        {
+          "Name": "Center profile history",
+          "Rule": "url(\"~/szakellatohely/elozmenyek\")",
+          "Description": null
+        },
+        {
+          "Name": "Change center profile leader",
+          "Rule": "url(\"~/szakellatohely/vezeto-levaltas/*\")",
+          "Description": null
+        },
+        {
+          "Name": "My center profiles - prerequisites",
+          "Rule": "url(\"~/szakellatohely/kepesites\")",
+          "Description": null
+        },
+        {
+          "Name": "My center profiles",
+          "Rule": "url(\"~/szakellatohely/sajat\")",
+          "Description": null
+        },
+        {
+          "Name": "Create center profile",
+          "Rule": "url(\"~/szakellatohely/letrehozas/*\")",
+          "Description": "Only in szeh manager!"
+        },
+        {
+          "Name": "My workplaces",
+          "Rule": "url(\"~/munkahelyeim\")",
+          "Description": null
+        },
+        {
+          "Name": "Workplace confirmation",
+          "Rule": "url(\"~/munkahely/megerosit/*\")",
+          "Description": null
+        },
+        {
+          "Name": "Workplace cancellation",
+          "Rule": "url(\"~/munkahely/torles/*\")",
+          "Description": null
+        },
+        {
+          "Name": "My datas",
+          "Rule": "url(\"~/szeh-adataim\")",
+          "Description": null
+        },
+        {
+          "Name": "Map",
+          "Rule": "url(\"~/terkep\")",
+          "Description": null
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "Culture": "hu-HU",
+      "SupportedCultures": [ "hu-HU" ],
+      "SiteName": "SZEH",
+      "LoginSettings": { "UseSiteTheme": true },
+      "HomeRoute": {
+        "Action": "Index",
+        "Controller": "Home",
+        "Area": "OrganiMedCore.DiabetesCareCenterManager"
+      },
+      "CenterProfileEquipmentsSettings": {
+        "ToolsList": [
+          {
+            "Id": "d286ce300da344fbab3cf7804472f922",
+            "Caption": "Testsúly mérésére alkalmas mérleg",
+            "Required": true,
+            "Order": 0,
+            "Type": 0
+          },
+          {
+            "Id": "e6da5be6521b4c35834bffb675a9798d",
+            "Caption": "Testmagasság mérésére alkalmas eszköz",
+            "Required": true,
+            "Order": 1,
+            "Type": 0
+          },
+          {
+            "Id": "35c8f160d1814a879941290fcbe1d37d",
+            "Caption": "Testkörfogat mérésére alkalmas eszköz",
+            "Required": true,
+            "Order": 2,
+            "Type": 0
+          },
+          {
+            "Id": "6ab7d57860574b79bf3def92595d3fc2",
+            "Caption": "Kalibrált hangvilla",
+            "Required": true,
+            "Order": 3,
+            "Type": 0
+          },
+          {
+            "Id": "847e0f4c9eaf4d7a9ebb30d236407dd4",
+            "Caption": "Gyors vércukormérésre alkalmas eszköz",
+            "Required": true,
+            "Order": 4,
+            "Type": 0
+          },
+          {
+            "Id": "26b718a4255a4df99f90809b24565a69",
+            "Caption": "Vérnyomásmérő",
+            "Required": true,
+            "Order": 5,
+            "Type": 0
+          },
+          {
+            "Id": "411f29dc0ac74cb09272de78f7b93940",
+            "Caption": "ABPM készülék",
+            "Required": false,
+            "Order": 6,
+            "Type": 0
+          },
+          {
+            "Id": "3545a639775b4a27b9a27a14a832b9c5",
+            "Caption": "EKG készülék",
+            "Required": false,
+            "Order": 7,
+            "Type": 0
+          },
+          {
+            "Id": "7c201e4579d248609b8070a1b95b4063",
+            "Caption": "MiniDoppler készülék",
+            "Required": false,
+            "Order": 8,
+            "Type": 0
+          },
+          {
+            "Id": "9f7d7b2b13e24f86b83da522475f450c",
+            "Caption": "CGM",
+            "Required": false,
+            "Order": 9,
+            "Type": 0
+          },
+          {
+            "Id": "833ea59a940042bea8e5d2bde87e7cd4",
+            "Caption": "Test-zsír meghatározó készülék",
+            "Required": false,
+            "Order": 10,
+            "Type": 0
+          }
+        ],
+        "LaboratoryList": [
+          {
+            "Id": "88e6dabed0854b769656dff60218b475",
+            "Caption": "Vércukormérés",
+            "Required": true,
+            "Order": 0,
+            "Type": 1
+          },
+          {
+            "Id": "934daf37ddcd4481b50b847861c9d788",
+            "Caption": "HbA1c mérés",
+            "Required": true,
+            "Order": 1,
+            "Type": 1
+          },
+          {
+            "Id": "087d39b797a94c83b65da5895bb09ed5",
+            "Caption": "Fruktózamin mérés",
+            "Required": false,
+            "Order": 2,
+            "Type": 1
+          },
+          {
+            "Id": "0eb896078ffc4191a877402bff038a72",
+            "Caption": "Vérzsír mérés (koleszterin, triglicerid, HDL, LDL)",
+            "Required": true,
+            "Order": 3,
+            "Type": 1
+          },
+          {
+            "Id": "51655d6124304dd484aa82bda4383b35",
+            "Caption": "Húgysav meghatározására szolgáló laboratóriumi háttér",
+            "Required": true,
+            "Order": 4,
+            "Type": 1
+          },
+          {
+            "Id": "9dad1c82d2bb466d8710356da7a04519",
+            "Caption": "Mikroalbumin mérés vagy albumin / kreatinin hányados",
+            "Required": true,
+            "Order": 5,
+            "Type": 1
+          },
+          {
+            "Id": "9a928c6f7dbe400aa61bbbe73cf1c591",
+            "Caption": "Ion mérés (Na, Ca, K, Mg, P / nátrium, kalcium, kálium, magnézium, foszfor)",
+            "Required": true,
+            "Order": 6,
+            "Type": 1
+          },
+          {
+            "Id": "78c4e939968142118b05477b3d2cbca6",
+            "Caption": "Vese funkció mérés (kreatinin, karbamid, GFR, e-GFR)",
+            "Required": true,
+            "Order": 7,
+            "Type": 1
+          }
+        ]
+      },
+      "AccreditationPersonalConditionSettings": {
+        "Accredited": [
+          {
+            "Occupation": 0,
+            "HeadCount": 2
+          },
+          {
+            "Occupation": 1,
+            "HeadCount": 1
+          },
+          {
+            "Occupation": 2,
+            "HeadCount": 1
+          }
+        ],
+        "TemporarilyAccredited": [
+          {
+            "Occupation": 0,
+            "HeadCount": 2
+          },
+          {
+            "Occupation": 1,
+            "HeadCount": 1
+          },
+          {
+            "Occupation": 2,
+            "HeadCount": 1
+          }
+        ]
+      },
+      "SmtpSettings": {
+        "DefaultSender": "noreply@mdt-szakellatohelyek.hu",
+        "DeliveryMethod": 0,
+        "PickupDirectoryLocation": null,
+        "Host": "smtp.sendgrid.net",
+        "Port": 25,
+        "EnableSsl": true,
+        "RequireCredentials": true,
+        "UseDefaultCredentials": false,
+        "UserName": "apikey",
+        "Password": ""
+      },
+      "OmcLoginSettings": {
+        "UseDokiNetLogin": true,
+        "UseOrganiMedCoreLogin": true,
+        "UseLocalLogin": true,
+        "DefaultLoginMethod": 3
+      }
+    },
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "diabetes-care-center-manager"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "information-oriented-theme"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "info-widget"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "dcc-info-widget"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "uri-authentication"
+        }
+      ]
+    },
+    {
+      "name": "AdminMenu",
+      "data": [
+        {
+          "Id": "baef6f85ad13481681cde70ada401333",
+          "Name": "Admin menus",
+          "Enabled": true,
+          "MenuItems": [
+            {
+              "$type": "OrchardCore.AdminMenu.AdminNodes.LinkAdminNode, OrchardCore.AdminMenu",
+              "LinkText": "Layers & Widgets",
+              "LinkUrl": "OrchardCore.Layers/Admin/Index",
+              "IconClass": "fas fa-info-circle",
+              "UniqueId": "6b6a6f5e7ea04e4e8bc7563af251cd31",
+              "Enabled": true,
+              "Text": null,
+              "Id": null,
+              "Href": null,
+              "Url": null,
+              "Position": "150",
+              "LinkToFirstChild": true,
+              "LocalNav": false,
+              "Culture": null,
+              "Resource": null,
+              "Items": [
+              ],
+              "RouteValues": null,
+              "Permissions": [
+              ],
+              "Classes": [
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

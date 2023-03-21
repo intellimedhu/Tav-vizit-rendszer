@@ -1,0 +1,26 @@
+﻿@model CenterProfileRenewalViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+
+<dl class="row">
+    @if (Model.RenewalAccreditationStatus.HasValue)
+    {
+        <dt class="col-sm-4 text-sm-right">
+            @T["Akkreditációs állapot (folyamatban)"]
+        </dt>
+        <dd class="col-sm-8">
+            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: Model.RenewalAccreditationStatus.Value))
+        </dd>
+    }
+
+    @if (Model.RenewalCenterProfileStatus.HasValue)
+    {
+        <dt class="col-sm-4 text-sm-right">
+            @T["Ellenőrzés státusza (folyamatban)"]
+        </dt>
+        <dd class="col-sm-8">
+
+            @await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: Model.RenewalCenterProfileStatus.Value))
+
+        </dd>
+    }
+</dl>

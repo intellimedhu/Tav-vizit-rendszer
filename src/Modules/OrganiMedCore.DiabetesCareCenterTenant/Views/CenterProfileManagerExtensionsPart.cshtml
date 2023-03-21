@@ -1,0 +1,43 @@
+﻿@model CenterProfileRenewalViewModel
+@using Microsoft.Extensions.DependencyInjection
+@using OrchardCore.Modules
+@using IntelliMed.Core.Services
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.Services
+@using OrganiMedCore.DiabetesCareCenter.Core.Settings
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrganiMedCore.DiabetesCareCenterTenant.Extensions
+@inject ISharedDataAccessorService sharedDataAccessorService
+@inject IClock clock
+@{
+    CenterRenewalSettings renewalSettings;
+    using (var scope = await sharedDataAccessorService.GetCareCenterManagerServiceScopeAsync())
+    {
+        renewalSettings = await scope.ServiceProvider.GetRequiredService<IRenewalPeriodSettingsService>()
+            .GetCenterRenewalSettingsAsync();
+    }
+
+    var currentFullPeriod = renewalSettings.GetCurrentFullPeriod(clock.UtcNow);
+}
+
+@if ((currentFullPeriod != null || Model.IsInRenewalProcess()) && Model.RenewalAccreditationStatus.HasValue)
+{
+    <dl class="row">
+        <dt class="col-sm-5 text-sm-right">
+            @T["Várható minősítés"]
+        </dt>
+        <dd class="col-sm-7">
+            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: Model.RenewalAccreditationStatus.Value))
+        </dd>
+
+        @if (Model.RenewalCenterProfileStatus.HasValue)
+        {
+            <dt class="col-sm-5 text-sm-right">
+                @T["A minősítés felülvizsgálatának jelenlegi állapota"]
+            </dt>
+            <dd class="col-sm-7">
+                @await DisplayAsync(await New.CenterProfileStatus(CenterProfileStatus: Model.RenewalCenterProfileStatus.Value))
+            </dd>
+        }
+    </dl>
+}

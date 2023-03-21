@@ -1,0 +1,22 @@
+﻿@model IEnumerable<AccessLogViewModel>
+@using OrganiMedCore.Manager.ViewModels
+
+<h1>@T["Access logs"]</h1>
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var file in Model)
+        {
+            <li>
+                <a asp-route-action="Display" asp-route-id="@file.Name">@file.Date.ToShortDateString()</a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="text-muted">
+        @T["No access log files."]
+    </p>
+}

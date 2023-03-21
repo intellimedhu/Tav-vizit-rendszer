@@ -1,0 +1,94 @@
+﻿@import "variables";
+@import "../../../Modules/Bootstrap/bootstrap/scss/bootstrap";
+@import "messages";
+@import "validations";
+
+body {
+    margin-bottom: 20px !important;
+}
+
+.user-dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.container,
+.container-fluid {
+    &.information-oriented-main-container {
+        margin-top: ($font-size-base * $line-height-base + $nav-link-padding-y * 2) + $spacer * 1.5;
+        padding-top: $spacer * 1.25;
+
+        .modal-dialog {
+            margin-top: 60px;
+        }
+    }
+}
+
+.sticky-top-information {
+    border: 1px solid $gray-300;
+    border-radius: $border-radius;
+    //padding: map-get($spacers, 3);
+    top: 84px;
+}
+
+table, .table {
+    &.table-v-top {
+        thead th,
+        tbody td {
+            vertical-align: top;
+        }
+    }
+
+    &.table-v-center {
+        thead th,
+        tbody td {
+            vertical-align: middle;
+        }
+    }
+
+    .thead-half-dark {
+        th {
+            background-color: $gray-500;
+        }
+    }
+}
+
+.table-separated {
+    border-collapse: separate;
+}
+
+.information-oriented-page-title-wrapper {
+    position: relative;
+    min-height: 48px;
+
+    .information-oriented-page-title {
+        &.has-padding {
+            padding-right: 34px;
+        }
+    }
+
+    .information-oriented-page-info {
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: right;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        min-height: unset;
+    }
+}
+
+.info-block-container-body {
+    .info-block:not(:last-of-type) {
+        margin-bottom: $paragraph-margin-bottom;
+    }
+}
+
+.period-counter {
+    .period-counter-inner {
+        @extend .alert;
+        margin: 0;
+        border: 2px solid $danger;
+    }
+}

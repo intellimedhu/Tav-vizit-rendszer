@@ -1,0 +1,217 @@
+@import "./mixins/mixins";
+
+// large tables
+.diary-table {
+  border-left: 1px solid #ccc;
+
+  .diary-table-row {
+    .diary-table-column {
+      margin: 0;
+      padding: 3px 0;
+      text-align: center;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+
+      .badge-diary-value {
+        @include text-selection-disable;
+      }
+
+      $first-column-width: 8%;
+      &.column-first {
+        @include custom-column-width($first-column-width);
+        font-size: 0.8em;
+      }
+
+      &.column-value {
+        @include custom-column-width((100% - $first-column-width) / 24);
+      }
+    }
+
+    &.row-first {
+      position: sticky;
+      top: 200px;
+      z-index: 6;
+
+      @include media-breakpoint-up(md) {
+        top: $sticky-top;
+      }
+
+      .diary-table-column {
+        line-height: 31px;
+        color: $white;
+        font-weight: bold;
+        font-size: 0.75em;
+
+        &:nth-last-of-type(odd) {
+          background-color: lighten($info, 3%);
+          border-bottom-color: lighten($info, 3%);
+          border-right-color: $info;
+        }
+
+        &:nth-last-of-type(even) {
+          background-color: $info;
+          border-bottom-color: $info;
+          border-right-color: $info;
+        }
+
+        .header-period {
+          line-height: 18px;
+
+          &.first-line {
+            min-height: 38px;
+            word-break: break-word;
+            white-space: normal;
+          }
+        }
+      }
+    }
+
+    &.weekend {
+      .diary-table-column {
+        background: #eee;
+      }
+    }
+  }
+
+  &.diary-table-hourly {
+    .diary-table-row {
+      .diary-table-column {
+        font-size: 1.3vw;
+
+        @include media-breakpoint-up(md) {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// small tables (carousel)
+.diary-sm {
+  .slide-buttons {
+    position: sticky;
+    top: $sticky-top;
+    z-index: 3;
+  }
+
+  .date-field {
+    line-height: 36px;
+    text-align: center;
+    padding: 0 40px;
+    font-weight: 700;
+  }
+
+  $diary-border: 1px solid #ccc;
+  .diary-rows {
+    margin-top: 10px;
+
+    .diary-row {
+      margin: 0;
+      padding: 0;
+
+      .diary-column {
+        text-align: center;
+        line-height: 25px;
+        min-height: 27px;
+        margin: 0;
+        padding: 0;
+
+        &.diary-column-hours {
+          color: $white;
+          font-size: 75%;
+          font-weight: bold;
+          position: relative;
+
+          span {
+            top: 50%;
+            left: 0;
+            right: 0;
+            position: absolute;
+            display: block;
+            @include transform(translateY(-50%));
+            text-align: center;
+          }
+        }
+
+        &.diary-column-values {
+          border-right: 1px solid #ccc;
+        }
+      }
+
+      &:first-of-type {
+        .diary-column-hours {
+          border-top: 1px solid lighten($info, 3%);
+        }
+
+        .diary-column-values {
+          border-top: 1px solid #ccc;
+        }
+      }
+
+      &:nth-last-of-type(odd) {
+        .diary-column-hours {
+          background: lighten($info, 3%);
+          border-right: 1px solid lighten($info, 3%);
+          border-bottom: 1px solid lighten($info, 3%);
+        }
+
+        .diary-column-values {
+          border-bottom: 1px solid #ccc;
+        }
+      }
+
+      &:nth-last-of-type(even) {
+        .diary-column-hours {
+          background: $info;
+          border-right: 1px solid $info;
+          border-bottom: 1px solid $info;
+        }
+
+        .diary-column-values {
+          border-bottom: 1px solid #ccc;
+        }
+      }
+    }
+  }
+
+  &.diary-sm-hourly {
+    .diary-rows {
+      .diary-row {
+        .diary-column {
+          min-height: 27px;
+        }
+      }
+    }
+  }
+
+  &.diary-sm-mealtime {
+    .diary-rows {
+      .diary-row {
+        .diary-column {
+          min-height: 54px;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xs) {
+    .col-diary-pager {
+      @include custom-column-width(320px);
+    }
+  }
+}
+
+.diary-glucose-badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  .icon {
+    display: none;
+  }
+}

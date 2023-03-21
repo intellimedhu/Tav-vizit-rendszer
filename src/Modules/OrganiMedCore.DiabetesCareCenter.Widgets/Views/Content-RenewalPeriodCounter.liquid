@@ -1,0 +1,5 @@
+﻿{%if User | has_permission:"ReviewCenterProfile" and "now" | local | is_full_renewal_period %}
+<div class="info-block period-counter renewal-period-info-block">
+  {{ Model.Content | shape_render }}
+</div>
+{% endif %}

@@ -1,0 +1,656 @@
+﻿@model CenterProfileComplexViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrganiMedCore.DiabetesCareCenter.Core.Services
+@using IntelliMed.Core.Extensions
+@inject ICenterProfileService centerProfileService
+@{
+    var occupationCaptions = OccupationExtensions.GetLocalizedValues(T);
+    var centerTypeCaptions = CenterTypeCaptions.GetLocalizedValues(T);
+
+    // This is coming from CenterProfileController/History action.
+    var isHistoryView = (bool?)ViewData["IsHistoryView"] == true;
+}
+
+<div class="row center-profile-summary">
+    <div class="col">
+        @if (isHistoryView)
+        {
+            <div class="card card-center-profile-display card-center-profile-display-secondary mt-5">
+                <div class="card-header">
+                    <h5 class="m-0">
+                        @T["Akkreditáció eredménye"]
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5 text-md-right">@T["Minősítés megszerzésének dátuma"]</div>
+                        <div class="col-md-7">
+                            @(Model.BasicData.AccreditationStatusDateUtc.ToShortDateString())
+                        </div>
+
+                        <div class="col-md-5 text-md-right">@T["Minősítési szint"]</div>
+                        <div class="col-md-7">
+                            @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: Model.BasicData.AccreditationStatus))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="card card-center-profile-display card-center-profile-display-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    Alapadatok
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Szakellátóhely vezető</h5>
+                    <div class="table-responsive table-striped">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>@T["Név"]</th>
+                                    <th>@T["Email"]</th>
+                                    @if (!isHistoryView)
+                                    {
+                                        <th class="text-right">
+                                            @T["Adatlap megtekintése"]
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model.Leader.FullName</td>
+                                    <td>
+                                        @if (Model.Leader.Email.IsEmail())
+                                        {
+                                            <a href="mailto:@Model.Leader.Email">@Model.Leader.Email</a>
+                                        }
+                                    </td>
+                                    @if (!isHistoryView)
+                                    {
+                                        <td class="text-right">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-info btn-view-profile"
+                                                    title="@T["Munkatárs adatlapja"]"
+                                                    data-member-right-id="@Model.Leader.MemberRightId"
+                                                    data-is-colleague="0"
+                                                    data-name="@Model.Leader.FullName">
+                                                <i class="fas fa-info"></i>
+                                            </button>
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Szakellátóhely adatok</h5>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Szakellátóhely neve</div>
+                            <div class="col-md-7">
+                                @Model.BasicData.CenterName
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Szakellátóhely címe</div>
+                            <div class="col-md-7">
+                                @Model.BasicData.CenterZipCode
+                                @Model.BasicData.CenterSettlementName,
+                                @Model.BasicData.CenterAddress
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Telefonszám</div>
+                            <div class="col-md-7">
+                                @if (!string.IsNullOrEmpty(Model.BasicData.Phone))
+                                {
+                                    <a href="tel:@Model.BasicData.Phone">
+                                        @Model.BasicData.Phone
+                                    </a>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Fax</div>
+                            <div class="col-md-7">@Model.BasicData.Fax</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Email</div>
+                            <div class="col-md-7">
+                                @if (Model.BasicData.Email.IsEmail())
+                                {
+                                    <a href="mailto:@Model.BasicData.Email">@Model.BasicData.Email</a>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Weboldal</div>
+                            <div class="col-md-7">
+                                <a href="@Model.BasicData.Web" target="_blank">
+                                    @Model.BasicData.Web
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Profil</div>
+                            <div class="col-md-7">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var centerType in Model.BasicData.CenterTypes)
+                                    {
+                                        <li>@(centerTypeCaptions.FirstOrDefault(x => x.Key == centerType).Value)</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-center-profile-display card-center-profile-display-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    Kiegészítő adatok
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Szakellátóhely típusa</h5>
+                    <div class="row">
+                        <div class="col-md-5 text-md-right">Önálló diabétesz szakrendelés</div>
+                        <div class="col-md-7">@(Model.Additional.VocationalClinic == true ? "Igen" : "Nem")</div>
+
+                        <div class="col-md-5 text-md-right">Más szakrendelés része</div>
+                        <div class="col-md-7">@(Model.Additional.PartOfOtherVocationalClinic == true ? "Igen" : "Nem")</div>
+
+                        @if (Model.Additional.PartOfOtherVocationalClinic == true)
+                        {
+                            <div class="col-md-5 text-md-right">Szakrendelések</div>
+                            <div class="col-md-7">
+                                @Html.Raw(Model.Additional.OtherVocationalClinic?.Replace("\n", "<br />"))
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">NEAK adatok</h5>
+                    @if (Model.Additional != null)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-5 text-md-right">Szerződéssel rendelkezik</div>
+                            <div class="col-md-7">@(Model.Additional.Neak.Any() ? "Igen" : "Nem")</div>
+                        </div>
+
+                        var i = 0;
+                        @foreach (var neak in Model.Additional.Neak)
+                        {
+                            <div class="row@(i++ < Model.Additional.Neak.Count() - 1 ? " mb-3" : "")">
+                                <div class="col-md-5 text-md-right">
+                                    Elsődleges?
+                                </div>
+                                <div class="col-md-7">
+                                    @(neak.Primary ? "Igen" : "Nem")
+                                </div>
+
+                                <div class="col-md-5 text-md-right">
+                                    Szerződésben foglalt heti óraszám
+                                </div>
+                                <div class="col-md-7">
+                                    @neak.NumberOfHours
+                                </div>
+
+                                <div class="col-md-5 text-md-right">
+                                    Ebből cukorbetegekre fordított óraszám
+                                </div>
+                                <div class="col-md-7">
+                                    @neak.NumberOfHoursDiabetes
+                                </div>
+
+                                <div class="col-md-5 text-md-right">
+                                    Munkahelyi kód
+                                </div>
+                                <div class="col-md-7">
+                                    @neak.WorkplaceCode
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Kormányhivatal (ÁNTSZ) engedély</h5>
+                    @if (Model.Additional != null && Model.Additional.Antsz != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Száma</div>
+                            <div class="col-md-7">@Model.Additional.Antsz.Number</div>
+
+                            <div class="col-md-5 text-md-right">Kelte</div>
+                            <div class="col-md-7">
+                                @if (Model.Additional.Antsz.Date.HasValue)
+                                {
+                                    @Model.Additional.Antsz.Date.Value.ToString("yyyy. MM. dd.")
+                                }
+                            </div>
+
+                            <div class="col-md-5 text-md-right">Azonosító kód</div>
+                            <div class="col-md-7">@Model.Additional.Antsz.Id</div>
+                        </div>
+                    }
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Rendelési idő</h5>
+                    @if (Model.Additional != null)
+                    {
+                        var days = DayCaptions.GetLocalizedValues(T);
+                        var sunday = days.First(x => x.Key == DayOfWeek.Sunday);
+
+                        // Placing sunday the last day of the week.
+                        var daysInOrder = days.Where(x => x.Key != DayOfWeek.Sunday).ToList();
+                        daysInOrder.Add(sunday);
+
+                        <ul class="list-unstyled">
+                            @foreach (var day in daysInOrder)
+                            {
+                                var officeHours = Model.Additional.OfficeHours.FirstOrDefault(x => x.Day == day.Key);
+
+                                <li class="row">
+                                    <div class="col-md-5 text-md-right">@day.Value</div>
+                                    <div class="col-md-7">
+                                        @if (officeHours != null && officeHours.Hours.Any())
+                                        {
+                                            <ul class="list-unstyled">
+                                                @foreach (var hour in officeHours.Hours)
+                                                {
+                                                    <li>
+                                                        @hour.TimeFrom.ToShortTime()
+                                                        -
+                                                        @hour.TimeTo.ToShortTime()
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @{
+            var equipments = await centerProfileService.GetCenterProfileEquipmentSettingsAsync();
+        }
+
+        <div class="card card-center-profile-display card-center-profile-display-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    @T["Tárgyi eszközök"]
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="summary-group">
+                    @await DisplayAsync(await New.CenterProfilePartEquipmentsList(
+                        Equipments: equipments.ToolsList,
+                        EquipmentsAtCenter: Model.Equipments.Tools.Select(x => new Tuple<string, string>(x.Id, x.Value?.ToString())),
+                        Title: T["A szakellátóhely a következő eszközökkel rendelkezik (darab)"].Value))
+                </div>
+
+                <div class="summary-group">
+                    @await DisplayAsync(await New.CenterProfilePartEquipmentsList(
+                        Equipments: equipments.LaboratoryList,
+                        EquipmentsAtCenter: Model.Equipments.Laboratory.Select(x => new Tuple<string, string>(x.Id, x.Value ? "Igen" : "-")),
+                        Title: T["Biztosított-e a hosszú távú anyagcsere-vezetés ellenőrzését és a szövődmények korai felismerését szolgáló laboratóriumi háttér?"].Value))
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Háttér</h5>
+                    <div class="row">
+                        <div class="col-md-5 text-md-right">Biztosított-e a diabetológiában jártas konzíliumi háttér?</div>
+                        <div class="col-md-7">@(Model.Equipments.BackgroundConcilium ? "Igen" : "Nem")</div>
+
+                        <div class="col-md-5 text-md-right">Biztosított-e a diabetológiában jártas fekvőbeteg háttér?</div>
+                        <div class="col-md-7">@(Model.Equipments.BackgroundInpatient ? "Igen" : "Nem")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-center-profile-display card-center-profile-display-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    Munkatársak
+                </h4>
+            </div>
+            <div class="card-body">
+                <h5>Szakellátóhely munkatársai</h5>
+                @{
+                    var colleagues = Model.Colleagues.Colleagues
+                        .Where(x => ColleagueStatusExtensions.GreenZone.Contains(x.LatestStatusItem.Status))
+                        .OrderBy(x => x.LastName)
+                        .ThenBy(x => x.FirstName);
+                }
+                @if (colleagues.Any())
+                {
+                    <div class="table-responsive table-striped">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Név</th>
+                                    <th>Email</th>
+                                    <th>Munkakör</th>
+                                    @if (!isHistoryView)
+                                    {
+                                        <th class="text-right">
+                                            Adatlap megtekintése
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var colleague in colleagues)
+                                {
+                                    <tr>
+                                        <td>@colleague.FullName</td>
+                                        <td>
+                                            @if (colleague.Email.IsEmail())
+                                            {
+                                                <a href="mailto:@colleague.Email">@colleague.Email</a>
+                                            }
+                                        </td>
+                                        <td>@occupationCaptions.FirstOrDefault(x => x.Key == colleague.Occupation).Value</td>
+                                        @if (!isHistoryView)
+                                        {
+                                            <td class="text-right">
+                                                <button type="button"
+                                                        class="btn btn-sm btn-info btn-view-profile"
+                                                        title="Munkatárs adatlapja"
+                                                        data-colleague-id="@colleague.Id"
+                                                        data-is-colleague="1"
+                                                        data-name="@colleague.FullName">
+                                                    <i class="fas fa-info"></i>
+                                                </button>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (!isHistoryView)
+                    {
+                        <!-- Modal -->
+                        <div class="modal fade" id="colleague-profile-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-light">
+                                        <h4 class="modal-title" id="colleague-profile-modal-title"></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card card-center-profile-display card-center-profile-display-primary mb-3">
+                                                    <div class="card-header">
+                                                        <h4 class="colleague-profile-qualification-data m-0">@T["Szakképesítések"]</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <ul class="colleague-profile-qualification-data list-unstyled mb-0" id="colleague-profile-qualification-list"></ul>
+
+                                                        <h5 class="colleague-profile-graduation-data">@T["Érettségi"]</h5>
+                                                        <ul class="colleague-profile-graduation-data list-unstyled">
+                                                            <li>
+                                                                <span id="colleague-profile-graduation-issued-by"></span><span id="colleague-profile-graduation-year"></span>
+                                                            </li>
+                                                        </ul>
+
+                                                        <h5 class="colleague-profile-other-qualification-data">@T["Egyéb"]</h5>
+                                                        <ul class="colleague-profile-other-qualification-data list-unstyled mb-0">
+                                                            <li id="colleague-profile-other-qualification"></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card card-center-profile-display card-center-profile-display-primary">
+                                                    <div class="card-header">
+                                                        <h4 class="colleague-profile-qualification-data m-0">@T["Személyes adatok"]</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="colleague-profile-contact-data">
+                                                            <h5>@T["Telefonszám"]</h5>
+                                                            <ul class="list-unstyled">
+                                                                <li>
+                                                                    <a id="colleague-profile-private-phone" href=""></a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="colleague-profile-membership-data">
+                                                            <hr />
+                                                            <h5>@T["Tagsági információ"]</h5>
+                                                            <ul class="list-unstyled mb-0">
+                                                                <li class="row">
+                                                                    <span class="col-5">
+                                                                        @T["Tagsági információ"]:
+                                                                    </span>
+                                                                    <span class="col" id="colleague-profile-has-membership"></span>
+                                                                </li>
+                                                                <li class="row" id="colleague-profile-row-membership-fee">
+                                                                    <span class="col-5">
+                                                                        @T["Tagdíj"]:
+                                                                    </span>
+                                                                    <span class="col" id="colleague-profile-is-membership-fee-paid"></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezár</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">@T["Nincsek munkatársak."]</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (colleagues.Any() && !isHistoryView)
+{
+    <script at="Foot" asp-name="InformationOrientedBsModals"></script>
+    <script at="Foot">
+        (function ($) {
+            $(function () {
+                @{
+                    var qualificationStates = QualificationStateCaptions.GetLocalizedValues(T);
+                }
+
+                var qualificationStates = {
+                    @foreach(var state in qualificationStates)
+                    {
+                        <text>@Html.Raw($"{(int)state.Key}: '{state.Value}'"), </text>
+                    }
+                };
+
+                $('.btn-view-profile').on('click', function () {
+                    var name = $(this).data('name');
+                    var isColleague = +$(this).data('isColleague') == 1;
+                    var data = {};
+                    if (isColleague) {
+                        data["colleagueId"] = $(this).data('colleagueId');
+                    } else {
+                        data["memberRightId"] = $(this).data('memberRightId');
+                    }
+
+                    $.ajax({
+                        url: isColleague
+                            ? '@Url.Link("CenterProfileApi.ViewColleagueProfile", new { id = Model.ContentItemId })'
+                            : '@Url.Link("CenterProfileApi.ViewLeaderProfile", null)',
+                        type: "get",
+                        data: data,
+                        dataType: 'json',
+                        success: function (response) {
+                            handleResponseAndDisplay(response, name);
+                        },
+                        error: function (e) {
+                            console.warn(e);
+                            alertModal({
+                                message: '@T["A munkatárs adatlapjának betöltése nem sikerült."]'
+                            });
+                        }
+                    });
+                });
+
+                function handleResponseAndDisplay(data, fullName) {
+                    var colleagueData = $.extend(
+                        data.personQualifications,
+                        {
+                            qualifications: data.personQualifications.qualifications.map(function (x) {
+                                var qualification = data.qualifications.find(function (q) {
+                                    return q.id == x.id;
+                                });
+
+                                return $.extend({}, x, {
+                                    qualification: qualification ? qualification.name : ''
+                                });
+                            })
+                        });
+
+                    $('#colleague-profile-modal-title').text(fullName + ' adatlapja');
+
+                    $("#colleague-profile-qualification-list").empty();
+                    $(".colleague-profile-qualification-data").hide();
+                    if (colleagueData.qualifications.length) {
+                        $(".colleague-profile-qualification-data").show();
+                        colleagueData.qualifications.forEach(function (q, index) {
+                            var qNumber = null;
+                            if (q.number) {
+                                qNumber = $("<span>").addClass("d-block").text("Száma: " + q.number);
+                            }
+
+                            var qYear = null;
+                            if (q.year) {
+                                qYear = $("<span>").addClass("d-block").text("Év: " + q.year);
+                            }
+
+                            var qState = null;
+                            if (qualificationStates[q.state]) {
+                                qState = $("<span>").addClass("d-block").text("Állapot: " + qualificationStates[q.state]);
+                            }
+
+                            var hr = null;
+                            if (index < colleagueData.qualifications.length - 1) {
+                                hr = $("<hr>");
+                            }
+
+                            $("#colleague-profile-qualification-list").append(
+                                $("<li>")
+                                    .append($("<h5>").text(q.qualification).addClass("m-0"))
+                                    .append(qNumber)
+                                    .append(qYear)
+                                    .append(qState)
+                                    .append(hr)
+                            )
+                        });
+                    }
+
+                    $(".colleague-profile-graduation-data").hide();
+                    $("#colleague-profile-graduation-year").hide();
+                    if (colleagueData.graduationIssuedBy) {
+                        $(".colleague-profile-graduation-data").show();
+                        $("#colleague-profile-graduation-issued-by").text(colleagueData.graduationIssuedBy);
+
+                        if (colleagueData.graduationYear) {
+                            $("#colleague-profile-graduation-year")
+                                .text(", " + colleagueData.graduationYear)
+                                .show();
+                        }
+                    }
+
+                    $(".colleague-profile-other-qualification-data").hide();
+                    if (colleagueData.otherQualification) {
+                        $(".colleague-profile-other-qualification-data").show();
+                        $("#colleague-profile-other-qualification").text(colleagueData.otherQualification);
+                    }
+
+                    $(".colleague-profile-contact-data").hide();
+                    if (data.privatePhone) {
+                        $("#colleague-profile-private-phone")
+                            .attr('href', 'tel:' + data.privatePhone.replace(/[^+\d]/g, ''))
+                            .text(data.privatePhone)
+                        $(".colleague-profile-contact-data").show();
+                    }
+
+                    $("#colleague-profile-has-membership")
+                        .empty()
+                        .removeClass("text-success")
+                        .removeClass("text-danger");
+
+                    $("#colleague-profile-is-membership-fee-paid")
+                        .empty()
+                        .removeClass("text-success")
+                        .removeClass("text-danger");
+
+                    if (data.hasMembership) {
+                        $("#colleague-profile-has-membership")
+                            .addClass("text-success")
+                            .append($("<i>").addClass("fas fa-check"))
+                            .append($("<strong>").text(" " + "@T["MDT Tag"]"));
+
+                        $("#colleague-profile-row-membership-fee").removeClass("d-none");
+                        if (data.isMembershipFeePaid) {
+                            $("#colleague-profile-is-membership-fee-paid")
+                                .addClass("text-success")
+                                .append($("<i>").addClass("fas fa-check"))
+                                .append($("<strong>").text(" " + "@T["Rendezett"]"));
+                        } else {
+                            $("#colleague-profile-is-membership-fee-paid")
+                                .addClass("text-danger")
+                                .append($("<i>").addClass("fas fa-ban"))
+                                .append($("<strong>").text(" " + "@T["Nem rendezett"]"));
+                        }
+                    } else {
+                        $("#colleague-profile-has-membership")
+                            .addClass("text-danger")
+                            .append($("<i>").addClass("fas fa-ban"))
+                            .append($("<strong>").text(" " + "@T["Nem MDT Tag"]"));
+                        $("#colleague-profile-row-membership-fee").addClass("d-none");
+                    }
+
+                    $('#colleague-profile-modal').modal('show');
+                }
+            });
+        })(jQuery);
+    </script>
+}

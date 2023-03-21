@@ -1,0 +1,13 @@
+﻿<div class="card border-0">
+  <div class="card-header">
+    <h2 class="m-0">
+      <i class="fas fa-info-circle text-info"></i>
+      {{ "Információ" | t }}
+    </h2>
+  </div>
+  <div class="card-body info-block-container-body">
+		{% for contentItem in Model.Content.BagPart.ContentItems %}
+      {{ contentItem | shape_build_display: "Detail" | shape_render }}
+		{% endfor %}
+  </div>
+</div>

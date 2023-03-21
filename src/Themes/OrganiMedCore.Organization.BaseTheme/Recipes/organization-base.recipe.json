@@ -1,0 +1,93 @@
+{
+  "name": "organimedcore-organization-basic",
+  "displayName": "OrganiMedCore Organization basic",
+  "description": "Basic recipe for organizations.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrchardCore.Admin",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.HomeRoute",
+        "OrchardCore.Localization",
+        "OrchardCore.Features",
+        "OrchardCore.Navigation",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Roles",
+        "OrchardCore.Settings",
+        "OrchardCore.Tenants",
+        "OrchardCore.Themes",
+        "OrchardCore.Users",
+
+        "IntelliMed.Core",
+        "OrganiMedCore.Navigation",
+        "OrganiMedCore.Organization",
+        "OrganiMedCore.Login.ResetPassword",
+
+        "TheAdmin",
+        "SafeMode",
+        "OrganiMedCore.Login.BaseTheme",
+        "OrganiMedCore.InformationOrientedTheme",
+        "OrganiMedCore.Organization.BaseTheme"
+      ]
+    },
+    {
+      "name": "Content",
+      "data": [
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "Menu",
+          "Latest": true,
+          "Published": true,
+          "Owner": null,
+          "Author": null,
+          "TitlePart": {
+            "Title": "Main menu"
+          },
+          "AliasPart": {
+            "Alias": "main-menu"
+          },
+          "MenuPart": {},
+          "MenuItemsListPart": {
+            "MenuItems": [
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "LoginSettings": { "UseSiteTheme": true },
+      "TenantSettings": {
+        "IsOrganization": true
+      },
+      "HomeRoute": {
+        "Action": "Index",
+        "Controller": "Dashboard",
+        "Area": "OrganiMedCore.Organization"
+      }
+    },
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "organization"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "information-oriented-theme"
+        }
+      ]
+    }
+  ]
+}

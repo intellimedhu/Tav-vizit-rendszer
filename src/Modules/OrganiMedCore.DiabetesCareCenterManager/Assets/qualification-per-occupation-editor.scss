@@ -1,0 +1,89 @@
+﻿.qpo-editor
+{
+    min-width: 1100px;
+    padding-bottom: 30px;
+
+    .qpo-sticky
+    {
+        top: 49px;
+    }
+
+    .qpo-header-row,
+    .qpo-list-item-row
+    {
+        .col
+        {
+            padding: 3px;
+        }
+
+        .col-qualification-name
+        {
+            word-break: break-word;
+        }
+
+        .col-value
+        {
+            max-width: 180px;
+        }
+
+        .col-buttons
+        {
+            max-width: 30px;
+        }
+    }
+
+    .qpo-list-item-row
+    {
+        $row-hover: #90ee90;
+
+        .custom-control-label
+        {
+            cursor: pointer;
+
+            &::before
+            {
+                border: 1px solid darkgray;
+            }
+        }
+
+        &:first-of-type
+        {
+            border-top: 1px solid gray;
+        }
+
+        &:nth-of-type(odd)
+        {
+            background-color: #f8f9fa;
+        }
+
+        &:nth-of-type(even)
+        {
+            background-color: #fff;
+        }
+
+        &.selected
+        {
+            &:nth-of-type(odd)
+            {
+                background-color: lighten($row-hover, 10%);
+            }
+
+            &:nth-of-type(even)
+            {
+                background-color: lighten($row-hover, 15%);
+            }
+        }
+
+        &:hover
+        {
+            text-decoration: underline;
+            color: darkgreen;
+
+            &:nth-of-type(odd),
+            &:nth-of-type(even)
+            {
+                background-color: $row-hover;
+            }
+        }
+    }
+}

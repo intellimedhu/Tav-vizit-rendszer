@@ -1,0 +1,270 @@
+﻿@model CenterProfileComplexViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using IntelliMed.Core.Extensions
+@{
+    var occupationCaptions = OccupationExtensions.GetLocalizedValues(T);
+    var centerTypeCaptions = CenterTypeCaptions.GetLocalizedValues(T);
+}
+
+<div class="row center-profile-summary">
+    <div class="col">
+        <div class="card card-center-profile-editor card-center-profile-editor-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    Alapadatok
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Szakellátóhely vezető</h5>
+                    <div class="row" v-if="centerData.leader">
+                        <div class="col-md-5 text-md-right">Név</div>
+                        <div class="col-md-7">@Model.Leader.FullName</div>
+                    </div>
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Szakellátóhely adatok</h5>
+                    <div v-if="centerData.basicData">
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Szakellátóhely neve</div>
+                            <div class="col-md-7">
+                                @Model.BasicData.CenterName
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Szakellátóhely címe</div>
+                            <div class="col-md-7">
+                                @Model.BasicData.FullAddress
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Telefonszám</div>
+                            <div class="col-md-7">
+                                @if (!string.IsNullOrEmpty(Model.BasicData.Phone))
+                                {
+                                    <a href="tel:@Model.BasicData.Phone">
+                                        @Model.BasicData.Phone
+                                    </a>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Fax</div>
+                            <div class="col-md-7">@Model.BasicData.Fax</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Email</div>
+                            <div class="col-md-7">
+                                @if (Model.BasicData.Email.IsEmail())
+                                {
+                                    <a href="@Model.BasicData.Email">@Model.BasicData.Email</a>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Weboldal</div>
+                            <div class="col-md-7">
+                                <a href="@Model.BasicData.Web" target="_blank">
+                                    @Model.BasicData.Web
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Profil</div>
+                            <div class="col-md-7">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var centerType in Model.BasicData.CenterTypes)
+                                    {
+                                        <li>@(centerTypeCaptions.FirstOrDefault(x => x.Key == centerType).Value)</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-center-profile-editor card-center-profile-editor-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    Kiegészítő adatok
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Szakellátóhely típusa</h5>
+                    <div class="row" v-if="centerData.additional">
+                        <div class="col-md-5 text-md-right">Önálló diabétesz szakrendelés</div>
+                        <div class="col-md-7">@(Model.Additional.VocationalClinic == true ? "Igen" : "Nem")</div>
+
+                        <div class="col-md-5 text-md-right">Más szakrendelés része</div>
+                        <div class="col-md-7">@(Model.Additional.PartOfOtherVocationalClinic == true ? "Igen" : "Nem")</div>
+
+                        @if (Model.Additional.PartOfOtherVocationalClinic == true)
+                        {
+                            <div class="col-md-5 text-md-right">Szakrendelések</div>
+                            <div class="col-md-7">
+                                @Html.Raw(Model.Additional.OtherVocationalClinic?.Replace("\n", "<br />"))
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">NEAK adatok</h5>
+                    @if (Model.Additional != null)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-5 text-md-right">Szerződéssel rendelkezik</div>
+                            <div class="col-md-7">@(Model.Additional.Neak.Any() ? "Igen" : "Nem")</div>
+                        </div>
+
+                        var i = 0;
+                        @foreach (var neak in Model.Additional.Neak)
+                        {
+                            <div class="row@(i++ < Model.Additional.Neak.Count() - 1 ? " mb-3" : "")">
+                                <div class="col-md-5 text-md-right">
+                                    Elsődleges?
+                                </div>
+                                <div class="col-md-7">
+                                    @(neak.Primary ? "Igen" : "Nem")
+                                </div>
+
+                                <div class="col-md-5 text-md-right">
+                                    Szerződésben foglalt heti óraszám
+                                </div>
+                                <div class="col-md-7">
+                                    @neak.NumberOfHours
+                                </div>
+
+                                <div class="col-md-5 text-md-right">
+                                    Ebből cukorbetegekre fordított óraszám
+                                </div>
+                                <div class="col-md-7" v-if="centerData.additional.neak.contract">
+                                    @neak.NumberOfHoursDiabetes
+                                </div>
+
+                                <div class="col-md-5 text-md-right">
+                                    Munkahelyi kód
+                                </div>
+                                <div class="col-md-7">
+                                    @neak.WorkplaceCode
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Kormányhivatal (ÁNTSZ) engedély</h5>
+                    @if (Model.Additional != null && Model.Additional.Antsz != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-5 text-md-right">Száma</div>
+                            <div class="col-md-7">@Model.Additional.Antsz.Number</div>
+
+                            <div class="col-md-5 text-md-right">Kelte</div>
+                            <div class="col-md-7">
+                                @if (Model.Additional.Antsz.Date.HasValue)
+                                {
+                                    @Model.Additional.Antsz.Date.Value.ToString("yyyy. MM. dd.")
+                                }
+                            </div>
+
+                            <div class="col-md-5 text-md-right">Azonosító kód</div>
+                            <div class="col-md-7">@Model.Additional.Antsz.Id</div>
+                        </div>
+                    }
+                </div>
+
+                <div class="summary-group">
+                    <h5 class="summary-group-title">Rendelési idő</h5>
+                    @if (Model.Additional != null)
+                    {
+                        var days = DayCaptions.GetLocalizedValues(T);
+                        var sunday = days.First(x => x.Key == DayOfWeek.Sunday);
+
+                        // Placing sunday the last day of the week.
+                        var daysInOrder = days.Where(x => x.Key != DayOfWeek.Sunday).ToList();
+                        daysInOrder.Add(sunday);
+
+                        <ul class="list-unstyled">
+                            @foreach (var day in daysInOrder)
+                            {
+                                var officeHours = Model.Additional.OfficeHours.FirstOrDefault(x => x.Day == day.Key);
+
+                                <li class="row">
+                                    <div class="col-md-5 text-md-right">@day.Value</div>
+                                    <div class="col-md-7">
+                                        @if (officeHours != null && officeHours.Hours.Any())
+                                        {
+                                            <ul class="list-unstyled">
+                                                @foreach (var hour in officeHours.Hours)
+                                                {
+                                                    <li>
+                                                        @hour.TimeFrom.ToShortTime()
+                                                        -
+                                                        @hour.TimeTo.ToShortTime()
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-center-profile-editor card-center-profile-editor-primary mt-5">
+            <div class="card-header">
+                <h4 class="m-0">
+                    Munkatársak
+                </h4>
+            </div>
+            <div class="card-body">
+                <h5>Szakellátóhely munkatársai</h5>
+                <div class="table-responsive table-striped" v-if="activeColleagues.length">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Név</th>
+                                <th>Email</th>
+                                <th>Munkakör</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var colleague in Model.Colleagues.Colleagues
+                           .Where(x => ColleagueStatusExtensions.GreenZone.Contains(x.LatestStatusItem.Status))
+                           .OrderBy(x => x.LastName)
+                           .ThenBy(x => x.FirstName))
+                            {
+                                <tr>
+                                    <td>@colleague.FullName</td>
+                                    <td>@colleague.Email</td>
+                                    <td>@occupationCaptions.FirstOrDefault(x => x.Key == colleague.Occupation).Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@{
+    var isNew = (bool)ViewData["IsNew"];
+    var eVisitPatientProfileId = (string)ViewData["EVisitPatientProfileId"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>
+            @if (isNew)
+            {
+                @RenderTitleSegments(T["Új páciens létrehozása"])
+            }
+            else
+            {
+                @RenderTitleSegments(T["Páciens szerkesztése"])
+            }
+        </h1>
+
+        @await DisplayAsync(await New.PatientProfileNav(
+            EVisitPatientProfileId: eVisitPatientProfileId,
+            IsNew: isNew,
+            ActiveNavigation: "Edit"))
+
+        <form asp-area="OrganiMedCore.Organization"
+              asp-controller="Patients"
+              asp-action="Edit"
+              asp-route-id="@(isNew ? string.Empty : Model.ContentItem.ContentItemId)"
+              method="post">
+            @Html.ValidationSummary()
+
+            @await DisplayAsync(Model)
+        </form>
+    </div>
+</div>
+
+@if (!isNew)
+{
+    @await DisplayAsync(await New.PatientProfileActions(
+        ContentItemId: Model.ContentItem.ContentItemId))
+}

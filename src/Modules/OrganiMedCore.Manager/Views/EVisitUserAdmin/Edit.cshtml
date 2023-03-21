@@ -1,0 +1,12 @@
+﻿@model dynamic
+
+<h1>@RenderTitleSegments(T["OrganiMed felhasználó szerkesztése"])</h1>
+
+<form asp-area="OrganiMedCore.Manager"
+      asp-controller="EVisitUserAdmin"
+      asp-action="Edit"
+      method="post"
+      enctype="multipart/form-data">
+    @Html.ValidationSummary()
+    @await DisplayAsync(Model)
+</form>

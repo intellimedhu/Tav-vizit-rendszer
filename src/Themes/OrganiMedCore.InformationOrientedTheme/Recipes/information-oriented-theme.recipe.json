@@ -1,0 +1,47 @@
+{
+  "name": "information-oriented-theme",
+  "displayName": "information-oriented-theme",
+  "description": "Base recipe those sites where InformationOrientedTheme is the base theme.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "OrganiMedCore", "IntelliMed" ],
+  "tags": [ "OrganiMedCore", "IntelliMed" ],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrchardCore.Admin",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.Layers",
+        "OrchardCore.Localization",
+        "OrchardCore.Features",
+        "OrchardCore.Navigation",
+        "OrchardCore.Menu",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Settings",
+        "OrchardCore.Themes",
+        "IntelliMed.Core",
+        "OrganiMedCore.Navigation",
+        "OrganiMedCore.InfoWidgets",
+
+        "TheAdmin",
+        "SafeMode",
+        "OrganiMedCore.AdminTheme",
+        "OrganiMedCore.InformationOrientedTheme",
+        "OrganiMedCore.Login.BaseTheme"
+      ]
+    },
+    {
+      "name": "settings",
+      "LayerSettings": {
+        "Zones": [
+          "AsideRightInformation"
+        ]
+      }
+    }
+  ]
+}

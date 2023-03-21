@@ -1,0 +1,75 @@
+﻿@model PatientIdentifierViewModel
+@using OrganiMedCore.Core.ViewModels
+@using OrganiMedCore.Core.Helpers
+
+<script asp-name="IdTypeValuePicker" at="Foot"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Azonosító ellenőrzése"])</h1>
+        <hr />
+
+        <form asp-area="OrganiMedCore.Organization" asp-controller="patients" asp-action="checkid">
+            <div id="id-type-value-picker-app">
+                <id-type-value-picker :identifier-types-init='@Json.Serialize(PatientHelper.GetIdentifierModels(T))'
+                                      :selected-identifier-type-value-init="@((int)Model.Type)"
+                                      :identifier-value-init="'@Model.Value'"
+                                      inline-template>
+                    <div class="row form-group">
+                        <label asp-for="Value" class="col-md-3 col-form-label text-left text-md-right">
+                            @T["Azonosító"]
+                        </label>
+
+                        <div class="col-md-7 mb-3">
+                            <input v-model="selectedIdentifierType.value"
+                                   type="hidden"
+                                   asp-for="Type" />
+                            <div class="input-group">
+                                <input v-model="identifierValue"
+                                       :disabled="selectedIdentifierType.value == 0"
+                                       type="text"
+                                       asp-for="Value"
+                                       class="form-control bb-2"
+                                       autofocus />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>
+                                            {{selectedIdentifierType.text}}
+                                        </span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a v-for="(identifierType, i) in identifierTypes"
+                                           v-on:click="selectIdentifierType(identifierType)"
+                                           class="dropdown-item"
+                                           href="#">
+                                            {{identifierType.text}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span asp-validation-for="Value" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-2 text-right">
+                            <button type="submit" class="btn btn-primary">
+                                {{nextButtonText}}
+                            </button>
+                        </div>
+                    </div>
+                </id-type-value-picker>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script at="Foot" asp-name="Popper"></script>
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            var app = new Vue({
+                el: '#id-type-value-picker-app'
+            });
+        });
+    })(jQuery);
+</script>

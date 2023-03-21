@@ -1,0 +1,48 @@
+﻿@model OrganiMedCore.Login.ViewModels.OmcLoginSettingsViewModel
+@using OrganiMedCore.Login.Settings.Enums
+
+<div class="row form-group">
+    <div class="col">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" asp-for="UseLocalLogin" />
+            <label class="custom-control-label" asp-for="UseLocalLogin">@T["Lokális bejelentkezés elérhető"]</label>
+        </div>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" asp-for="UseOrganiMedCoreLogin" />
+            <label class="custom-control-label" asp-for="UseOrganiMedCoreLogin">@T["OrganiMedCore bejelentkezés elérhető"]</label>
+</div>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" asp-for="UseDokiNetLogin" />
+            <label class="custom-control-label" asp-for="UseDokiNetLogin">@T["doki.NET bejelentkezés elérhető"]</label>
+</div>
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-12 col-form-label" asp-for="DokiNetLoginTitle">@T["Doki.NET bejelentkezés fejléce"]</label>
+    <div class="col col-lg-8">
+        <input class="form-control" asp-for="DokiNetLoginTitle" />
+    </div>
+</div>
+
+<div class="row form-group">
+    <label class="col-12 col-form-label" asp-for="DefaultLoginMethod">@T["Alapértelmezett bejelentkezési mód"]</label>
+    <div class="col col-lg-6">
+        <select class="form-control" asp-for="DefaultLoginMethod">
+            <option value="">Kérem, válasszon!</option>
+            <option value="@OmcLoginMethods.Local">@T["Lokális bejelentkezés"]</option>
+            <option value="@OmcLoginMethods.OrganiMedCore">@T["OrganiMedCore bejelentkezés"]</option>
+            <option value="@OmcLoginMethods.DokiNet">@T["doki.NET bejelentkezés"]</option>
+        </select>
+    </div>
+</div>

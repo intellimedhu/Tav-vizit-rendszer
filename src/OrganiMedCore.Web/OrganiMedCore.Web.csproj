@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
+	  <PackageReference Include="OrchardCore.Hosting.Console" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Logging.NLog" Version="1.0.0-rc1-10004" />
+	  <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.0.0-rc1-10004" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClientApps\OrganiMedCore.AgpReports\OrganiMedCore.AgpReports.csproj" />
+    <ProjectReference Include="..\ClientApps\OrganiMedCore.DiabetesCareCenterManager.CenterProfileEditor\OrganiMedCore.DiabetesCareCenterManager.CenterProfileEditor.csproj" />
+    <ProjectReference Include="..\Modules\Bootstrap\Bootstrap.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Bootstrap\OrganiMedCore.Bootstrap.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.DiabetesCareCenter.Widgets\OrganiMedCore.DiabetesCareCenter.Widgets.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.DiabetesCareCenterTenant\OrganiMedCore.DiabetesCareCenterTenant.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Email\OrganiMedCore.Email.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.InfoWidgets\OrganiMedCore.InfoWidgets.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.DiabetesCareCenterManager\OrganiMedCore.DiabetesCareCenterManager.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.DiabetesCareCenter.Core\OrganiMedCore.DiabetesCareCenter.Core.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Navigation\OrganiMedCore.Navigation.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Organization.DiabetesCare\OrganiMedCore.Organization.DiabetesCare.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Organization\OrganiMedCore.Organization.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Manager\OrganiMedCore.Manager.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Login\OrganiMedCore.Login.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.Core\OrganiMedCore.Core.csproj" />
+    <ProjectReference Include="..\Modules\IntelliMed.Core\IntelliMed.Core.csproj" />
+    <ProjectReference Include="..\Modules\IntelliMed.DokiNetIntegration\IntelliMed.DokiNetIntegration.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.PatientApp\OrganiMedCore.PatientApp.csproj" />
+    <ProjectReference Include="..\Modules\OrganiMedCore.UriAuthentication\OrganiMedCore.UriAuthentication.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.AdminTheme\OrganiMedCore.AdminTheme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.DiabetesCareCenterManager.Theme\OrganiMedCore.DiabetesCareCenterManager.Theme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.DiabetesCareCenterTenant.Theme\OrganiMedCore.DiabetesCareCenterTenant.Theme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.InformationOrientedTheme\OrganiMedCore.InformationOrientedTheme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.Login.BaseTheme\OrganiMedCore.Login.BaseTheme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.Organization.BaseTheme\OrganiMedCore.Organization.BaseTheme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.Manager.Theme\OrganiMedCore.Manager.Theme.csproj" />
+    <ProjectReference Include="..\Themes\OrganiMedCore.PatientApp.Theme\OrganiMedCore.PatientApp.Theme.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,100 @@
+@import "images";
+
+.main-container {
+  .settings-modal-body {
+    padding: 0;
+
+    .settings-row {
+      margin: 0;
+    }
+
+    .settings-body {
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .settings-nav {
+      padding: 1rem 0;
+      background: $light;
+      border-bottom: 1px solid $gray-200;
+
+      @include media-breakpoint-up(md) {
+        border-bottom: none;
+        border-right: 1px solid $gray-200;
+      }
+
+      .settings-nav-link {
+        border-radius: 0;
+        padding: 8px 5px;
+        @include transition();
+
+        &:not(.active) {
+          .nav-icon {
+            color: transparent;
+          }
+
+          &:hover {
+            background-color: lighten($primary, 32%);
+          }
+        }
+      }
+    }
+
+    .tab-panel-insulin {
+      padding-bottom: 95px;
+    }
+
+    .color-picker {
+      .popup {
+        width: 150px;
+        position: absolute;
+        top: 0;
+        left: 110px;
+        z-index: 3;
+
+        .color {
+          cursor: pointer;
+          height: 25px;
+          position: relative;
+
+          .icon {
+            position: absolute;
+            top: 4px;
+            left: 6px;
+          }
+        }
+      }
+    }
+
+    .btn-locale {
+      @include transition;
+      position: relative;
+      padding-left: 38px;
+
+      .flag {
+        position: absolute;
+        display: block;
+        width: 28px;
+        height: 20px;
+        left: 5px;
+        top: 4px;
+        background-repeat: no-repeat;
+        background-color: transparent;
+        background-position: center;
+        background-color: $white;
+      }
+
+      &.btn-locale-hu {
+        .flag {
+          background-image: $flag-hu;
+        }
+      }
+
+      &.btn-locale-en {
+        .flag {
+          background-image: $flag-en;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+﻿@model CenterProfilePartViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@{
+    var centerTypeCaptions = CenterTypeCaptions.GetLocalizedValues(T);
+}
+
+<ul class="list-unstyled">
+    @if (!string.IsNullOrEmpty(Model.LeaderName))
+    {
+        <li>
+            <strong>@Model.LeaderName</strong>
+        </li>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.CenterAddress) && !string.IsNullOrEmpty(Model.CenterSettlementName) && Model.CenterZipCode > 0)
+    {
+        <li>
+            <div>
+                @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+                {
+                    <address class="m-0">
+                        <a href="http://www.google.com/maps/place/@Model.Latitude.ToString().Replace(',', '.'),@Model.Longitude.ToString().Replace(',', '.')"
+                           target="_blank">
+                            <i class="fas fa-map-pin"></i>
+                            @Model.FullAddress
+                        </a>
+                    </address>
+                }
+                else
+                {
+                    <i class="fas fa-map-pin"></i>
+                    @Model.FullAddress
+                }
+            </div>
+        </li>
+    }
+
+    @if (Model.CenterTypes.Any())
+    {
+        <li>
+            @foreach (var centerType in Model.CenterTypes)
+            {
+                <span class="badge badge-dark">
+                    @(centerTypeCaptions.FirstOrDefault(x => x.Key == centerType).Value)
+                </span>
+            }
+        </li>
+    }
+
+    <li>
+        @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: Model.AccreditationStatus))
+        (@Model.AccreditationStatusDateUtc.ToShortDateString())
+    </li>
+
+    @if (!Model.Created)
+    {
+        <li>
+            <span class="badge badge-primary">@T["Létrehozás alatt"]</span>
+        </li>
+    }
+</ul>

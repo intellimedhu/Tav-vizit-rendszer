@@ -1,0 +1,64 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@{
+    var complex = (CenterProfileComplexViewModel)ViewData["CenterProfile"];
+    var centerProfile = complex.BasicData;
+
+    ViewBag.Title = T["Kérjük, erősítse meg döntését"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<ul class="row list-unstyled">
+    <li class="col-sm-4 col-form-label text-sm-right">
+        <strong>
+            @T["Szakellátóhely neve"]
+        </strong>
+    </li>
+    <li class="col-sm-8 col-form-label">
+        @centerProfile.CenterName
+    </li>
+
+    <li class="col-sm-4 col-form-label text-sm-right">
+        <strong>
+            @T["Szakellátóhely vezető"]
+        </strong>
+    </li>
+    <li class="col-sm-8 col-form-label">
+        @(complex.Leader?.FullName)
+    </li>
+
+    <li class="col-sm-8 offset-sm-4 text-sm-right">
+        @{
+            var buttons = new List<BarButton>();
+        }
+
+        @if (complex.Renewal.ApplicationEnabled())
+        {
+            buttons.Add(new BarButton()
+            {
+                Action = Url.Action(
+                    "Cancel",
+                    "Colleagues",
+                    new
+                    {
+                        area = "OrganiMedCore.DiabetesCareCenterManager",
+                        id = complex.ContentItemId,
+                        sure = true
+                    }),
+                Classes = "btn btn-lg btn-danger",
+                Text = T["Jóváhagy"].Value
+            });
+        }
+        else
+        {
+            @T["A szakellátóhely akkreditációja folyamatban van. Jelentkezés jelenleg nem lehetséges."]
+        }
+
+        @{
+            buttons.Add(BarButton.Cancel(T, Url.Action("Index", "Colleagues", new { area = "OrganiMedCore.DiabetesCareCenterManager" })));
+        }
+
+        @await DisplayAsync(await New.ButtonBar(Buttons: buttons))
+    </li>
+</ul>

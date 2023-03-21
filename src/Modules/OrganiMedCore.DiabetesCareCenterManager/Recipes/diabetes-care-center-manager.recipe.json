@@ -1,0 +1,14 @@
+{
+  "name": "diabetes-care-center-manager",
+  "displayName": "Diabetes Care Center Manager",
+  "description": "Recipe for the Diabetes Care Center Manager module.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "evisit" ],
+  "tags": [ "evisit" ],
+  "steps": [
+    {
+    }
+  ]
+}

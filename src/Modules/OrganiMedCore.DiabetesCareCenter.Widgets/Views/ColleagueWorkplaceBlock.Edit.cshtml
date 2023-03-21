@@ -1,0 +1,77 @@
+﻿@model ColleagueWorkplaceBlockPartViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Widgets.ViewModels
+@using OrganiMedCore.DiabetesCareCenter.Widgets.Models.Enums
+@{
+    var colleagueWorkplaceTabOptions = new[]
+    {
+        new SelectListItem()
+        {
+            Value = ColleagueWorkplaceTab.Overview.ToString(),
+            Text = T["Áttekintés"].Value,
+            Selected = Model.ColleagueWorkplaceTab == ColleagueWorkplaceTab.Overview
+        },
+        new SelectListItem()
+        {
+            Value = ColleagueWorkplaceTab.NewApplication.ToString(),
+            Text = T["Új jelentkezés"].Value,
+            Selected = Model.ColleagueWorkplaceTab == ColleagueWorkplaceTab.NewApplication
+        }
+    };
+
+    var colleagueStatusGroupOptions = new[]
+    {
+        new SelectListItem()
+        {
+            Value = nameof(ColleagueStatusExtensions.GreenZone),
+            Text = T["Jelenlegi munkakörök"].Value,
+            Selected = Model.ColleagueStatusGroup == nameof(ColleagueStatusExtensions.GreenZone)
+        },
+        new SelectListItem()
+        {
+            Value = nameof(ColleagueStatusExtensions.PendingZone),
+            Text = T["Függőben lévő jelentkezések és meghívók"].Value,
+            Selected = Model.ColleagueStatusGroup == nameof(ColleagueStatusExtensions.PendingZone)
+        },
+        new SelectListItem()
+        {
+            Value = nameof(ColleagueStatusExtensions.RemovedZone),
+            Text = T["Törölt munkakörök"].Value,
+            Selected = Model.ColleagueStatusGroup == nameof(ColleagueStatusExtensions.RemovedZone)
+        }
+    };
+
+    var i = 0;
+}
+
+<fieldset class="form-group" asp-validation-class-for="ColleagueWorkplaceTab">
+    <label asp-for="ColleagueWorkplaceTab">@T["Tab"]</label>
+    @{
+        i = 0;
+        foreach (var option in colleagueWorkplaceTabOptions)
+        {
+            <div class="custom-control custom-radio">
+                @Html.RadioButton(nameof(Model.ColleagueWorkplaceTab), option.Value, option.Selected, new { @class = "custom-control-input", id = Html.IdFor(m => m.ColleagueWorkplaceTab) + "_" + i })
+                <label class="custom-control-label" for="@(Html.IdFor(m => m.ColleagueWorkplaceTab) + "_" + i)">@option.Text</label>
+            </div>
+            i++;
+        }
+    }
+    <span asp-validation-for="ColleagueWorkplaceTab"></span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="ColleagueStatusGroup">
+    <label asp-for="ColleagueStatusGroup">@T["Status group"]</label>
+    @{
+        i = 0;
+        foreach (var option in colleagueStatusGroupOptions)
+        {
+            <div class="custom-control custom-radio">
+                @Html.RadioButton(nameof(Model.ColleagueStatusGroup), option.Value, option.Selected, new { @class = "custom-control-input", id = Html.IdFor(m => m.ColleagueStatusGroup) + "_" + i })
+                <label class="custom-control-label" for="@(Html.IdFor(m => m.ColleagueStatusGroup) + "_" + i)">@option.Text</label>
+            </div>
+            i++;
+        }
+    }
+    <span asp-validation-for="ColleagueStatusGroup"></span>
+</fieldset>

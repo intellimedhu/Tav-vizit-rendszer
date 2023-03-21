@@ -1,0 +1,73 @@
+﻿@model CenterSettingsViewModel
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+
+<fieldset class="mb-3">
+    <legend class="m-0">@T["Térkép"]</legend>
+
+    <div class="row form-group" asp-validation-class-for="GoogleMapsApiKey">
+        <label asp-for="GoogleMapsApiKey" class="col-form-label col-12">@T["Google Maps API Key"]</label>
+        <div class="col-lg-7 col-xl-6">
+            <input asp-for="GoogleMapsApiKey" class="form-control" />
+            <span asp-validation-for="GoogleMapsApiKey"></span>
+            <span class="hint">@T["Google térkép használatához szükséges kulcs"]</span>
+        </div>
+    </div>
+
+    <hr />
+</fieldset>
+
+
+<fieldset class="mb-3">
+    <legend>@T["Cache"]</legend>
+
+    <div class="row form-group" asp-validation-class-for="CenterProfileCacheEnabled">
+        <div class="col-12">
+            <div class="custom-control custom-switch">
+                <input asp-for="CenterProfileCacheEnabled" type="checkbox" class="custom-control-input" />
+                <label asp-for="CenterProfileCacheEnabled" class="custom-control-label">@T["Cache engedélyezése a szakellátóhely adatlapokhoz."]</label>
+            </div>
+            <span asp-validation-for="CenterProfileCacheEnabled"></span>
+        </div>
+    </div>
+
+    <div class="row form-group" asp-validation-class-for="TerritoryCacheEnabled">
+        <div class="col-12">
+            <div class="custom-control custom-switch">
+                <input asp-for="TerritoryCacheEnabled" type="checkbox" class="custom-control-input" />
+                <label asp-for="TerritoryCacheEnabled" class="custom-control-label">@T["Cache engedélyezése a területekhez (megyékhez)."]</label>
+            </div>
+            <span asp-validation-for="TerritoryCacheEnabled"></span>
+        </div>
+    </div>
+
+    <div class="row form-group" asp-validation-class-for="ForceEmptyCache">
+        <div class="col-12">
+            <div class="custom-control custom-switch">
+                <input asp-for="ForceEmptyCache" type="checkbox" class="custom-control-input" />
+                <label asp-for="ForceEmptyCache" class="custom-control-label">@T["Cache ürítése most"]</label>
+            </div>
+            <span asp-validation-for="ForceEmptyCache"></span>
+        </div>
+    </div>
+
+    <hr />
+</fieldset>
+
+<fieldset class="mb-3">
+    <legend>@T["Akkreditációs állapot"]</legend>
+
+    <div class="row form-group" asp-validation-class-for="CalculatedStatusOverridable">
+        <div class="col-12">
+            <div class="custom-control custom-switch">
+                <input asp-for="CalculatedStatusOverridable" type="checkbox" class="custom-control-input" />
+                <label asp-for="CalculatedStatusOverridable" class="custom-control-label">
+                    @T["Várható minősítési szint felülbírálható"]
+                    <span class="hint">- @T["A rendszer által számolt akkreditációs állapot felülbírálható (MDT Vezetőség által)"]</span>
+                </label>
+            </div>
+            <span asp-validation-for="CalculatedStatusOverridable"></span>
+        </div>
+    </div>
+
+    <hr />
+</fieldset>

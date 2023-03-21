@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Assets\ColleagueApplicationEditor\node_modules\**" />
+    <Compile Remove="Assets\MapView\node_modules\**" />
+    <Compile Remove="Assets\SettlementEditor\node_modules\**" />
+    <Compile Remove="ClientApps\**" />
+    <EmbeddedResource Remove="Assets\ColleagueApplicationEditor\node_modules\**" />
+    <EmbeddedResource Remove="Assets\MapView\node_modules\**" />
+    <EmbeddedResource Remove="Assets\SettlementEditor\node_modules\**" />
+    <EmbeddedResource Remove="ClientApps\**" />
+    <None Remove="Assets\ColleagueApplicationEditor\node_modules\**" />
+    <None Remove="Assets\MapView\node_modules\**" />
+    <None Remove="Assets\SettlementEditor\node_modules\**" />
+    <None Remove="ClientApps\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="compilerconfig.json" />
+    <EmbeddedResource Remove="compilerconfig.json.defaults" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Admin" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.BackgroundTasks" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ContentFields" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ContentManagement.Display" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Liquid" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Users" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Tenants" Version="1.0.0-rc1-10004" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ClientApps\OrganiMedCore.DiabetesCareCenterManager.CenterProfileEditor\OrganiMedCore.DiabetesCareCenterManager.CenterProfileEditor.csproj" />
+    <ProjectReference Include="..\OrganiMedCore.DiabetesCareCenter.Core\OrganiMedCore.DiabetesCareCenter.Core.csproj" />
+    <ProjectReference Include="..\OrganiMedCore.Email\OrganiMedCore.Email.csproj" />
+    <ProjectReference Include="..\OrganiMedCore.Login\OrganiMedCore.Login.csproj" />
+    <ProjectReference Include="..\IntelliMed.Core\IntelliMed.Core.csproj" />
+    <ProjectReference Include="..\OrganiMedCore.UriAuthentication\OrganiMedCore.UriAuthentication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\ColleagueApplicationEditor\" />
+    <Folder Include="Assets\SettlementEditor\" />
+  </ItemGroup>
+
+</Project>

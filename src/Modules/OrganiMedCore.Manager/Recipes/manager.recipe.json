@@ -1,0 +1,16 @@
+{
+  "name": "organimedcoremanager",
+  "displayName": "OrganiMedCore Manager",
+  "description": "Recipe for the manager module.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "lucene-index",
+      "Indices": [ "evisitpatients" ]
+    }
+  ]
+}

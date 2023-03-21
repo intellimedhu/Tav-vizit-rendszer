@@ -1,0 +1,211 @@
+﻿@model CenterProfileReviewViewModel
+@using OrchardCore.ContentManagement
+@using OrganiMedCore.DiabetesCareCenter.Core.Constants
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@{
+    var contentItem = ViewData["ContentItem"] as ContentItem;
+    var extensionsPart = contentItem.As<CenterProfileManagerExtensionsPart>();
+    var authorizedToReivew = (bool)ViewData["AuthorizedToReview"];
+    var currentRole = ViewData["CurrentRole"].ToString();
+
+    var reviewEnabled = extensionsPart.RenewalCenterProfileStatus.HasValue && authorizedToReivew;
+    var anyValidationErrors = ViewData.ModelState.Values.Any(x => x.Errors.Any());
+
+    var pageContainerClasses = "";
+    if (anyValidationErrors)
+    {
+        pageContainerClasses += "validation-errors ";
+    }
+
+    var reviewCollapsed = !anyValidationErrors && Model.ReviewOutcome != false;
+    if (reviewCollapsed)
+    {
+        pageContainerClasses = "collapsed ";
+    }
+
+    ViewBag.Title = T["Szakellátóhely adatlap áttekintése"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<div class="center-profile-review-page-container @(pageContainerClasses.Trim())">
+    @if (extensionsPart.RenewalCenterProfileStatus.HasValue)
+    {
+        <div class="row mb-4">
+            <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                @await DisplayAsync(await New.CenterProfileStatus(
+                    CenterProfileStatus: extensionsPart.RenewalCenterProfileStatus.Value,
+                    HugeSized: true))
+            </div>
+        </div>
+    }
+
+    @await DisplayAsync(await New.AccreditationStatusDeficiencies(ManagerExtensionsPart: extensionsPart))
+
+    @await DisplayAsync(ViewData["SummaryDisplay"])
+
+    @await DisplayAsync(await New.ButtonBar(
+        Buttons: new[]
+        {
+            new BarButton()
+            {
+                Action = Url.Action("History", "CenterProfile", new { area = "OrganiMedCore.DiabetesCareCenterManager", id = contentItem.ContentItemId }),
+                Text = T["Előzmények megtekintése"].Value,
+                Classes = "btn btn-lg btn-info",
+                IconClasses = "fas fa-redo-alt"
+            },
+            BarButton.Cancel(T, Url.Action("Index", "CenterProfile", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+        }))
+
+    @if (reviewEnabled)
+    {
+        <form asp-route-area="OrganiMedCore.DiabetesCareCenterManager" asp-route="CenterProfileReview" method="post" id="center-profile-review-form">
+            @Html.HiddenFor(model => model.Id)
+            <nav class="navbar navbar-center-profile-review @(reviewCollapsed ? "closed" : "open")">
+                <div class="contaner-center-profile-review">
+                    <div class="row row-center-profile-review">
+                        <div class="col-12 align-self-center center-profile-review-caption">
+                            <p class="lead">
+                                <strong>
+                                    @switch (currentRole)
+                                    {
+                                        case CenterPosts.MDTManagement:
+                                            @T["Döntésem a szakellátóhely adatlapról <span class=\"text-nowrap\">MDT vezetőség</span> tagjaként"]
+                                            break;
+
+                                        case CenterPosts.OMKB:
+                                            @T["Döntésem a szakellátóhely adatlapról <span class=\"text-nowrap\">MDT-OMKB</span> tagjaként"]
+                                            break;
+
+                                        case CenterPosts.TerritorialRapporteur:
+                                            @T["Döntésem a szakellátóhely adatlapról <span class=\"text-nowrap\" class=\"text-nowrap\">területi referens</span>ként"]
+                                            break;
+
+                                        case CenterPosts.MDTSecretary:
+                                            @T["Döntésem a szakellátóhely adatlapról, mint <span class=\"text-nowrap\">területi referens helyettesítő személy</span>"]
+                                            break;
+                                    }:
+                                </strong>
+
+                                <button type="button" class="btn btn-safe d-none d-md-inline-block btn-review-collapse ml-5">
+                                    <i class="fas @(reviewCollapsed ? "fa-angle-up" : "fa-angle-down")"></i>
+                                    <span class="">@T[reviewCollapsed ? "Kinyit" : "Bezár"]</span>
+                                </button>
+                            </p>
+                        </div>
+
+                        <div class="col-12 align-self-center center-profile-review-radioset center-profile-review-hide-on-close">
+                            <div class="custom-control custom-radio center-profile-review-radio">
+                                @Html.RadioButtonFor(model => model.ReviewOutcome, true, new { @class = "custom-control-input", id = "review-outcome-true" })
+                                <label class="custom-control-label" for="review-outcome-true">
+                                    @T["Jóváhagyom"]
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio center-profile-review-radio">
+                                @Html.RadioButtonFor(model => model.ReviewOutcome, false, new { @class = "custom-control-input", id = "review-outcome-false" })
+                                <label class="custom-control-label" for="review-outcome-false">
+                                    @T["Elutasítom"]
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-12 center-profile-review-reject-container d-none center-profile-review-hide-on-close">
+                            <textarea asp-for="RejectReason" class="form-control mb-3" placeholder="@T["Kérjük, indolkolja meg döntését"]"></textarea>
+                        </div>
+
+                        @if (anyValidationErrors)
+                        {
+                            <div class="col-12 center-profile-review-validation-errors center-profile-review-hide-on-close">
+                                @Html.ValidationSummary(false, string.Empty, new { @class = "alert alert-danger" })
+                            </div>
+                        }
+
+                        <div class="col-12 align-self-center center-profile-review-ok-btn-container center-profile-review-hide-on-close">
+                            <button type="button" class="btn btn-lg btn-success" id="btn-review-center-profile">
+                                <i class="fas fa-check"></i>
+                                @T["Ok"]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </form>
+    }
+</div>
+
+@if (reviewEnabled)
+{
+    <script at="Foot" asp-name="InformationOrientedBsModals"></script>
+    <script at="Foot">
+        ; (function ($) {
+            $(function () {
+                var reviewCollapsed = @(reviewCollapsed ? "true" : "false");
+                var $rejectReasonContainer = $('.center-profile-review-reject-container');
+                var $pageContainer = $('.center-profile-review-page-container');
+                var $navbarReview = $('.navbar-center-profile-review');
+                var $collapseButtonIcon = $('.btn-review-collapse i');
+                var $collapseButtonCaption = $('.btn-review-collapse span');
+                var $reviewOutcome = $('[name="@Html.NameFor(model => model.ReviewOutcome)"]');
+
+                function onRejected() {
+                    $rejectReasonContainer.removeClass('d-none');
+                    setTimeout(function () {
+                        $('#@Html.IdFor(model => model.RejectReason)').focus();
+                    }, 200);
+                }
+
+                $reviewOutcome.on('change', function () {
+                    var accepted = $(this).val().toLowerCase() == 'true';
+                    if (accepted) {
+                        $rejectReasonContainer.addClass('d-none');
+                    } else {
+                        onRejected();
+                    }
+                });
+
+                if ('@(Model.ReviewOutcome == false)'.toLocaleLowerCase() == 'true') {
+                    onRejected();
+                }
+
+                $('.btn-review-collapse').on('click', function () {
+                    reviewCollapsed = !reviewCollapsed;
+                    if (reviewCollapsed) {
+                        $pageContainer.addClass('collapsed');
+                        $navbarReview.removeClass('open').addClass('closed');
+                        $collapseButtonIcon.removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $collapseButtonCaption.text('@T["Kinyit"]');
+                    } else {
+                        $pageContainer.removeClass('collapsed');
+                        $navbarReview.removeClass('closed').addClass('open');
+                        $collapseButtonIcon.removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $collapseButtonCaption.text('@T["Bezár"]');
+                    }
+                });
+
+                $('#btn-review-center-profile').on('click', function () {
+                    if (!($reviewOutcome.is(':checked'))) {
+                        alertModal({ message: '@T["A döntés nem lett kiválasztva."]', size: 'sm' });
+
+                        return;
+                    }
+
+                    if ($('#review-outcome-false').is(':checked') && !$('#@Html.IdFor(model => model.RejectReason)').val()) {
+                        alertModal({ message: '@T["Elutasítás esetén meg kell indokolni a döntést."]' });
+
+                        return;
+                    }
+
+                    confirmationModal({
+                        message: '@T["Biztos, hogy meghozza döntését?"]',
+                        okClass: 'btn btn-safe',
+                        callback: function (confirmed) {
+                            if (confirmed) {
+                                $('#center-profile-review-form').submit();
+                            }
+                        }
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+}

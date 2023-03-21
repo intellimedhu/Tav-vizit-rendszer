@@ -1,0 +1,37 @@
+$color-dgp: #42abe0 !default;
+$color-shigh: #fdb813 !default;
+$color-high: #f7d61c !default;
+$color-target: #5abc68 !default;
+$color-low: #ed1c24 !default;
+$color-slow: #a71b29 !default;
+
+$theme-colors: (
+  "shigh": $color-shigh,
+  "high": $color-high,
+  "target": $color-target,
+  "low": $color-low,
+  "slow": $color-slow,
+  "dgp": $color-dgp
+) !default;
+
+$grid-breakpoints: (
+  z: 0,
+  xs: 480px,
+  sm: 576px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1200px
+) !default;
+
+$font-size-sm: 0.85rem !default;
+
+$grid-gutter-width: 4px !default;
+$sticky-top: 60px !default;
+$statistic-title-width: 28px !default;
+$statistic-block-width: 70px !default;
+$statistic-block-height: 155px !default;
+$statistic-padding: 2px !default;
+$statistic-header-line-height: 15px !default;
+$statistic-block-header-footer-height: 28px !default;
+$enable-gradients: true !default;
+$enable-validation-icons: false !default;

@@ -1,0 +1,9 @@
+﻿@model InfoBlockViewModel
+@using OrganiMedCore.InfoWidgets.ViewModels
+
+<fieldset class="form-group" asp-validation-class-for="BlockTitle">
+    <label asp-for="BlockTitle">@T["BlockTitle"]</label>
+    <input asp-for="BlockTitle" class="form-control" />
+    <span asp-validation-for="BlockTitle"></span>
+    <span class="hint">@T["The title of the block."]</span>
+</fieldset>

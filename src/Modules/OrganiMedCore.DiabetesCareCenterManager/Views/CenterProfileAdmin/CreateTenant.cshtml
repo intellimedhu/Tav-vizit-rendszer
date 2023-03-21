@@ -1,0 +1,49 @@
+﻿@model EditTenantViewModel
+@using OrchardCore.Tenants.ViewModels
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@{
+    var complex = ViewData["Complex"] as CenterProfileComplexViewModel;
+}
+
+<h1>@RenderTitleSegments(T["SZEH tenant létrehozása"])</h1>
+<h3>@complex.BasicData.CenterName</h3>
+<hr />
+
+@Html.ValidationSummary(false)
+
+<form asp-area="OrganiMedCore.DiabetesCareCenterManager" asp-controller="CenterProfileAdmin" asp-action="CreateTenant">
+    <input type="hidden" name="id" value="@complex.ContentItemId" />
+    <div class="row form-group">
+        <label asp-for="Name" class="col-form-label col-12">@T["Name"]</label>
+        <div class="col-12">
+            <input asp-for="Name" class="form-control" />
+            <small class="d-block text-muted">@T["The name of the tenant."]</small>
+            <span asp-validation-for="Name"></span>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label asp-for="RequestUrlPrefix" class="col-form-label col-12">@T["Url Prefix"]</label>
+        <div class="col-12">
+            <input asp-for="RequestUrlPrefix" class="form-control" />
+            <span asp-validation-for="RequestUrlPrefix"></span>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label asp-for="DatabaseProvider" class="col-form-label col-12">@T["Database"]</label>
+        <div class="col-12">
+            <input asp-for="DatabaseProvider" class="form-control" readonly value="Sqlite" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        @T["Create"]
+    </button>
+    <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+       asp-controller="CenterProfileAdmin"
+       asp-action="List"
+       class="btn btn-secondary">
+        @T["Cancel"]
+    </a>
+</form>

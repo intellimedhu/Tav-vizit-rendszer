@@ -1,0 +1,37 @@
+﻿@model QualificationViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+
+<h1>@T["Szakképesítés {0}", Model.Id.HasValue ? "szerkesztés" : "felvétele"]</h1>
+<hr />
+
+@Html.ValidationSummary()
+
+<form asp-area="OrganiMedCore.DiabetesCareCenterManager"
+      asp-controller="CenterProfileQualifications"
+      asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row form-group">
+        <label asp-for="Name" class="col-12 col-for-label">@T["Elnevezés"]</label>
+        <div class="col-12">
+            <input type="text" asp-for="Name" class="form-control" autofocus />
+        </div>
+        <span asp-validation-for="Name" class="col-12 text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col text-right">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i>
+                @T["Mentés"]
+            </button>
+
+            <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+               asp-controller="CenterProfileQualifications"
+               asp-action="Index"
+               class="btn btn-secondary">
+                @T["Mégsem"]
+            </a>
+        </div>
+    </div>
+</form>

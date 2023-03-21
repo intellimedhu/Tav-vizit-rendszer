@@ -1,0 +1,34 @@
+﻿@font-face {
+  font-family: 'H_Eras Bt Demi';
+  src: url("h_erbd.ttf"); }
+
+[dir] .ta-navbar-top .ta-navbar-brand {
+  width: auto;
+  background-image: none;
+  padding: 0;
+  display: block; }
+  [dir] .ta-navbar-top .ta-navbar-brand .brand {
+    font-family: 'H_Eras Bt Demi';
+    font-variant: small-caps;
+    font-size: 30px;
+    color: #5597D3;
+    display: inline-block;
+    padding-right: 8px;
+    position: relative; }
+    [dir] .ta-navbar-top .ta-navbar-brand .brand::before {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 2px;
+      height: 28px;
+      right: 0;
+      top: 9px;
+      background: #5597D3; }
+  [dir] .ta-navbar-top .ta-navbar-brand .site-name {
+    font-size: 16px;
+    display: inline-block; }
+
+[dir] .ta-content .omc-main-title {
+  font-size: 4.5rem;
+  font-weight: 300;
+  line-height: 1.2; }

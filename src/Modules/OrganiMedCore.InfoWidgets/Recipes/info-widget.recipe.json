@@ -1,0 +1,19 @@
+{
+  "name": "info-widget",
+  "displayName": "info-widget",
+  "description": "",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "OrganiMedCore", "IntelliMed" ],
+  "tags": [ "OrganiMedCore", "IntelliMed" ],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrganiMedCore.Bootstrap"
+      ]
+    }
+  ]
+}

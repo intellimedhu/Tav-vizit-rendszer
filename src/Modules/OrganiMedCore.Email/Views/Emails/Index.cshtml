@@ -1,0 +1,250 @@
+﻿<h1>@T["Email sablonok megadása"]</h1>
+<hr />
+
+<div id="email-template-editor" class="d-none">
+    <div class="row">
+        <div class="col">
+            <ul class="alert alert-info pl-5 m-0">
+                <li>
+                    @T["Csak olyan tokenek engedélyezettek, amelyeket a kiválasztott sablonnál meg vannak adva. Az összes többi normál szövegként lesz értelmezve."]
+                </li>
+                <li>
+                    @T["Kötőjelek között kell megadni a token nevét felesleges szóköz nélkül."]
+                </li>
+                <li>
+                    @T["Példa"]:
+                    <br />
+                    Kedves <code>-LeaderName-</code>!
+                    <br />
+                    Az Ön személyes adatlapja az alábbi linkre kattintva elérhető:
+                    <br />
+                    &lt;a href="<code>-YourProfileUrl-</code>"&gt;Kérem, kattintson ide&lt;/a&gt;
+                </li>
+                <li>
+                    @T["Próba email küldhető az utolsó mezőt használva, ahol a paraméterek megadása soronkénti elválasztással adható meg."]
+                    <br />
+                    @T["Példa"]:
+                    <p>
+                        LeaderName:Kiss Béla
+                        <br />
+                        CenterName:IntelliMed centrum
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row form-group">
+        <label class="col-lg-2 col-xl-1 text-lg-right col-form-label" for="email-templates">@T["Sablon"]</label>
+        <div class="col">
+            <select id="email-templates" class="form-control" v-model="selectedTemplateId" @@change="templateSelected" :disabled="templateSelectDisabled">
+                <option :value="null">@T["Kérem, válasszon!"]</option>
+                <option v-for="tempalte in templates" v-bind:key="tempalte.id" :value="tempalte.id">{{tempalte.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div v-if="selectedTemplateId">
+        <div class="row form-group">
+            <label class="col-lg-2 col-xl-1 text-lg-right col-form-label">@T["Tokenek"]</label>
+            <div class="col">
+                <pre class="bg-light p-2 border border-secondary rounded" v-html="templateTokens"></pre>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-lg-2 col-xl-1 text-lg-right col-form-label" for="email-subject">@T["Tárgy"]</label>
+            <div class="col">
+                <input id="email-subject" class="form-control" type="text" v-model="tokenizedEmail.subject" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label class="col-lg-2 col-xl-1 text-lg-right col-form-label" for="email-raw-body">@T["Tartalom"]</label>
+            <div class="col">
+                <textarea id="email-raw-body" class="form-control" rows="15"
+                          v-model="tokenizedEmail.rawBody"
+                          style="font-family:Consolas;font-size:12px;"></textarea>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col text-right">
+                <button type="button" class="btn btn-lg btn-primary" @@click="save">
+                    <i class="fas fa-save"></i>
+                    @T["Mentés"]
+                </button>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row form-group">
+            <label class="col-lg-2 col-xl-1 text-lg-right col-form-label" for="prepare-data">@T["Próba email paraméterek"]</label>
+            <div class="col">
+                <textarea id="prepare-data" class="form-control" rows="8"
+                          v-model="preparedData"
+                          style="font-family:Consolas;font-size:12px;"></textarea>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-12 text-right">
+                <button type="button" class="btn btn-outline-primary" @@click="test">
+                    <i class="far fa-paper-plane"></i>
+                    @T["Küldés"]
+                </button>
+            </div>
+
+            <div class="col text-right">
+                <small class="text-muted">
+                    @T["Küldés előtt a sablon mentése szükséges"]
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-secondary text-center" id="please-wait">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">@T["Kérem, várjon!"]</span>
+    </div>
+    @T["Kérem, várjon!"]
+</div>
+
+<script asp-name="Axios" at="Foot"></script>
+<script asp-name="Vue" at="Foot"></script>
+<script at="Foot">
+    new Vue({
+        el: '#email-template-editor',
+        data: {
+            templates: [],
+            selectedTemplateId: null,
+            selectedTemplate: {
+                id: null,
+                name: null,
+                tokens: []
+            },
+            tokenizedEmail: {
+                rawBody: null,
+                subject: null,
+                templateId: null
+            },
+            preparedData: null,
+            templateSelectDisabled: false
+        },
+        computed: {
+            templateTokens() {
+                if (this.selectedTemplate && this.selectedTemplate.tokens.length) {
+                    return this.selectedTemplate.tokens.join('<br />');
+                }
+            },
+            templateTokensPrepared() {
+                if (this.selectedTemplate && this.selectedTemplate.tokens.length) {
+                    return this.selectedTemplate.tokens.join(':\n') + ':';
+                }
+            }
+        },
+        methods: {
+            templateSelected() {
+                if (!this.selectedTemplateId) {
+                    this.selectedTemplate.id = null;
+                    this.selectedTemplate.name = null;
+                    this.selectedTemplate.tokens = [];
+
+                    this.tokenizedEmail.rawBody = null;
+                    this.tokenizedEmail.subject = null;
+                    this.tokenizedEmail.templateId = null;
+
+                    return;
+                }
+
+                this.templateSelectDisabled = true;
+
+                axios
+                    .get('@Url.RouteUrl("EmailsApi.GetTemplateById")', {
+                        params: {
+                            id: this.selectedTemplateId
+                        }
+                    })
+                    .then(response => {
+                        Object.assign(this.selectedTemplate, response.data.template);
+                        Object.assign(this.tokenizedEmail, response.data.tokenizedEmail);
+
+                        this.preparedData = this.templateTokensPrepared;
+                        this.templateSelectDisabled = false;
+                    })
+                    .catch(e => {
+                        console.log(JSON.stringify(e));
+                        alert('@T["A sablon betöltése nem sikerült"]');
+                        this.templateSelectDisabled = false;
+                    });
+            },
+            save() {
+                if (!this.selectedTemplateId) {
+                    alert('A sablon kiválasztása kötelező!');
+                    return;
+                }
+
+                if (!this.tokenizedEmail.rawBody) {
+                    alert('A tartalom megadása kötelező!');
+                    return;
+                }
+
+                if (!this.tokenizedEmail.subject) {
+                    alert('A tárgy megadása kötelező!');
+                    return;
+                }
+
+                axios
+                    .post('@Url.RouteUrl("EmailsApi")', this.tokenizedEmail)
+                    .then(() => {
+                        alert('@T["OK"]');
+                    })
+                    .catch(e => {
+                        console.log(JSON.stringify(e));
+                    });
+            },
+            test() {
+                if (!this.preparedData) {
+                    alert("Üresen nem küldhető!");
+                    return;
+                }
+
+                axios
+                    .post('@Url.RouteUrl("EmailsApi.Test")', {
+                        templateId: this.selectedTemplateId,
+                        preparedData: this.preparedData
+                    })
+                    .then(() => {
+                        alert('@T["Elküldve"]');
+                    })
+                    .catch(e => {
+                        console.log(JSON.stringify(e));
+                        switch (e.response.status) {
+                            case 400: alert('@T["Hibás kérés."]'); return;
+                            case 404: alert(e.response.data); return;
+                            case 409: alert('@T["Az email küldés nem sikerült."]'); return;
+                            default: alert('@T["Ismeretlen hiba."]');
+                        }
+                    });
+            }
+        },
+        mounted() {
+            axios
+                .get('@Url.RouteUrl("EmailsApi.GetTemplates")')
+                .then(response => {
+                    this.templates = response.data.templates;
+
+                    this.$el.classList.remove('d-none');
+                    document.getElementById('please-wait').classList.add('d-none');
+                })
+                .catch(e => {
+                    console.log(JSON.stringify(e));
+                    alert('@T["A sablonok betöltése nem sikerült"]');
+                });
+        }
+    });
+</script>

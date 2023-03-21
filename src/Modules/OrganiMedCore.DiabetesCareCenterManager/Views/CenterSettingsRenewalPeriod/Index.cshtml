@@ -1,0 +1,124 @@
+﻿@model IEnumerable<RenewalSettingsViewModel>
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+
+<h1>@T["Megújítási időszakok kezelése"]</h1>
+<hr />
+
+<a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+   asp-controller="CenterSettingsRenewalPeriod"
+   asp-action="Edit"
+   class="btn btn-success mb-3">
+    @T["Új felvétele"]
+</a>
+
+<a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+   asp-controller="CenterSettingsRenewalPeriod"
+   asp-action="ResetCenterProfiles"
+   class="btn btn-outline-warning float-right"
+   id="btn-reset-center-profiles">
+    @T["Adatlapok megnyitása"]
+</a>
+
+<hr />
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>@T["Megújítási időszak kezdete"]</th>
+                    <th>@T["Ellenőrzési időszak kezdete"]</th>
+                    <th>@T["Ellenőrzési időszak vége"]</th>
+                    <th class="text-center">@T["Levelek"]</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var viewModel in Model.OrderByDescending(x => x.RenewalStartDate))
+                {
+                    var timingsCount = viewModel.EmailTimings.Count();
+                    var processedCount = viewModel.ProcessedTimings.Intersect(viewModel.EmailTimings).Count();
+                    var allPerProcessed = string.Format("{0}/{1}", timingsCount, processedCount);
+
+                    <tr>
+                        <td class="settings-time-format"
+                            data-datetime="@(viewModel.RenewalStartDate.HasValue ? viewModel.RenewalStartDate.Value.ToString("r") : "")"></td>
+                        <td class="settings-time-format"
+                            data-datetime="@(viewModel.ReviewStartDate.HasValue ? viewModel.ReviewStartDate.Value.ToString("r") : "")"></td>
+                        <td class="settings-time-format"
+                            data-datetime="@(viewModel.ReviewEndDate.HasValue ? viewModel.ReviewEndDate.Value.ToString("r") : "")"></td>
+                        <td class="text-center">
+                            @if (timingsCount > 0)
+                            {
+                                if (timingsCount > processedCount)
+                                {
+                                    <span class="badge badge-primary" title="@T["Összes/feldolgozott időzítés"]">@allPerProcessed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-info" title="@T["Minden időzítés feldolgozva"]">@allPerProcessed</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary" title="@T["Nincs időzítés felvéve"]">0</span>
+                            }
+                        </td>
+                        <td class="text-right">
+                            <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="CenterSettingsRenewalPeriod"
+                               asp-action="Edit"
+                               asp-route-id="@viewModel.Id"
+                               class="btn btn-outline-primary btn-sm"
+                               title="@T["Szerkesztés"]">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+
+                            <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="CenterSettingsRenewalPeriod"
+                               asp-action="Delete"
+                               asp-route-id="@viewModel.Id"
+                               class="btn btn-outline-danger btn-sm"
+                               title="@T["Törlés"]">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script at="Foot" asp-name="Moment"></script>
+    <script at="Foot">
+        (function ($) {
+            $(function () {
+                $(".settings-time-format").each(function () {
+                    var $this = $(this);
+                    var dateAsString = $this.data('datetime');
+                    if (dateAsString) {
+                        $this.text(moment(new Date(dateAsString)).format('YYYY.MM.DD. HH:mm'));
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+}
+else
+{
+    <p class="text-muted">
+        @T["Nincs találat."]
+    </p>
+}
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            $('#btn-reset-center-profiles').on('click', function (e) {
+                if (!confirm('@T["Biztos, hogy megnyitja az adatlapokat?"]')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    })(jQuery);
+</script>

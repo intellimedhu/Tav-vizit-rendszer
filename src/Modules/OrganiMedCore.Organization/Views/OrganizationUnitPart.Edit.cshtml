@@ -1,0 +1,39 @@
+﻿@model OrganizationUnitPartViewModel
+@using OrganiMedCore.Organization.ViewModels
+
+@{
+    var organizationUnitTypes = Model.OrganizationUnitTypes.Select(type => new SelectListItem()
+    {
+        Value = type,
+        Text = type,
+        Selected = Model.OrganizationUnitType == type
+    });
+}
+
+<h3>@T["Általános adatok"]</h3>
+
+<fieldset class="form-group" asp-validation-class-for="Name">
+    <label asp-for="Name">@T["Név"] <span asp-validation-for="Name"></span></label>
+    <input asp-for="Name" class="form-control content-preview-text" />
+    <span class="hint">@T["A szervezeti egység neve."]</span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="EesztId">
+    <label asp-for="EesztId">@T["Eeszt ID"] <span asp-validation-for="EesztId"></span></label>
+    <input asp-for="EesztId" class="form-control content-preview-text" />
+    <span class="hint">@T["A szervezeti egység EESZT azonosítója."]</span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="EesztName">
+    <label asp-for="EesztName">@T["Eeszt Név"] <span asp-validation-for="EesztName"></span></label>
+    <input asp-for="EesztName" class="form-control content-preview-text" />
+    <span class="hint">@T["A szervezeti egység EESZT neve."]</span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="OrganizationUnitType">
+    <label asp-for="OrganizationUnitType">@T["Típus"] <span asp-validation-for="OrganizationUnitType"></span></label>
+    <select asp-for="OrganizationUnitType" class="form-control" asp-items="organizationUnitTypes">
+        <option value="">@T["Kérem, válasszon!"]</option>
+    </select>
+    <span class="hint">@T["A szervezeti egység típusa."]</span>
+</fieldset>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Territory>
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@{
+    var territories = Model.OrderBy(x => x.Name);
+}
+
+<h1>@T["Területek (megyék) kezelése"]</h1>
+<hr />
+
+@if (territories.Any())
+{
+    <div class="grid-container text-center p-2">
+        @foreach (var territory in territories)
+        {
+            <a asp-route-action="Edit" asp-route-id="@territory.Id" class="grid-item">
+                <div class="text-center w-100 h-100 d-flex">
+                    <div class="align-self-center text-center w-100">
+                        <strong>
+                            @territory.Name
+                        </strong>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            background: rgb(30, 144, 255);
+            grid-column-gap: 8px;
+            grid-row-gap: 8px
+        }
+
+        .grid-item {
+            color: darkblue;
+            text-decoration: none;
+            height: 100px;
+            background: rgb(30, 144, 255);
+            font-size: 1.05em;
+        }
+
+            .grid-item > div {
+                background: #e5e5e5;
+            }
+
+            .grid-item:hover {
+                text-decoration: none;
+            }
+
+                .grid-item:hover > div {
+                    background: lightblue;
+                }
+    </style>
+}
+else
+{
+    <p class="text-muted">@T["Nincsenek területek."]</p>
+}

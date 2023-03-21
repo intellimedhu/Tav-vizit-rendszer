@@ -1,0 +1,22 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Widgets.Constants
+@{
+    var contentType = ViewData["ContentType"].ToString();
+
+    var title = string.Empty;
+    if (contentType == ContentTypes.CenterProfileEditorInfoBlockContainer)
+    {
+        title = "Szakellátóhely adatlap <u>szerkesztő</u> információs blokkjainak szerkesztése";
+    }
+    else if (contentType == ContentTypes.CenterProfileOverviewContainerBlock)
+    {
+        title = "Szakellátóhely adatlap <u>áttekintő</u> információs blokkjainak szerkesztése";
+    }
+}
+@if (!string.IsNullOrEmpty(title))
+{
+    <h2>@T[title]</h2>
+    <hr />
+}
+<form asp-route-action="EditSettings" asp-controller="CenterProfileEditorInfoSettings" asp-route-contentType="@contentType">
+    @await DisplayAsync(Model)
+</form>

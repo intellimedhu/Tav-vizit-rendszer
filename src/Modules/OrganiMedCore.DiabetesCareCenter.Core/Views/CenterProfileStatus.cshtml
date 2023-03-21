@@ -1,0 +1,187 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension;
+@{
+    var model = (CenterProfileStatus?)Model.CenterProfileStatus;
+    var hugeSized = (bool?)Model.HugeSized == true;
+
+    var emptyValues = CenterProfileStatusCaptions.GetLocalizedEmptyValues(T);
+    var currentValues = CenterProfileStatusCaptions.GetLocalizedCurrentValues(T);
+    var filledValues = CenterProfileStatusCaptions.GetLocalizedFilledValues(T);
+}
+
+@if (!hugeSized)
+{
+    <span>
+        @switch (model)
+        {
+            case null:
+                <span class="d-block">@emptyValues[CenterProfileStatus.Unsubmitted]</span>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.Unsubmitted]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtTR]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtOMKB]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtMDT]"></i>
+                break;
+            case CenterProfileStatus.Unsubmitted:
+                <span class="d-block">@currentValues[CenterProfileStatus.Unsubmitted]</span>
+                <i class="fas fa-square text-warning" title="@currentValues[CenterProfileStatus.Unsubmitted]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtTR]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtOMKB]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtMDT]"></i>
+                break;
+
+            case CenterProfileStatus.UnderReviewAtTR:
+                <span class="d-block">@currentValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.Unsubmitted]"></i>
+                <i class="fas fa-square text-warning" title="@currentValues[CenterProfileStatus.UnderReviewAtTR]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtOMKB]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtMDT]"></i>
+                break;
+
+            case CenterProfileStatus.UnderReviewAtOMKB:
+                <span class="d-block">@currentValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.Unsubmitted]"></i>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.UnderReviewAtTR]"></i>
+                <i class="fas fa-square text-warning" title="@currentValues[CenterProfileStatus.UnderReviewAtOMKB]"></i>
+                <i class="far fa-square text-secondary" title="@emptyValues[CenterProfileStatus.UnderReviewAtMDT]"></i>
+                break;
+
+            case CenterProfileStatus.UnderReviewAtMDT:
+                <span class="d-block">@currentValues[CenterProfileStatus.UnderReviewAtMDT]</span>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.Unsubmitted]"></i>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.UnderReviewAtTR]"></i>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.UnderReviewAtOMKB]"></i>
+                <i class="fas fa-square text-warning" title="@currentValues[CenterProfileStatus.UnderReviewAtMDT]"></i>
+                break;
+
+            case CenterProfileStatus.MDTAccepted:
+                <span class="d-block">@filledValues[CenterProfileStatus.MDTAccepted]</span>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.Unsubmitted]"></i>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.UnderReviewAtTR]"></i>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.UnderReviewAtOMKB]"></i>
+                <i class="fas fa-check-square text-success" title="@filledValues[CenterProfileStatus.MDTAccepted]"></i>
+                break;
+        }
+    </span>
+}
+else
+{
+    <div class="card-group">
+        @switch (model)
+        {
+            case null:
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.Unsubmitted]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtMDT]</span>
+                </div>
+                break;
+
+            case CenterProfileStatus.Unsubmitted:
+                <div class="card text-center p-1">
+                    <i class="fas fa-square fa-4x text-warning"></i>
+                    <span class="d-block">@currentValues[CenterProfileStatus.Unsubmitted]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtMDT]</span>
+                </div>
+                break;
+
+            case CenterProfileStatus.UnderReviewAtTR:
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.Unsubmitted]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-square fa-4x text-warning"></i>
+                    <span class="d-block">@currentValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtMDT]</span>
+                </div>
+                break;
+
+            case CenterProfileStatus.UnderReviewAtOMKB:
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.Unsubmitted]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-square fa-4x text-warning"></i>
+                    <span class="d-block">@currentValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="far fa-square fa-4x text-secondary"></i>
+                    <span class="d-block">@emptyValues[CenterProfileStatus.UnderReviewAtMDT]</span>
+                </div>
+                break;
+
+            case CenterProfileStatus.UnderReviewAtMDT:
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.Unsubmitted]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-square fa-4x text-warning"></i>
+                    <span class="d-block">@currentValues[CenterProfileStatus.UnderReviewAtMDT]</span>
+                </div>
+
+                break;
+
+            case CenterProfileStatus.MDTAccepted:
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.Unsubmitted]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.UnderReviewAtTR]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.UnderReviewAtOMKB]</span>
+                </div>
+                <div class="card text-center p-1">
+                    <i class="fas fa-check-square fa-4x text-success"></i>
+                    <span class="d-block">@filledValues[CenterProfileStatus.MDTAccepted]</span>
+                </div>
+                break;
+        }
+    </div>
+}

@@ -1,0 +1,82 @@
+﻿@model EditCenterUserFrontEndViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core;
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels;
+
+@{
+    var authorizedMDTSecretary = (bool)ViewData[nameof(ManagerPermissions.ManageMDTSecretary)];
+}
+
+<doki-net-member view-model="@(Model.EditDokiNetMemberViewModel ?? new IntelliMed.DokiNetIntegration.ViewModels.EditDokiNetMemberViewModel() )"
+                 prefix="@nameof(Model.EditDokiNetMemberViewModel)"></doki-net-member>
+
+<div class="form-group row">
+    <label class="col-form-label col-sm-4 col-lg-3 text-sm-right">@T["Jogosultságok"]</label>
+    <div class="col-sm-8 col-lg-9">
+        @if ((bool)ViewData[nameof(ManagerPermissions.ManageMDTManagement)])
+        {
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" asp-for="RoleManageMDTManagement.IsSelected" />
+                <label class="custom-control-label" asp-for="RoleManageMDTManagement.IsSelected">@T["MDT Vezetőség"]</label>
+
+                <input type="hidden" asp-for="RoleManageMDTManagement.Role" />
+            </div>
+        }
+
+        @if (authorizedMDTSecretary)
+        {
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" asp-for="RoleManageMDTSecretary.IsSelected" />
+                <label class="custom-control-label" asp-for="RoleManageMDTSecretary.IsSelected">@T["OMKB titkár"]</label>
+
+                <input type="hidden" asp-for="RoleManageMDTSecretary.Role" />
+            </div>
+        }
+
+        @if ((bool)ViewData[nameof(ManagerPermissions.ManageOMKB)])
+        {
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" asp-for="RoleManageOMKB.IsSelected" />
+                <label class="custom-control-label" asp-for="RoleManageOMKB.IsSelected">@T["OMKB tag"]</label>
+            </div>
+            <input type="hidden" asp-for="RoleManageOMKB.Role" />
+        }
+
+        @if ((bool)ViewData[nameof(ManagerPermissions.ManageTerritorialRapporteurs)])
+        {
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" asp-for="RoleManageTerritorialRapporteur.IsSelected" />
+                <label class="custom-control-label" asp-for="RoleManageTerritorialRapporteur.IsSelected">@T["Területi referens"]</label>
+            </div>
+
+            <input type="hidden" asp-for="RoleManageTerritorialRapporteur.Role" />
+        }
+    </div>
+</div>
+
+@if (authorizedMDTSecretary)
+{
+    <script at="Foot">
+        (function ($) {
+            $(function () {
+                var $checkboxSecretary = $('#@Html.IdFor(model => model.RoleManageMDTSecretary.IsSelected)');
+                var $checkboxOmkb = $('#@Html.IdFor(model => model.RoleManageOMKB.IsSelected)');
+
+                function setHierarchyCheckDisabling() {
+                    if ($checkboxSecretary.is(':checked')) {
+                        $checkboxOmkb
+                            .prop('disabled', true)
+                            .prop('checked', true);
+                    } else {
+                        $checkboxOmkb.prop('disabled', false)
+                    }
+                }
+
+                $checkboxSecretary.on('change', function () {
+                    setHierarchyCheckDisabling()
+                });
+
+                setHierarchyCheckDisabling();
+            });
+        })(jQuery);
+    </script>
+}

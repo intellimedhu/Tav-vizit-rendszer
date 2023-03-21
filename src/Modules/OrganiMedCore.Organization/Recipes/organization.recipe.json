@@ -1,0 +1,14 @@
+{
+    "name": "organization",
+    "displayName": "Organization",
+    "description": "Recipe for the organization module.",
+    "author": "IntelliMed",
+    "website": "http://intellimed.eu",
+    "version": "1.0.0",
+    "categories": [ "evisit" ],
+    "tags": [ "evisit" ],
+    "steps": [
+        {
+        }
+    ]
+}

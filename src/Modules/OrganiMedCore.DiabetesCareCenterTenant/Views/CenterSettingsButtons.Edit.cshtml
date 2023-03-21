@@ -1,0 +1,30 @@
+﻿@if (Model.Assigned)
+{
+    <a asp-route-action="Index"
+       asp-area="OrganiMedCore.DiabetesCareCenterTenant"
+       asp-controller="CenterProfileLeaderNotification"
+       class="btn btn-outline-primary btn-send-notification">
+        <i class="fas fa-envelope"></i>
+        @T[!Model.LeaderNotified ? "Vezető értesítése" : "Vezető ismételt értesítése"]
+    </a>
+
+    <script at="Foot">
+        (function ($) {
+            $(function () {
+                var confirmMessage = '@T["Biztos, hogy mint teljesült az alábbiak közül?"]';
+                var checklist = [
+                    '@T["Létrejött a SZEH osztály az intézményen belül"]',
+                    '@T["A SZEH vezető megkapta az orvos és SZEH vezető jogosultságokat az intézményen belül"]',
+                ];
+
+                confirmMessage += '\n\n- ' + checklist.join('\n- ');
+
+                $('.btn-send-notification').on('click', function (e) {
+                    if (!confirm(confirmMessage)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+}

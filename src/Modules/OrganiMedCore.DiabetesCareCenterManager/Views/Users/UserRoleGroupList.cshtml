@@ -1,0 +1,67 @@
+﻿@model UserRoleGroupListViewModel
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+
+<div class="card">
+    <div class="card-header bg-gradient-light text-dark m-0 p-2">
+        <h4 class="m-0">
+            @Model.RoleName
+            @if (Model.AuthorizedToManageUsers)
+            {
+                <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                   asp-controller="Users"
+                   asp-action="Create"
+                   asp-route-id="0"
+                   asp-route-roleName="@Model.CenterRole"
+                   class="btn btn-sm btn-success float-right">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Új
+                </a>
+            }
+        </h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Users.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-sm table-v-top">
+                    <tbody>
+                        @foreach (var userByRole in Model.Users.OrderBy(userByRole => userByRole.DokiNetMember?.FullName))
+                        {
+                            <tr>
+                                <td>@(userByRole.DokiNetMember?.FullName)</td>
+                                @if (Model.AuthorizedToManageUsers)
+                                {
+                                    <td class="text-right">
+                                        <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                                           asp-controller="Users"
+                                           asp-action="Edit"
+                                           asp-route-id="@userByRole.LocalUser.Id"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                            @T["Szerkesztés"]
+                                        </a>
+
+                                        @* 'd-none' will be removed after js loaded *@
+                                        <a asp-area="OrganiMedCore.DiabetesCareCenterManager"
+                                           asp-controller="Users"
+                                           asp-action="Delete"
+                                           asp-route-id="@userByRole.LocalUser.Id"
+                                           class="btn btn-sm btn-danger btn-remove-center-user d-none"
+                                           data-are-you-sure-msg="@T["Biztos, hogy törölni szeretné a felhasználót?"]">
+                                            <i class="fa fa-user-times" aria-hidden="true"></i>
+                                            @T["Törlés"]
+                                        </a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <span class="text-muted">@T["Üres"]</span>
+        }
+    </div>
+</div>

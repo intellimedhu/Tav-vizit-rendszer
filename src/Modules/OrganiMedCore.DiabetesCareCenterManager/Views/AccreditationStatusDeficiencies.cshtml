@@ -1,0 +1,278 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@using OrganiMedCore.DiabetesCareCenter.Core.Services
+@using OrganiMedCore.DiabetesCareCenter.Core.Settings
+@inject ICenterProfileService centerProfileService
+@{
+    CenterProfileManagerExtensionsPart part = Model.ManagerExtensionsPart;
+    var accreditationStatusValue = part.AccreditationStatusResult?.AccreditationStatus;
+    var renderScript = false;
+}
+
+@if (accreditationStatusValue.HasValue &&
+new[] { AccreditationStatus.Accredited, AccreditationStatus.TemporarilyAccredited, AccreditationStatus.Registered }.Contains(accreditationStatusValue.Value))
+{
+    var accreditationStatus = accreditationStatusValue.Value;
+
+    var alertClass = "";
+    var iconClass = "";
+    var accreditationStatusText = AccreditationStatusCaptions.GetLocalizedValues(T)[accreditationStatus];
+    if (accreditationStatus == AccreditationStatus.Accredited)
+    {
+        alertClass = "alert-success border-success";
+        iconClass = "fas fa-check text-success";
+    }
+    else if (accreditationStatus == AccreditationStatus.TemporarilyAccredited)
+    {
+        alertClass = "alert-info border-info";
+        iconClass = "fas fa-check text-primary";
+    }
+    else
+    {
+        alertClass = "alert-warning border-warning";
+        iconClass = "fas fa-minus-square text-warning";
+    }
+
+    <div class="alert m-0 row @alertClass">
+        <div class="col text-left p-0">
+            @T["Várható akkreditációs státusz"]
+        </div>
+        <div class="col text-right p-0">
+            <i class="@iconClass"></i>
+            <strong>@accreditationStatusText</strong>
+
+            <a asp-route="CenterProfile.RecalculateAccreditationStatus"
+               asp-route-id="@part.ContentItem.ContentItemId"
+               class="fas fa-sync text-success ml-2" title="@T["Frissítés"]"></a>
+        </div>
+
+        @if (accreditationStatus == AccreditationStatus.TemporarilyAccredited || accreditationStatus == AccreditationStatus.Registered)
+        {
+            renderScript = true;
+
+            <div class="col-12 p-0 mt-2">
+                <button type="button"
+                        class="btn btn-sm py-0 float-right @(accreditationStatus == AccreditationStatus.TemporarilyAccredited ? "btn-info" : "btn-warning")"
+                        data-toggle="collapse"
+                        data-target="#collapse-details">
+                    <span id="collapse-details-text-hidden" class="d-none">@T["Miért? Kattintson ide!"] <i class="fas fa-angle-down"></i></span>
+                    <span id="collapse-details-text-shown">@T["Részletek elrejtése"] <i class="fas fa-angle-up"></i></span>
+                </button>
+
+                <div class="mt-5 collapse show" id="collapse-details">
+                    @if (part.AccreditationStatusResult.MdtLicence)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Legalább egy orvos rendelkezik Diabetológia licensszel"]</strong>
+                            </div>
+                            <div class="col">
+                                @T["Nem"]
+                            </div>
+                        </div>
+                    }
+
+                    @if (part.AccreditationStatusResult.Membership.Any())
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Az alábbi személyek nem tagjai az MDT-nek"]</strong>
+                            </div>
+                            <div class="col">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var name in part.AccreditationStatusResult.Membership)
+                                    {
+                                        <li>@name</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                    @if (part.AccreditationStatusResult.MembershipFee.Any())
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Az alábbi személyek tagdíja nem rendezett"]</strong>
+                            </div>
+                            <div class="col">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var name in part.AccreditationStatusResult.MembershipFee)
+                                    {
+                                        <li>@name</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                    @{
+                        CenterProfileEquipmentsSettings equipmentsSettings = null;
+                        if (part.AccreditationStatusResult.Tools.Any() || part.AccreditationStatusResult.Laboratory.Any())
+                        {
+                            equipmentsSettings = await centerProfileService.GetCenterProfileEquipmentSettingsAsync();
+                        }
+                    }
+
+                    @if (part.AccreditationStatusResult.Tools.Any())
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Hiányzó eszközök"]</strong>
+                            </div>
+                            <div class="col">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var toolId in part.AccreditationStatusResult.Tools)
+                                    {
+                                        var tool = equipmentsSettings.ToolsList.FirstOrDefault(x => x.Id == toolId)?.Caption;
+                                        <li>@tool</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                    @if (part.AccreditationStatusResult.Laboratory.Any())
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Hiányzó laboratóriumi háttér eszközök"]</strong>
+                            </div>
+                            <div class="col">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var laboratoryId in part.AccreditationStatusResult.Laboratory)
+                                    {
+                                        var laboratory = equipmentsSettings.LaboratoryList.FirstOrDefault(x => x.Id == laboratoryId)?.Caption;
+                                        <li>@laboratory</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+
+                    @if (part.AccreditationStatusResult.BackgroundConcilium)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Biztosított-e a diabetológiában jártas interdiszciplináris konzíliumi háttér?"]</strong>
+                            </div>
+                            <div class="col">
+                                @T["Nem"]
+                            </div>
+                        </div>
+                    }
+
+                    @if (part.AccreditationStatusResult.BackgroundInpatient)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Biztosított-e a diabetológiában jártas fekvőbeteg háttér?"]</strong>
+                            </div>
+                            <div class="col">
+                                @T["Nem"]
+                            </div>
+                        </div>
+                    }
+
+                    @if (part.AccreditationStatusResult.PersonalConditions.Any())
+                    {
+                        var i = 0;
+                        var length = part.AccreditationStatusResult.PersonalConditions.Count;
+                        var occupationCaptions = OccupationExtensions.GetLocalizedValues(T);
+
+                        <div class="row">
+                            <div class="col-12 col-lg-4 text-lg-right">
+                                <strong>@T["Személyi feltételek"]</strong>
+                            </div>
+                            <div class="col">
+                                <ul class="list-unstyled m-0">
+                                    @foreach (var item in part.AccreditationStatusResult.PersonalConditions)
+                                    {
+                                        <li class="@(i++ < length - 1 ? "mb-3" : "")">
+                                            <div>
+                                                @T["Munkakör"]: @occupationCaptions[item.Occupation]
+                                            </div>
+
+                                            @if (item.HeadCount.HasValue)
+                                            {
+                                                <div>
+                                                    @T["Minimum szükséges létszám"]:
+                                                    @item.RequiredHeadcount/@item.HeadCount
+                                                </div>
+                                            }
+
+                                            @if (item.UnqualifiedPeople.Any())
+                                            {
+                                                <div>
+                                                    @T["Az alábbi személyeknek nincs rögzítve a munkakör betöltéséhez szükséges szakképesítés"]:
+                                                    @foreach (var personName in item.UnqualifiedPeople)
+                                                    {
+                                                        <div>
+                                                            @personName
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    renderScript = true;
+
+    <div class="alert m-0 row alert-warning border-warning">
+        <div class="col text-left p-0">
+            @T["Várható akkreditációs státusz"]
+        </div>
+        <div class="col text-right p-0">
+            <strong>@T["A várható minősítés nem határozható meg"]</strong>
+        </div>
+
+        <div class="col-12 p-0 mt-2">
+            <button type="button"
+                    class="btn btn-sm py-0 float-right btn-warning"
+                    data-toggle="collapse"
+                    data-target="#collapse-details">
+                <span id="collapse-details-text-hidden" class="d-none">@T["Miért? Kattintson ide!"] <i class="fas fa-angle-down"></i></span>
+                <span id="collapse-details-text-shown">@T["Részletek elrejtése"] <i class="fas fa-angle-up"></i></span>
+            </button>
+        </div>
+
+        <div class="col-12">
+            <div class="mt-5 collapse show" id="collapse-details">
+                <div class="py-2 text-center">
+                    @T["A szakellátóhely vezető még nem kezdte el a szakellátóhely adatainak frissítését."]
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (renderScript)
+{
+    <script at="Foot">
+        ; (function ($) {
+            $(function () {
+                $('#collapse-details').on('show.bs.collapse', function () {
+                    $('#collapse-details-text-hidden').addClass('d-none');
+                    $('#collapse-details-text-shown').removeClass('d-none');
+                });
+
+                $('#collapse-details').on('hide.bs.collapse', function () {
+                    $('#collapse-details-text-shown').addClass('d-none');
+                    $('#collapse-details-text-hidden').removeClass('d-none');
+                });
+            });
+        })(jQuery);
+    </script>
+}

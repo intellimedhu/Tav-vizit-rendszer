@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="compilerconfig.json" />
+    <EmbeddedResource Remove="compilerconfig.json.defaults" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.ContentManagement" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.ResourceManagement" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc1-10004" />
+    <PackageReference Include="OrchardCore.Menu" Version="1.0.0-rc1-10004" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\OrganiMedCore.DiabetesCareCenterManager\OrganiMedCore.DiabetesCareCenterManager.csproj" />
+    <ProjectReference Include="..\OrganiMedCore.InformationOrientedTheme\OrganiMedCore.InformationOrientedTheme.csproj" />
+    <ProjectReference Include="..\OrganiMedCore.Manager.Theme\OrganiMedCore.Manager.Theme.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults" />
+  </ItemGroup>
+
+</Project>

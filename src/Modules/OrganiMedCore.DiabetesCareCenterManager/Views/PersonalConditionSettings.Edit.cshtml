@@ -1,0 +1,85 @@
+﻿@model PersonalConditionSettingsViewModel
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@{
+    var occupations = OccupationExtensions.GetLocalizedValues(T);
+    var i = 0;
+
+    var indexPlaceholder = "_IDX_";
+
+    var accreditedOccupationFieldName = string.Format(
+        "{0}[{1}].{2}",
+        nameof(PersonalConditionSettingsViewModel.Accredited),
+        indexPlaceholder,
+        nameof(PersonalConditionViewModel.Occupation));
+
+    var accreditedHeadCountFieldName = string.Format(
+        "{0}[{1}].{2}",
+        nameof(PersonalConditionSettingsViewModel.Accredited),
+        indexPlaceholder,
+        nameof(PersonalConditionViewModel.HeadCount));
+
+    var temporarilyAccreditedOccupationFieldName = string.Format(
+        "{0}[{1}].{2}",
+        nameof(PersonalConditionSettingsViewModel.TemporarilyAccredited),
+        indexPlaceholder,
+        nameof(PersonalConditionViewModel.Occupation));
+
+    var temporarilyAccreditedHeadCountFieldName = string.Format(
+        "{0}[{1}].{2}",
+        nameof(PersonalConditionSettingsViewModel.TemporarilyAccredited),
+        indexPlaceholder,
+        nameof(PersonalConditionViewModel.HeadCount));
+}
+
+<h1 class="m-0">@T["Személyi feltételek megadása"]</h1>
+
+<div style="max-width:800px">
+    <p class="lead">
+        @T["Kérjük, adja meg, hogy munkakörönként hány személy szükséges az <strong class=\"text-primary\">Akkreditált</strong> és <strong class=\"text-primary\">Ideiglenesen akkreditált</strong> státuszhoz"]:
+    </p>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered table-striped table-hover">
+            <thead>
+                <tr class="thead-light">
+                    <th></th>
+                    <th class="text-center w-25 align-middle">@T["Akkreditált szakellátóhely (fő)"]</th>
+                    <th class="text-center w-25 align-middle">@T["Ideiglenesen akkreditált szakellátóhely (fő)"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var occupation in occupations)
+                {
+                    var accredited = Model.Accredited.FirstOrDefault(x => x.Occupation == occupation.Key);
+                    var temporarilyAccredited = Model.TemporarilyAccredited.FirstOrDefault(x => x.Occupation == occupation.Key);
+
+                    <tr>
+                        <td class="align-middle">@occupation.Value</td>
+                        <td class="text-center w-25">
+                            <input type="hidden"
+                                   name="@(accreditedOccupationFieldName.Replace(indexPlaceholder, i.ToString()))"
+                                   value="@occupation.Key" />
+
+                            <input type="number" min="0" class="form-control form-control-sm d-inline-block"
+                                   name="@(accreditedHeadCountFieldName.Replace(indexPlaceholder, i.ToString()))"
+                                   value="@(accredited?.HeadCount)"
+                                   tabindex="@(i + 1)" @(i == 0 ? "autofocus" : "") />
+                        </td>
+                        <td class="text-center w-25">
+                            <input type="hidden"
+                                   name="@(temporarilyAccreditedOccupationFieldName.Replace(indexPlaceholder, i.ToString()))"
+                                   value="@occupation.Key" />
+
+                            <input type="number" min="0" class="form-control form-control-sm d-inline-block"
+                                   name="@(temporarilyAccreditedHeadCountFieldName.Replace(indexPlaceholder, i.ToString()))"
+                                   value="@(temporarilyAccredited?.HeadCount)"
+                                   tabindex="@(i + 1 + occupations.Count)" />
+                        </td>
+                    </tr>
+
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

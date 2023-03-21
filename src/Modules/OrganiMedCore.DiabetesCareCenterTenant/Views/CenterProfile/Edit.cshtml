@@ -1,0 +1,44 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@{
+    var centerTypes = CenterTypeCaptions.GetLocalizedValues(T);
+
+    ViewBag.Title = T["Szakellátóhely adatlap szerkesztése"];
+    RenderTitleSegments(ViewBag.Title);
+
+    var currentState = ViewData["CurrentState"] as CenterProfileReviewState;
+}
+@if (currentState != null)
+{
+    <h4>@T["Utolsó értékelés/státusz"]</h4>
+    @await DisplayAsync(await New.CenterProfileReviewState(CenterProfileReviewState: currentState))
+}
+
+<div id="center-creation-request-editor"></div>
+<script>
+    var options = {
+        isNew: false,
+        googleMapsApiKey: '@ViewData["GoogleMapsApiKey"]',
+        urls: {
+            initUrl: '@Url.RouteUrl("CenterProfileInit")',
+            apiUrl: '@Url.RouteUrl("CenterProfileLocalApi")',
+            getAccreditationStatusUrl: '@Url.RouteUrl("CenterProfileLocalApi.GetAccreditationStatus")',
+            summaryUrl: '@Url.RouteUrl("CenterProfileLocalApi.Summary")',
+            basicDataUrl: '@Url.RouteUrl("CenterProfileLocalApi.BasicData")',
+            additionalDataUrl: '@Url.RouteUrl("CenterProfileLocalApi.AdditionalData")',
+            equipmentsUrl: '@Url.RouteUrl("CenterProfileLocalApi.Equipments")',
+            searchByZipCodeUrl: '@Url.RouteUrl("CenterProfileLocalApi.SearchByZipCode")',
+            submitUrl: '@Url.RouteUrl("CenterProfileLocalApi.Submit").ToLower()',
+            returnUrl: '@Url.Action("Index", "CenterProfile")',
+            searchMemberUrl: '@Url.RouteUrl("DokiNetMembersApi")',
+            colleagueInviteUrl: '@Url.RouteUrl("CenterProfileLocalApi.ColleagueInvitation")',
+            colleagueActionUrl: '@Url.RouteUrl("CenterProfileLocalApi.ColleagueAction")',
+            colleagueAsMember: '@Url.RouteUrl("CenterProfileLocalApi.GetColleagueAsDokiNetMember")',
+            viewColleagueUrl: '@Url.RouteUrl("CenterProfileLocalApi.ViewColleagueProfile")',
+            viewLeaderUrl: '@Url.RouteUrl("CenterProfileLocalApi.ViewLeaderProfile")'
+        }
+    };
+</script>
+<style asp-name="CenterProfileEditor"></style>
+<script asp-name="InformationOrientedBsModals" at="Foot"></script>
+<script asp-name="CenterProfileEditor" at="Foot"></script>

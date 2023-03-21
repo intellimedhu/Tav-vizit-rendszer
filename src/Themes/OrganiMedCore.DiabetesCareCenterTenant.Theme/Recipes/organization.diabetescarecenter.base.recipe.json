@@ -1,0 +1,196 @@
+{
+  "name": "organimedcore-diabetescarecenter-base",
+  "displayName": "organimedcore-diabetescarecenter-base",
+  "description": "Recipe for organizations where Diabetes Care Center features must be enabled.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "OrganiMedCore" ],
+  "tags": [ "OrganiMedCore" ],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrchardCore.Admin",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.HomeRoute",
+        "OrchardCore.Liquid",
+        "OrchardCore.Localization",
+        "OrchardCore.Features",
+        "OrchardCore.Navigation",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Roles",
+        "OrchardCore.Settings",
+        "OrchardCore.Tenants",
+        "OrchardCore.Themes",
+        "OrchardCore.Users",
+
+        "IntelliMed.Core",
+        "IntelliMed.DokiNetIntegration",
+        "OrganiMedCore.DiabetesCareCenter.Core",
+        "OrganiMedCore.InfoWidgets",
+        "OrganiMedCore.Navigation",
+        "OrganiMedCore.DiabetesCareCenter.Widgets",
+        "OrganiMedCore.Organization.DiabetesCareCenter.Widgets",
+        "OrganiMedCore.DiabetesCareCenterManager.CenterProfileEditor",
+        "OrganiMedCore.DiabetesCareCenterTenant",
+        "OrganiMedCore.Login.ResetPassword",
+
+        "TheAdmin",
+        "OrganiMedCore.AdminTheme",
+        "SafeMode",
+        "OrganiMedCore.Login.BaseTheme",
+        "OrganiMedCore.InformationOrientedTheme",
+        "OrganiMedCore.DiabetesCareCenterTenant.Theme"
+      ]
+    },
+    {
+      "name": "recipes",
+      "Values": [
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "information-oriented-theme"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "info-widget"
+        },
+        {
+          "executionid": "OrchardCore.Setup",
+          "name": "dcc-info-widget"
+        }
+      ]
+    },
+    {
+      "name": "Content",
+      "data": [
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Információ - szeh adatlap áttekintő",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2019-08-02T07:48:34.0101823Z",
+          "PublishedUtc": "2019-08-02T07:48:34.0127388Z",
+          "CreatedUtc": "2019-08-02T07:48:34.0127388Z",
+          "Owner": "admin",
+          "Author": "admin",
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileOverviewInfo",
+                "DisplayText": "Információ - szeh adatlap áttekintő",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2019-08-02T07:48:34.0084573Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "CenterProfileOverviewInfoPart": {},
+                "LayerMetadata": {
+                  "Position": 2.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Overview center profile"
+                }
+              }
+            ]
+          },
+          "InfoBlockContainerPart": {},
+          "LayerMetadata": {
+            "Position": 2.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Overview center profile"
+          }
+        },
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "InfoBlockContainer",
+          "DisplayText": "Információ - szeh adatlap",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2019-08-02T07:52:31.0825112Z",
+          "PublishedUtc": "2019-08-02T07:52:31.0871546Z",
+          "CreatedUtc": "2019-08-02T07:47:12.9770354Z",
+          "Owner": "admin",
+          "Author": "admin",
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "[js:uuid()]",
+                "ContentItemVersionId": null,
+                "ContentType": "CenterProfileEditorInfo",
+                "DisplayText": "Információ - szeh adatlappp",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2019-08-02T07:52:31.0834782Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "CenterProfileEditorInfoPart": {},
+                "LayerMetadata": {
+                  "Position": 1.0,
+                  "Zone": "AsideRightInformation",
+                  "Layer": "Edit center profile"
+                }
+              }
+            ]
+          },
+          "InfoBlockContainerPart": {},
+          "LayerMetadata": {
+            "Position": 1.0,
+            "Zone": "AsideRightInformation",
+            "Layer": "Edit center profile",
+            "RenderTitle": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "themes",
+      "admin": "OrganiMedCore.AdminTheme",
+      "site": "OrganiMedCore.DiabetesCareCenterTenant.Theme"
+    },
+    {
+      "name": "Layers",
+      "Layers": [
+        {
+          "Name": "Overview center profile",
+          "Rule": "url(\"~/szakellatohely/attekintes\")",
+          "Description": null
+        },
+        {
+          "Name": "Edit center profile",
+          "Rule": "url(\"~/szakellatohely/szerkesztes\")",
+          "Description": null
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "Culture": "hu-HU",
+      "SupportedCultures": [ "hu-HU" ],
+      "LoginSettings": { "UseSiteTheme": true },
+      "HomeRoute": {
+        "Action": "Index",
+        "Controller": "Home",
+        "Area": "OrganiMedCore.DiabetesCareCenterTenant"
+      },
+      "OmcLoginSettings": {
+        "UseDokiNetLogin": true,
+        "DokiNetLoginTitle": "MDT diabet.hu bejelentkezés",
+        "UseOrganiMedCoreLogin": true,
+        "UseLocalLogin": true,
+        "DefaultLoginMethod": 3
+      }
+    }
+  ]
+}

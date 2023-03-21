@@ -1,0 +1,5 @@
+﻿{%if User | has_permission:"ManageCenterProfile" and "now" | local | is_full_renewal_period: is_tenant:true  %}
+<div class="info-block period-counter update-period-info-block">
+  {{ Model.Content | shape_render }}
+</div>
+{% endif %}

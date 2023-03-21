@@ -1,0 +1,17 @@
+﻿{% if User | centerprofile_review_authorized %}
+<div class="info-block center-profile-review-info-block">
+	<div class="mb-0 alert alert-{{ Model.ContentItem.Content.BootstrapStylePart.Style }} show">
+    {% if Model.ContentItem.Content.InfoBlockPart.BlockTitle %}
+    <strong class="d-block">
+  		{{ Model.ContentItem.Content.InfoBlockPart.BlockTitle }}
+  	</strong>
+    {% endif %}
+    {% if Model.ContentItem.Content.InfoBlockPart.BlockTitle and Model.ContentItem.Content.LiquidPart.Liquid %}
+    <hr />
+    {% endif %}
+    {% if Model.ContentItem.Content.LiquidPart.Liquid %}
+    {{ Model.Content | shape_render }}
+    {% endif %}
+  </div>
+</div>
+{% endif %}

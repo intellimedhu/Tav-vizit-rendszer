@@ -1,0 +1,41 @@
+.insulin-statistic-row {
+  .col-insulin-chart {
+    @include custom-column-width(153px);
+  }
+
+  .col-insulin-legend {
+    @include custom-column-width(280px);
+
+    .insulin-legend {
+      display: flex;
+      flex-flow: column wrap;
+      height: 100%;
+      width: 100%;
+
+      .legend-item {
+        display: flex;
+        flex: 1 0 0%;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        align-items: center;
+        font-size: 10.5px;
+        text-transform: uppercase;
+
+        .sign {
+          display: inline-block;
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+        }
+
+        .percent {
+          width: 45px;
+        }
+
+        .unit {
+          width: 67px;
+        }
+      }
+    }
+  }
+}

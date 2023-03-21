@@ -1,0 +1,45 @@
+﻿@model CenterProfileHistoryViewModel
+@using OrchardCore.ContentManagement
+@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@{
+    var history = (ViewData["History"] as IEnumerable<ContentItem>)
+        .OrderByDescending(contentItem => contentItem.As<CenterProfilePart>().AccreditationStatusDateUtc)
+        .Select(contentItem => new SelectListItem()
+        {
+            Text = contentItem.As<CenterProfilePart>().AccreditationStatusDateUtc.ToLocalTime().ToShortDateString(),
+            Value = contentItem.ContentItemVersionId
+        });
+
+    ViewBag.Title = T["Szakellátóhely adatlap - előzmények"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<div class="alert alert-light border-secondary">
+    <p class="lead text-right">
+        @T["Kérjük, válassza ki azt a dátumot, amelyhez tartozóan szeretné látni az adatlap akkori adatait"]:
+    </p>
+
+    <form asp-route-action="History" method="get">
+        <input type="hidden" asp-for="Id" />
+        <div class="row">
+            <label class="col-form-label col-3 col-md-2 offset-md-5 offset-xl-6 text-right" asp-for="HistoryId">@T["Dátum"]</label>
+            <div class="col-9 col-md-5 col-xl-4">
+                <div class="input-group">
+                    <select asp-for="HistoryId" asp-items="history" class="form-control"></select>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit">@T["Választ"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@await DisplayAsync(ViewData["SummaryDisplay"])
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Display", "CenterProfile", new { area = "OrganiMedCore.DiabetesCareCenterManager", id = Model.Id }))
+    }))

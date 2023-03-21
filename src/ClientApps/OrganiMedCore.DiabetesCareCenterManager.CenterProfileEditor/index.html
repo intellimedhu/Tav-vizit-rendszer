@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EVisit Diabetes Care Center Manager - Center creation request editor</title>
+  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous" />
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFioL8RFCuJAfAwkalp8Lpm1mis9eXDSU" at="Foot"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div id="center-creation-request-editor"></div>
+  </div>
+  <script>
+    var options = {
+      texts: {
+        groupPersonalData: {
+          title: 'Személyes adatok',
+          memberRightId: 'MemberRightId',
+          name: 'Név'
+        },
+        groupCenterData: {
+          title: 'Szakellátóhely adatok',
+          name: 'Szakellátóhely neve',
+          zipCode: 'Irányítószám',
+          zipCodeNotExists: 'A megadott irányítószám nem létezik.',
+          settlement: 'Település',
+          address: 'Cím',
+          addressPlaceholder: 'Közterület, közterület jellege, házszám',
+          territorialRapporteur: 'Területi referens'
+        },
+        btnSubmit: 'Elküld',
+        btnSaveOnly: 'Mentés, folytatás később',
+        centerCreated: 'A szakellátóhely létrehozása folyamatban. A létrehozást követően értesítjük a további teendőkkel kapcsolatban.',
+        centerSaved: 'A szekallátóhely beküldése sikeres volt, köszönjük!',
+        centerCreationFailed: 'A szakellátóhely létrehozása nem sikerült. Kérjük, próbálja később',
+        returnUrlText: 'Vissza az áttekintő oldalra'
+      },
+      isNew: true,
+      validations: {
+        memberRightId: 'Az MDT tag kiválasztása kötelező',
+        userName: 'Az MDT tag kiválasztása kötelező',
+        centerName: 'A szakellátóhely megadása kötelező',
+        centerZipCode: 'Az irányítószám megadása kötelező',
+        centerSettlement: 'A település megadása kötelező',
+        centerAddress: 'A cím megadása kötelező'
+      },
+      urls: {
+        apiUrl: '',
+        searchByZipCodeUrl: '',
+        submitUrl: '',
+        returnUrl: ''
+      }
+    };
+  </script>
+  <script src="/wwwroot/center-profile-editor.js"></script>
+</body>
+</html>

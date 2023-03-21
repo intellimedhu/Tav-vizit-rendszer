@@ -1,0 +1,11 @@
+﻿@{ 
+    ViewBag.Title = T["Adataim"];
+    RenderTitleSegments(ViewBag.Title);
+}
+<div id="diabetes-user-profile-editor"
+     data-api-get-url="@Url.RouteUrl("ProfileApi")"
+     data-api-post-url="@Url.RouteUrl("ProfileApi")"
+     data-back-button-url="@Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" })"
+     data-forward-url="@ViewData["ForwardUrl"]"></div>
+<script asp-name="InformationOrientedBsModals" at="Foot"></script>
+<script asp-name="DiabetesUserProfileEditor" at="Foot"></script>

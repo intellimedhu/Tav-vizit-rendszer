@@ -1,0 +1,8 @@
+﻿{% if Model.ContentItem.Content.BagPart.ContentItems %}
+	{% assign zones = User | colleaguestatus_zones %}
+	{% for contentItem in Model.ContentItem.Content.BagPart.ContentItems %}
+		{% if contentItem.ColleagueWorkplaceBlockPart.ColleagueWorkplaceTab == 1 or zones[contentItem.ColleagueWorkplaceBlockPart.ColleagueStatusGroup] %}
+			{{ contentItem | shape_build_display | shape_render }}
+		{% endif %}
+	{% endfor %}
+{% endif %}

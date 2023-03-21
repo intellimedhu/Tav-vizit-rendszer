@@ -1,0 +1,22 @@
+﻿.message
+{
+    @extend .alert;
+
+    @each $color, $value in $theme-colors
+    {
+        &.message-#{$color}
+        {
+            @extend .alert-#{$color};
+        }
+    }
+
+    &.message-error
+    {
+        @extend .alert-danger;
+    }
+
+    &.message-information
+    {
+        @extend .alert-info;
+    }
+}

@@ -1,0 +1,70 @@
+﻿@model CenterProfileApplicationViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+
+@{
+    var occupationCanBeChanged = (bool)ViewData["OccupationCanBeChanged"];
+    var complex = (CenterProfileComplexViewModel)ViewData["CenterProfile"];
+    var centerProfile = complex.BasicData;
+
+    var occupations = OccupationExtensions.GetLocalizedValues(T);
+    var occupationSelectList = occupations.Select(occupation => new SelectListItem()
+    {
+        Value = occupation.Key.ToString(),
+        Text = occupation.Value
+    });
+
+    ViewBag.Title = T["Döntés megerősítése"];
+}
+
+@Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
+
+@if (complex.Renewal.ApplicationEnabled())
+{
+    <form asp-route="DccmColleagueApplyPost" id="colleague-application-form">
+        <input type="hidden" asp-for="ContentItemId" />
+        <div class="card mb-3 border-primary">
+            <div class="card-header bg-primary text-light">
+                <h4 class="m-0">Szakellátóhely adatai</h4>
+            </div>
+            <div class="card-body rounded" style="background-color:#eee">
+                <div class="p-3 bg-white card card-center-profiles card-center-profiles-primary">
+                    <div class="row form-group">
+                        <label class="col-md-3 col-form-label text-md-right" for="center-profile-name">@T["Szakellátóhely neve"]</label>
+                        <div class="col-md-9 col-xl-8">
+                            <input type="text" id="center-profile-name" disabled class="form-control" value="@centerProfile.CenterName" />
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <label class="col-md-3 col-form-label text-md-right" for="leader-name">@T["Szakellátóhely vezető"]</label>
+                        <div class="col-md-9 col-xl-8">
+                            <input type="text" id="leader-name" disabled class="form-control" value="@(complex.Leader?.FullName)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="colleague-application-editor"
+             data-occupation-can-be-changed="@(occupationCanBeChanged.ToString().ToLower())"
+             data-occupation="@((int?)Model.Occupation)"
+             data-back-button-url="@Url.Action("Index", "Colleagues", new { area = "OrganiMedCore.DiabetesCareCenterManager" })"
+             data-api-url="@Url.RouteUrl("ProfileApi")"></div>
+    </form>
+}
+else
+{
+    @T["A szakellátóhely akkreditációja folyamatban van. Jelentkezés jelenleg nem lehetséges."]
+}
+
+<script asp-name="InformationOrientedBsModals" at="Foot"></script>
+<script asp-name="ColleagueApplicationEditor" at="Foot"></script>
+<script asp-name="Vue" at="Foot"></script>
+<script at="Foot">
+    var eventBus = new Vue();
+    eventBus.$on('colleague-application-editor', function () {
+        document.forms['colleague-application-form'].submit();
+    });
+</script>

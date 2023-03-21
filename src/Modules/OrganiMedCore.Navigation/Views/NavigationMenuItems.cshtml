@@ -1,0 +1,35 @@
+﻿@using OrganiMedCore.Navigation.Models
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService
+@{
+    IEnumerable<MenuItem> menuItems = Model.MenuItems;
+}
+@foreach (var menuItem in menuItems)
+{
+    if (menuItem.Condition && (menuItem.Permission == null || await authorizationService.AuthorizeAsync(User, menuItem.Permission)))
+    {
+        <li class="@Model.ListItemClass">
+            @if (!menuItem.Disabled)
+            {
+                <a href="@menuItem.Href" class="@Model.NavLinkDefaultClass @menuItem.LinkClasses @(menuItem.IsActive ? "active" : "")">
+                    @if (!string.IsNullOrEmpty(menuItem.FaIcon))
+                    {
+                        <i class="@menuItem.FaIcon"></i>
+                    }
+                    @menuItem.Text
+                </a>
+            }
+            else
+            {
+
+                <span class="@Model.NavLinkDefaultClass @menuItem.LinkClasses @(menuItem.IsActive ? "active" : "") disabled">
+                    @if (!string.IsNullOrEmpty(menuItem.FaIcon))
+                    {
+                        <i class="@menuItem.FaIcon"></i>
+                    }
+                    @menuItem.Text
+                </span>
+            }
+        </li>
+    }
+}

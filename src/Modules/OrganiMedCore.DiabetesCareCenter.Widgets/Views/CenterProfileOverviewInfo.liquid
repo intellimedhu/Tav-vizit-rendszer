@@ -1,0 +1,3 @@
+﻿{% for contentItem in Model.ContentItem.Content.BagPart.ContentItems %}
+{{ contentItem | shape_build_display | shape_render }}
+{% endfor %}

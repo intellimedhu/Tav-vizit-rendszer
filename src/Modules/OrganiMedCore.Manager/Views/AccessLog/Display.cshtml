@@ -1,0 +1,56 @@
+﻿@model AccessLogViewModel
+@using OrganiMedCore.Manager.ViewModels
+
+@{
+    const string tableId = "access-log-table";
+}
+
+<h1>@Model.Date.ToShortDateString()</h1>
+
+@if (Model.Entries.Any())
+{
+    <script asp-name="DataTables" at="Foot"></script>
+    <style asp-name="DataTables"></style>
+
+    <table class="table table-striped table-hover" id="@tableId">
+        <thead>
+            <tr>
+                <th scope="col">@T["Date"]</th>
+                <th scope="col">@T["Organization ID"]</th>
+                <th scope="col">@T["Message"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.Entries)
+            {
+                <tr>
+                    <td data-order="@(entry.Date.ToString("yyyy-MM-dd HH:mm"))">
+                        @entry.Date
+                    </td>
+                    <td>
+                        @entry.OrganizationId
+                    </td>
+                    <td>
+                        @entry.Message
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script at="Foot">
+    ; (function ($) {
+        $(function () {
+            $("#@tableId").DataTable({
+                'scrollX': true
+            });
+        });
+    })(jQuery);
+    </script>
+}
+else
+{
+    <p class="text-muted">
+        No access log entries.
+    </p>
+}

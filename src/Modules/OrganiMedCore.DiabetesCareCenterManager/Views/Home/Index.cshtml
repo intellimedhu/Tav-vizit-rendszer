@@ -1,0 +1,246 @@
+﻿@using IntelliMed.Core.Constants
+@using Microsoft.AspNetCore.Authorization
+@using OrganiMedCore.DiabetesCareCenter.Core
+@using OrganiMedCore.DiabetesCareCenter.Core.Constants
+@inject IAuthorizationService authorizationService
+@{
+    ViewBag.Title = T["MDT Cukorbeteg Szakellátóhely (SZEH) Nyilvántartó"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (await authorizationService.AuthorizeAsync(User, ManagerPermissions.ManageCenterManagerUsers))
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header bg-gradient-light">
+                        <h5 class="card-title m-0">
+                            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="Users"
+                               asp-action="Index">
+                                @T["Belső felhasználók megtekintése, hozzáadása, törlése"]
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="card-body p-3">
+                        <p class="card-text">
+                            @(T["Jogosultság szerint megtekintés, hozzáadás, törlés:"])
+                            <ul>
+                                <li>@T["MDT Vezetőség"]</li>
+                                <li>@T["OMKB titkár"]</li>
+                                <li>@T["OMKB tagok"]</li>
+                                <li>@T["Területi referensek"]</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        var managePermission = await authorizationService.AuthorizeAsync(User, ManagerPermissions.ManageTerritorialRapporteurs);
+        if (managePermission ||
+            await authorizationService.AuthorizeAsync(User, ManagerPermissions.ViewTerritorialRapporteurs))
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header bg-gradient-light">
+                        <h5 class="card-title m-0">
+                            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="Territories"
+                               asp-action="Index">
+                                @if (managePermission)
+                                {
+                                    @T["Területi referensek és szaktanácsadók megyékhez történő rendelése"]
+                                }
+                                else
+                                {
+                                    @T["Területi referensek és szaktanácsadók megtekintése"]
+                                }
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div class="card-body p-3">
+                        <p class="card-text">
+                            <ul>
+                                @if (managePermission)
+                                {
+                                    <li>@T["Területi referensek és szaktanácsadók megyékhez történő hozzárendelése, leváltása"]</li>
+                                }
+                                else
+                                {
+                                    <li>@T["Területi referensek és szaktanácsadók megtekintése"]</li>
+                                }
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (await authorizationService.AuthorizeAsync(User, ManagerPermissions.ViewListOfCenterProfiles))
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header bg-gradient-light">
+                        <h5 class="card-title m-0">
+                            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="CenterProfile"
+                               asp-action="Index">
+                                @{
+                                    var roleNames = new List<string>();
+
+                                    if (User.IsInRole(CenterPosts.MDTManagement))
+                                    {
+                                        roleNames.Add(T["MDT vezetőség tagjakénti"].Value);
+                                    }
+
+                                    if (User.IsInRole(CenterPosts.MDTSecretary))
+                                    {
+                                        roleNames.Add(T["OMKB titkári"].Value);
+                                    }
+
+                                    if (User.IsInRole(CenterPosts.OMKB))
+                                    {
+                                        roleNames.Add(T["OMKB tagi"].Value);
+                                    }
+
+                                    if (User.IsInRole(CenterPosts.TerritorialRapporteur))
+                                    {
+                                        roleNames.Add(T["Területi referensi"].Value);
+                                    }
+
+                                    if (User.IsInRole(WellKnownNames.AdminRoleName))
+                                    {
+                                        roleNames.Add(T["Adminisztrátori"].Value);
+                                    }
+                                }
+                                <u>@string.Join(", ", roleNames)</u>
+                                @T["illetékességi körömbe tartozó szakellátóhelyek"]
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div class="card-body p-3">
+                        <p class="card-text">
+                            <ul>
+                                <li>@T["A rendszerben lévő szakellátóhelyek listája"]</li>
+                                <li>@T["Láthatók az akkreditációs állapotok és a megújítási státuszok"]</li>
+                                <li>@T["Szakellátóhely adatlap véleményezése"]</li>
+                                <li>@T["Szakellátóhely vezető leváltása"]</li>
+                                <li>@T["Szakellátóhely törlése"]</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (await authorizationService.AuthorizeAsync(User, ManagerPermissions.CreateCenterProfile))
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header bg-gradient-light">
+                        <h5 class="card-title m-0">
+                            <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                               asp-controller="CenterProfile"
+                               asp-action="MyCenterProfiles">
+                                @T["Szakellátóhely, ahol vezető vagyok, vagy újat szeretnék létesíteni"]
+                            </a>
+                        </h5>
+                    </div>
+
+                    <div class="card-body p-3">
+                        <p class="card-text">
+                            <ul>
+                                <li>@T["Új szakellátóhely létesítése (csak orvos MDT tag jogosult)"]</li>
+                                <li>@T["Szakellátóhelyek szerkesztése (ahol vezető vagyok)"]</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header bg-gradient-light">
+                    <h5 class="card-title m-0">
+                        <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                           asp-controller="Colleagues"
+                           asp-action="Index">
+                            @T["Szakellátóhelyek, ahol beosztott munkatárs vagyok, vagy az szeretnék lenni"]
+                        </a>
+                    </h5>
+                </div>
+
+                <div class="card-body p-3">
+                    <p class="card-text">
+                        <ul>
+                            <li>@T["Szakellátóhelyek, ahol munkakört töltök be"]</li>
+                            <li>@T["Jelentkezés további szakellátóhelyekre"]</li>
+                            <li>@T["Szakellátóhely vezetők részemre küldött felkérései"]</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header bg-gradient-light">
+                    <h5 class="card-title m-0">
+                        <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                           asp-controller="Profile"
+                           asp-action="Index">
+                            @T["Adataim"]
+                        </a>
+                    </h5>
+                </div>
+
+                <div class="card-body p-3">
+                    <p class="card-text">
+                        <ul>
+                            <li>@T["Személyes adataim megtekintése"]</li>
+                            <li>@T["Szakmai képesítéseim megtekintése, szerkesztése"]</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-header bg-gradient-light">
+                <h5 class="card-title m-0">
+                    <a asp-route-area="OrganiMedCore.DiabetesCareCenterManager"
+                       asp-controller="Home"
+                       asp-action="Map">
+                        @T["Térképes nézet"]
+                    </a>
+                </h5>
+            </div>
+
+            <div class="card-body p-3">
+                <p class="card-text">
+                    <ul>
+                        <li>@T["Szakellátóhelyek megtekintése térképen"]</li>
+                        <li>@T["Keresés, szűkítés"]</li>
+                        <li>
+                            @T["Szakellátóhelyek adatainak megtekintése"]
+                            <ul>
+                                <li>@T["Vezető neve"]</li>
+                                <li>@T["Cím"]</li>
+                                <li>@T["Elérhetőség"]</li>
+                                <li>@T["Rendelési idő"]</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

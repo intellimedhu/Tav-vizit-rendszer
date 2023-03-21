@@ -1,0 +1,20 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+@{
+    ViewBag.Title = T["Szakellátóhely, ahol vezető vagyok, vagy újat szeretnék létesíteni - előfeltételek"];
+    RenderTitleSegments(ViewBag.Title);
+}
+<div id="colleague-application-editor"
+     data-occupation-can-be-changed="false"
+     data-occupation="@((int)Occupation.Doctor)"
+     data-back-button-url="@Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" })"
+     data-api-url="@Url.RouteUrl("ProfileApi")"></div>
+
+<script asp-name="InformationOrientedBsModals" at="Foot"></script>
+<script asp-name="ColleagueApplicationEditor" at="Foot"></script>
+<script asp-name="Vue" at="Foot"></script>
+<script at="Foot">
+    var eventBus = new Vue();
+    eventBus.$on('colleague-application-editor', function () {
+        window.location.replace("@Url.Action("MyCenterProfiles")");
+    });
+</script>

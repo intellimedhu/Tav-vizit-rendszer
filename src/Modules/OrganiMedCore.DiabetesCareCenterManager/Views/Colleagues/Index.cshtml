@@ -1,0 +1,163 @@
+﻿@model IEnumerable<CenterProfileComplexViewModel>
+@using OrganiMedCore.DiabetesCareCenter.Core.Extensions
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@using IntelliMed.DokiNetIntegration.Models
+@using OrganiMedCore.DiabetesCareCenterManager.ViewModels
+@{
+    var dokiNetMember = ViewData["DokiNetMember"] as DokiNetMember;
+    var colleagueStatusCaptions = ColleagueStatusExtensions.GetLocalizedValues(T);
+    var centerProfilesByZones = Model.GroupBy(viewModel =>
+    {
+        var colleagues = viewModel.Colleagues.Colleagues.Where(x => x.MemberRightId == dokiNetMember.MemberRightId);
+        if (colleagues.Any(c => ColleagueStatusExtensions.GreenZone.Contains(c.LatestStatusItem.Status)))
+        {
+            return nameof(ColleagueStatusExtensions.GreenZone);
+        }
+
+        if (colleagues.Any(c => ColleagueStatusExtensions.PendingZone.Contains(c.LatestStatusItem.Status)))
+        {
+            return nameof(ColleagueStatusExtensions.PendingZone);
+        }
+
+        if (colleagues.Any(c => ColleagueStatusExtensions.RemovedZone.Contains(c.LatestStatusItem.Status)))
+        {
+            return nameof(ColleagueStatusExtensions.RemovedZone);
+        }
+
+        return string.Empty;
+    });
+
+    var greenZone = centerProfilesByZones.Where(x => x.Key == nameof(ColleagueStatusExtensions.GreenZone)).SelectMany(x => x);
+    var pendingZone = centerProfilesByZones.Where(x => x.Key == nameof(ColleagueStatusExtensions.PendingZone)).SelectMany(x => x);
+    var removedZone = centerProfilesByZones.Where(x => x.Key == nameof(ColleagueStatusExtensions.RemovedZone)).SelectMany(x => x);
+    var cleanZone = centerProfilesByZones.Where(x => x.Key == string.Empty).SelectMany(x => x);
+
+    ViewBag.Title = T["Szakellátóhelyek, ahol munkatárs vagyok, vagy az szeretnék lenni"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+@if (Model.Any())
+{
+    var hasZones = greenZone.Any() || pendingZone.Any() || removedZone.Any();
+
+    <style asp-name="DataTableCenterProfiles" at="Head"></style>
+    <script asp-name="jQuery" at="Foot"></script>
+    <script asp-name="DataTables.HungarianOrder" at="Foot"></script>
+    <script asp-name="DataTables" at="Foot"></script>
+
+    <div class="row row-colleagues">
+        <div class="col">
+            @if (hasZones)
+            {
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <ul class="nav nav-tabs border-bottom-0" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link colleagues-workplace-tab colleagues-workplace-tab-overview active" id="summary-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="summary" aria-selected="true">
+                                    <h4 class="m-0">
+                                        <i class="fas fa-list"></i> @T["Áttekintés"]
+                                    </h4>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link colleagues-workplace-tab colleagues-workplace-tab-newapplication" id="new-application-tab" data-toggle="tab" href="#new-application" role="tab" aria-controls="new-application" aria-selected="false">
+                                    <h4 class="m-0">
+                                        <i class="fas fa-plus"></i> @T["Új jelentkezés"]
+                                    </h4>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="summary" role="tabpanel" aria-labelledby="summary-tab">
+                                @if (greenZone.Any())
+                                {
+                                    @await DisplayAsync(await New.CenterProfileGroupForColleagues(
+                                        CenterProfiles: greenZone,
+                                        DokiNetMember: dokiNetMember,
+                                        Flavor: "success",
+                                        Title: T["Jelenleg már betöltött munkakörök, elfogadott jelentkezések és meghívások"].Value))
+                                }
+
+                                @if (pendingZone.Any())
+                                {
+                                    @await DisplayAsync(await New.CenterProfileGroupForColleagues(
+                                        CenterProfiles: pendingZone,
+                                        DokiNetMember: dokiNetMember,
+                                        Flavor: "info",
+                                        Title: T["Függőben lévő jelentkezések és meghívások"]))
+                                }
+
+                                @if (removedZone.Any())
+                                {
+                                    @await DisplayAsync(await New.CenterProfileGroupForColleagues(
+                                        CenterProfiles: removedZone,
+                                        DokiNetMember: dokiNetMember,
+                                        Flavor: "danger",
+                                        Title: T["Törlések, visszavonások, elutasítások"]))
+                                }
+                            </div>
+                            <div class="tab-pane fade" id="new-application" role="tabpanel" aria-labelledby="new-application-tab">
+                                @await DisplayAsync(await New.CenterProfileGroupForColleagues(
+                                    CenterProfiles: cleanZone,
+                                    DokiNetMember: dokiNetMember,
+                                    Flavor: "primary",
+                                    Title: T["Szakellátóhelyek listája"]))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @await DisplayAsync(await New.CenterProfileGroupForColleagues(
+                    CenterProfiles: cleanZone,
+                    DokiNetMember: dokiNetMember,
+                    Flavor: "primary",
+                    Title: T["Szakellátóhelyek listája"]))
+            }
+        </div>
+    </div>
+
+    <script at="Foot">
+        ; (function () {
+            $(function () {
+                var hasZones = '@hasZones.ToString().ToLower()' === 'true';
+                var $infoBlocksOverview = $('.colleague-workplace-info-block-0');
+                var $infoBlocksNewApplication = $('.colleague-workplace-info-block-1');
+                if ($infoBlocksOverview.length || $infoBlocksNewApplication.length) {
+                    if (hasZones) {
+                        // show overview's blocks:
+                        $infoBlocksOverview.removeClass('d-none');
+
+                        // hide new application's blocks:
+                        $infoBlocksNewApplication.addClass('d-none');
+
+                        $('a.colleagues-workplace-tab').on('shown.bs.tab', function (e) {
+                            if ($(e.target).hasClass('colleagues-workplace-tab-overview')) {
+                                $infoBlocksOverview.removeClass('d-none');
+                                $infoBlocksNewApplication.addClass('d-none');
+                            } else {
+                                $infoBlocksOverview.addClass('d-none');
+                                $infoBlocksNewApplication.removeClass('d-none');
+                            }
+                        });
+                    } else {
+                        $infoBlocksNewApplication.removeClass('d-none');
+                    }
+                }
+            });
+        })(jQuery);
+    </script>
+}
+else
+{
+    <p>@T["Nincsenek szakellátóhelyek"]</p>
+}
+
+@await DisplayAsync(await New.ButtonBar(
+    Buttons: new[]
+    {
+        BarButton.Cancel(T, Url.Action("Index", "Home", new { area = "OrganiMedCore.DiabetesCareCenterManager" }))
+    }))

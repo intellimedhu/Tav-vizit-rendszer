@@ -1,0 +1,32 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@{
+    var centerTypes = CenterTypeCaptions.GetLocalizedValues(T);
+
+    ViewBag.Title = T["Kérelem szakellátóhely létrehozására"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+<div id="center-creation-request-editor"></div>
+<script>
+    var options = {
+        isNew: true,
+        googleMapsApiKey: '@ViewData["GoogleMapsApiKey"]',
+        urls: {
+            initUrl: '@Url.RouteUrl("CenterProfileInit")',
+            apiUrl: '@Url.RouteUrl("CenterProfileApi", new { id = ViewData["Id"] })',
+            getAccreditationStatusUrl: '@Url.RouteUrl("CenterProfileApi.GetAccreditationStatus", new { id = ViewData["Id"] })',
+            submitUrl: '@Url.RouteUrl("CenterProfileApi.Submit", new { id = ViewData["Id"] })',
+            basicDataUrl: '@Url.RouteUrl("CenterProfileApi.BasicData", new { id = ViewData["Id"] })',
+            additionalDataUrl: '@Url.RouteUrl("CenterProfileApi.AdditionalData", new { id = ViewData["Id"] })',
+            equipmentsUrl: '@Url.RouteUrl("CenterProfileApi.Equipments", new { id = ViewData["Id"] })',
+            searchByZipCodeUrl: '@Url.RouteUrl("CenterProfileApi.SearchSettlement")',
+            summaryUrl: '@Url.RouteUrl("CenterProfileApi.Summary", new { id = ViewData["Id"] })',
+            returnUrl: '@Url.Action("MyCenterProfiles", "CenterProfile")',
+            viewColleagueUrl: '@Url.RouteUrl("CenterProfileApi.ViewColleagueProfile", new { id = ViewData["Id"] })',
+            viewLeaderUrl: '@Url.RouteUrl("CenterProfileApi.ViewLeaderProfile")'
+        }
+    };
+</script>
+<style asp-name="CenterProfileEditor"></style>
+<script asp-name="InformationOrientedBsModals" at="Foot"></script>
+<script asp-name="CenterProfileEditor" at="Foot"></script>

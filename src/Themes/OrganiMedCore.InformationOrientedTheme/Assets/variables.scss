@@ -1,0 +1,39 @@
+﻿$enable-gradients: true !default;
+$enable-validation-icons: false !default;
+
+$link-hover-decoration: none !default;
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1500px;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: $breakpoint-sm,
+    md: $breakpoint-md,
+    lg: $breakpoint-lg,
+    xl: $breakpoint-xl,
+    xxl: $breakpoint-xxl
+) !default;
+
+$container-max-width-diff: 32px;
+
+$container-max-widths: (
+    sm: $breakpoint-sm - $container-max-width-diff,
+    md: $breakpoint-md - $container-max-width-diff,
+    lg: $breakpoint-lg - $container-max-width-diff,
+    xl: $breakpoint-xl - $container-max-width-diff,
+    xxl: $breakpoint-xxl - $container-max-width-diff
+) !default;
+
+$purple: #6f42c1 !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    "safe": $purple
+  ),
+  $theme-colors
+);

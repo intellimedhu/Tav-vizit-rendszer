@@ -1,0 +1,36 @@
+﻿@model DiabetesUserProfilePartAdminViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+
+<ul class="list-unstyled">
+    <li>
+        @T["MemberRightId"]: @Model.MemberRightId
+    </li>
+
+    @if (!string.IsNullOrEmpty(Model.DiabetLicenceNumber))
+    {
+        <li>
+            @T["Licensz"] @Model.DiabetLicenceNumber
+        </li>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.GraduationIssuedBy) || Model.GraduationYear.HasValue)
+    {
+        <li>
+            @T["Érettségi"] @Model.GraduationIssuedBy (@Model.GraduationYear)
+        </li>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.OtherQualification))
+    {
+        <li>
+            @T["Egyéb"]  @Model.OtherQualification
+        </li>
+    }
+
+    @if (Model.QualificationsCount > 0)
+    {
+        <li>
+            @T["Szakképesítések (db)"]: @Model.QualificationsCount
+        </li>
+    }
+</ul>

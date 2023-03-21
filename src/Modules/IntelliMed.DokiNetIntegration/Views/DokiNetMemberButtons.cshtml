@@ -1,0 +1,24 @@
+﻿@using IntelliMed.DokiNetIntegration.Models;
+@using OrchardCore.Entities
+@using OrchardCore.Environment.Shell
+@using OrchardCore.Users.Models
+@inject ShellSettings shellSettings
+
+@if (shellSettings.Name == "Default")
+{
+    var user = ((User)Model.User);
+    var dokiNetMember = user.As<DokiNetMember>();
+
+    @*<a asp-area="IntelliMed.DokiNetIntegration"
+       asp-controller="DokiNet"
+       asp-action="Edit"
+       asp-route-id="@(user.Id)"
+       class="btn btn-sm @(dokiNetMember.MemberRightId == 0 ? "btn-outline-info" : "btn-info")">
+        @T["doki.NET-es adatok"]
+    </a>*@
+    @* TODO: miután a doki.net-ben implementálva lett, hogy ne csak társasághoz lehessen kötni
+        egy-egy doki.net-es request-et, akkor ezt be lehet fejezni *@
+     <span class="btn btn-sm disabled @(dokiNetMember.MemberRightId == 0 ? "btn-outline-info" : "btn-info")">
+        @T["doki.NET-es adatok"]
+     </span>
+}

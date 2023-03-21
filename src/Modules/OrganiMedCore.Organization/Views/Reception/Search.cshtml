@@ -1,0 +1,201 @@
+﻿@using OrchardCore.ContentManagement
+@using OrganiMedCore.Core.Helpers
+@using OrganiMedCore.Core.Models.Enums
+@using OrganiMedCore.Core.Models
+
+<script asp-name="jQuery-ui" at="Head"></script>
+<style asp-name="jQuery-ui" at="Head"></style>
+
+@{
+    var contentItems = Model.ContentItems as IEnumerable<ContentItem>;
+    var filter = Model.Filter as EVisitPatientProfileFilter;
+    var patientIdentifiers = PatientHelper.GetIdentifierModels(T).Where(x => x.Value != PatientIdentifierTypes.None);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@RenderTitleSegments(T["Keresés"])</h1>
+        <hr />
+
+        <p class="text-right">
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="Reception"
+               asp-action="Index"
+               class="btn btn-primary">
+                @T["Felvett páciensek megtekintése"]
+            </a>
+            <a asp-area="OrganiMedCore.Organization"
+               asp-controller="Patients"
+               asp-action="CheckId"
+               class="btn btn-success">
+                @T["Új páciens létrehozása"]
+            </a>
+        </p>
+
+        <form asp-area="OrganiMedCore.Organization"
+              asp-controller="Reception"
+              asp-action="Search"
+              id="patients-form"
+              method="get">
+            <div class="form-group row">
+                <div class="col-12">
+                    <div class="bg-light p-3 border border-dark rounded">
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input asp-for="@filter.PatientIdentifierValue"
+                                           class="form-control"
+                                           placeholder="@T["Azonosító"]"
+                                           autofocus />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input asp-for="@filter.LastName"
+                                           class="form-control"
+                                           placeholder="@T["Vezetéknév"]" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input asp-for="@filter.FirstName"
+                                           class="form-control"
+                                           placeholder="@T["Keresztnév"]" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input asp-for="@filter.MothersName"
+                                           class="form-control"
+                                           placeholder="@T["Anyja neve"]" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input asp-for="@filter.DateOfBirth"
+                                           type="date"
+                                           class="form-control"
+                                           placeholder="@T["Születési dátum"]" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input asp-for="@filter.Email"
+                                           class="form-control"
+                                           placeholder="@T["E-mail"]" />
+                                </div>
+                            </div>
+
+                            <div class="col align-self-center">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" asp-for="@filter.OnlyLocalPatinets">
+                                    <label class="custom-control-label" asp-for="@filter.OnlyLocalPatinets">
+                                        @T["Akik már jártak az intézményben"]
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                    @T["Keres"]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (contentItems.Any())
+            {
+                if (contentItems.Count() > 100)
+                {
+                    <p class="text-muted text-center p-1 m-0">@T["Több, mint 100 találat van, kérem használjon pontosabb keresési kifejezéseket, hogy hasznos listát kaphasson."]</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @T["Név"]
+                                    </th>
+                                    <th>
+                                        @T["Azonosító"]
+                                    </th>
+                                    <th>
+                                        @T["E-mail"]
+                                    </th>
+                                    <th>
+                                        @T["Születési dátum"]
+                                    </th>
+                                    <th>
+                                        @T["Anyja neve"]
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var contentItem in contentItems)
+                                {
+                                    var eVisitPatientProfilePart = contentItem.As<EVisitPatientProfilePart>();
+                                    var patientIdentifier = patientIdentifiers.Where(x => x.Value == eVisitPatientProfilePart.PatientIdentifierType).FirstOrDefault();
+                                    <tr>
+                                        <td>
+                                            <a asp-area="OrganiMedCore.Organization"
+                                               asp-controller="Patients"
+                                               asp-action="Edit"
+                                               asp-route-eVisitPatientProfileId="@eVisitPatientProfilePart.ContentItem.ContentItemId">
+                                                @eVisitPatientProfilePart.FullName
+                                            </a>
+                                        </td>
+                                        <td><strong>@(patientIdentifier == null ? "" : patientIdentifier.Text + ": ")</strong>@eVisitPatientProfilePart.PatientIdentifierValue</td>
+                                        <td>@eVisitPatientProfilePart.Email</td>
+                                        <td>@(eVisitPatientProfilePart.DateOfBirth?.ToString("d"))</td>
+                                        <td>@eVisitPatientProfilePart.MothersName</td>
+                                        <td class="text-right">
+                                            <a asp-area="OrganiMedCore.Organization"
+                                               asp-controller="Reception"
+                                               asp-action="AddToDailyList"
+                                               asp-route-id="@eVisitPatientProfilePart.ContentItem.ContentItemId"
+                                               class="btn btn-sm btn-outline-primary">
+                                                @T["Felvétel napi listára"]
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+            else if (!filter.IsEmpty())
+            {
+                <p class="text-muted text-center p-1 m-0">@T["Nem létezik a keresési kifejezéseknek megfelelő pácines. Új pácienst az \"Új páciens létrehozása\" gombbal hozhat létre."]</p>
+            }
+            else
+            {
+                <p class="text-muted text-center p-1 m-0">@T["Használja a kereső mezőket, hogy eredményt kaphasson."]</p>
+            }
+        </form>
+    </div>
+</div>
+
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            // Datetime pickers.
+            $(".datepicker").datepicker();
+        });
+    })(jQuery);
+</script>

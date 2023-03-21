@@ -1,0 +1,42 @@
+﻿@model EditEVisitUserViewModel
+@using OrganiMedCore.Manager.ViewModels
+
+<input asp-for="Id" type="hidden" />
+
+<div class="form-group" asp-validation-class-for="IsEVisitUser">
+    <div class="custom-control custom-checkbox">
+        <input asp-for="IsEVisitUser" type="checkbox" class="custom-control-input" />
+        <label asp-for="IsEVisitUser" class="custom-control-label">
+            @T["OrganiMed user"]
+        </label>
+    </div>
+</div>
+
+<div class="form-group" asp-validation-class-for="EVisitLoginEnabled">
+    <div class="custom-control custom-checkbox">
+        <input asp-for="EVisitLoginEnabled" type="checkbox" class="custom-control-input" />
+        <label asp-for="EVisitLoginEnabled" class="custom-control-label">
+            @T["Belépés engedélyezve"]
+        </label>
+    </div>
+</div>
+
+<h6>@T["Engedélyezett tenantok"]</h6>
+<div class="form-group">
+    @for (var i = 0; i < Model.Tenants.Length; i++)
+    {
+        <div class="custom-control custom-checkbox">
+            <input asp-for="Tenants[i].IsSelected" type="checkbox" class="custom-control-input" />
+            <input type="hidden" asp-for="Tenants[i].Tenant" />
+            <label asp-for="Tenants[i].IsSelected" class="custom-control-label">
+                @Model.Tenants[i].Tenant
+            </label>
+        </div>
+    }
+
+        <span class="text-muted">
+            @T["Figyelem! A fenti beállítások csak OrganiMed-ben létrehozott felhasználókra vonatkoznak."]
+            <br />
+            @T["Ha egy tenanton (intézményben) engedélyezett a doki.NET-tel történő authentikáció, akkor automatikusan bekerül a felhasználó az engedélyezett tenantok listájára."]
+        </span>
+</div>

@@ -1,0 +1,307 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Models.Enums
+
+<h1 class="mb-5">@T["Tárgyi eszközök megadása"]</h1>
+
+<div id="center-profile-tool-editor">
+    <div class="row">
+        <div class="col-12">
+            <equipment-pane :equipments="tools"
+                            :pane-title="'@T["Eszköz felszereltség"]'"
+                            :type="'tools'"
+                            :default-equipment-type="@((int)EquipmentType.Numeric)"></equipment-pane>
+
+            <equipment-pane :equipments="laboratory"
+                            :pane-title="'@T["Labor felszereltség"]'"
+                            :type="'laboratory'"
+                            :default-equipment-type="@((int)EquipmentType.Boolean)"></equipment-pane>
+        </div>
+
+        <div class="position-fixed nav-bottom">
+            <div class="row">
+                <div class="col-12 p-3">
+                    <p class="text-muted text-right">
+                        <strong>
+                            @T["Kötelező: beleszámít-e az akkreditáció megszerzésébe."]
+                        </strong>
+                    </p>
+
+                    <p class="text-danger text-right" v-show="submitted && captionError">
+                        <strong>
+                            @T["Kérem, minden sorhoz adja meg a megnevezést!"]
+                        </strong>
+                    </p>
+
+                    <button type="button" class="btn btn-primary float-right" @@click="save()" :disabled="submitted && captionError">
+                        <i class="fas fa-save"></i>
+                        @T["Mentés"]
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #center-profile-tool-editor
+    {
+        padding-bottom: 120px;
+    }
+
+    .nav-bottom
+    {
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 4;
+        background: #eaeaea;
+        border-top: 1px solid #ccc;
+        padding-left: 260px;
+        padding-right: 15px;
+        box-shadow: 0px -3px 10px #ccc;
+    }
+
+    .left-sidebar-compact .nav-bottom
+    {
+        padding-left: 60px;
+    }
+</style>
+<script type="text/x-template" id="equipment-pane">
+    <div class="card mb-5 border-primary">
+        <div class="card-header bg-primary text-white">
+            <h3 class="m-0">
+                {{ paneTitle }}
+            </h3>
+        </div>
+
+        <div class="card-body">
+            <button type="button" class="btn btn-success mb-3" @@click="add()">
+                <i class="fas fa-plus"></i>
+                @T["Új"]
+            </button>
+
+            <div class="row">
+                <div class="col-12"
+                     v-for="(equipment, toolIndex) in equipmentsOrdered"
+                     v-bind:key="equipment.order"
+                     :class="{'mb-3': toolIndex < equipmentsOrdered.length - 1}">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-primary text-white border-primary border-right-0">
+                                {{ (equipment.order + 1).toString().padStart(2, '0') }}
+                            </span>
+                            <button class="btn border-right-0"
+                                    :disabled="toolIndex == 0"
+                                    :class="{'btn-outline-primary': toolIndex > 0, 'btn-outline-secondary': toolIndex == 0}"
+                                    @@click="up(equipment)">
+                                <i class="fas fa-chevron-up"></i>
+                            </button>
+                            <button class="btn"
+                                    :disabled="toolIndex == equipmentsOrdered.length - 1"
+                                    :class="{'btn-outline-primary': toolIndex < equipmentsOrdered.length - 1, 'btn-outline-secondary': toolIndex == equipmentsOrdered.length - 1}"
+                                    @@click="down(equipment)">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control border-right-0" v-model="equipment.caption" />
+                        <select class="form-control" style="max-width:100px" v-model="equipment.type">
+                            <option disabled :value="null">Válasszon!</option>
+                            <option v-for="eq in equipmentTypes" v-bind:key="eq.type" :value="eq.type">{{ eq.text }}</option>
+                        </select>
+                        <div class="input-group-append" id="button-addon4">
+                            <div class="input-group-text bg-white">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" :id="`${type}-${equipment.order}`" v-model="equipment.required">
+                                    <label class="custom-control-label" :for="`${type}-${equipment.order}`">@T["Kötelező"]</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-danger" type="button" @@click="remove(equipment.order)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" v-show="!equipmentsOrdered.length">
+                    <p class="alert alert-info m-0">
+                        <i class="fas fa-sad-tear fa-2x"></i>
+                        @T["Nincs megadva egyetlen elem sem"]
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script asp-name="Vue" at="Foot"></script>
+<script asp-name="Axios" at="Foot"></script>
+<script at="Foot">
+    const EventBus = new Vue();
+
+    Vue.component('equipment-pane', {
+        data() {
+            return {
+                equipmentTypes: [
+                    {
+                        type: @((int)EquipmentType.Numeric),
+                        text: '@T["Szám"]'
+                    },
+                    {
+                        type: @((int)EquipmentType.Boolean),
+                        text: '@T["Logikai"]'
+                    }
+                ],
+            }
+        },
+        template: '#equipment-pane',
+        computed: {
+            equipmentsOrdered() {
+                return this.equipments.sort((a, b) => a.order < b.order ? -1 : 1);
+            }
+        },
+        methods: {
+            add() {
+                EventBus.$emit('adding', {
+                    type: this.type,
+                    defaultEquipmentType: this.defaultEquipmentType
+                });
+            },
+            up(equipment) {
+                EventBus.$emit('moving-up', {
+                    type: this.type,
+                    equipment: equipment
+                });
+            },
+            down(equipment) {
+                EventBus.$emit('moving-down', {
+                    type: this.type,
+                    equipment: equipment
+                });
+            },
+            remove(order) {
+                if (!confirm('@T["Biztos, hogy törölni szeretné?"]')) {
+                    return;
+                }
+
+                EventBus.$emit('removing', {
+                    type: this.type,
+                    order: order
+                });
+            },
+        },
+        props: ['equipments', 'type', 'paneTitle', 'defaultEquipmentType']
+    });
+
+    var app = new Vue({
+        el: '#center-profile-tool-editor',
+        data() {
+            return {
+                submitted: false,
+                tools: [],
+                laboratory: [],
+                url: '@Url.RouteUrl("CenterProfileEquipmentsApi")'
+            }
+        },
+        methods: {
+            initialize() {
+                axios
+                    .get(this.url)
+                    .then(response => {
+                        this.tools = response.data.tools;
+                        this.laboratory = response.data.laboratory;
+                    })
+                    .catch(e => {
+                        console.warn(e);
+                        alert('Az adatok betöltése nem sikerült');
+                    });
+            },
+            onAdding(e) {
+                this.add(e.type, e.defaultEquipmentType);
+            },
+            add(type, equipmentType) {
+                var order = this[type].reduce((a, tool) => {
+                    return a < tool.order ? tool.order : a;
+                }, -1);
+
+                this[type].push({
+                    id: null,
+                    order: ++order,
+                    required: false,
+                    caption: null,
+                    type: equipmentType
+                });
+            },
+            onMovingUp(e) {
+                this.up(this[e.type], e.equipment);
+            },
+            up(equipments, equipment) {
+                var upper = equipments.find(x => x.order == equipment.order - 1);
+                if (upper) {
+                    upper.order++;
+                    equipment.order--;
+                }
+            },
+            onMovingDown(e) {
+                this.down(this[e.type], e.equipment);
+            },
+            down(equipments, equipment) {
+                var lower = equipments.find(x => x.order == equipment.order + 1);
+                if (lower) {
+                    lower.order--;
+                    equipment.order++
+                }
+            },
+            onRemoving(e) {
+                this.remove(e.type, e.order);
+            },
+            remove(type, order) {
+                this[type] = this[type].filter(x => x.order != order);
+
+                this[type]
+                    .filter(x => x.order > order)
+                    .forEach(x => x.order--);
+            },
+            save() {
+                this.submitted = true;
+                if (this.captionError) {
+                    return;
+                }
+
+                axios
+                    .post(this.url, {
+                        tools: this.tools,
+                        laboratory: this.laboratory
+                    })
+                    .then(response => {
+                        this.tools = response.data.tools;
+                        this.laboratory = response.data.laboratory;
+
+                        alert('@T["A mentés sikeres volt."]');
+                        this.submitted = false;
+                    })
+                    .catch(e => {
+                        console.warn(e);
+                        alert('@T["A mentés nem sikerült."]');
+                    });
+            }
+        },
+        computed: {
+            captionError() {
+                return this.tools.some(x => !x.caption) || this.laboratory.some(x => !x.caption);
+            }
+        },
+        mounted() {
+            this.initialize();
+
+            EventBus.$on('adding', this.onAdding);
+            EventBus.$on('moving-up', this.onMovingUp);
+            EventBus.$on('moving-down', this.onMovingDown);
+            EventBus.$on('removing', this.onRemoving);
+        },
+        beforeDestroy() {
+            EventBus.$off('adding', this.onAdding);
+            EventBus.$off('moving-up', this.onMovingUp);
+            EventBus.$off('moving-down', this.onMovingDown);
+            EventBus.$off('removing', this.onRemoving);
+        }
+    })
+</script>

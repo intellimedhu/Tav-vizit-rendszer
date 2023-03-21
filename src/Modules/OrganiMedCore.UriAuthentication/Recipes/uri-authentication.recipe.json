@@ -1,0 +1,24 @@
+{
+  "name": "uri-authentication",
+  "displayName": "Uri Authentiation",
+  "description": "Recipe for the Uri Authentication module.",
+  "author": "IntelliMed",
+  "website": "http://intellimed.eu",
+  "version": "1.0.0",
+  "categories": [ "evisit" ],
+  "tags": [ "evisit" ],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrchardCore.Settings",
+        "OrchardCore.BackgroundTasks"
+      ]
+    },
+    {
+      "name": "settings",
+      "NonceSettings": { "NonceExpirationInDays": 120 }
+    }
+  ]
+}

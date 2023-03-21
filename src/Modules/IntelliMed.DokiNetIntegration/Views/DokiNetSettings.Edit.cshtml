@@ -1,0 +1,30 @@
+﻿@model DokiNetSettingsViewModel
+@using IntelliMed.DokiNetIntegration.ViewModels
+
+<fieldset class="form-group" asp-validation-class-for="DokiNetBaseUrl">
+    <label asp-for="DokiNetBaseUrl">@T["BaseUrl"]</label>
+    <input asp-for="DokiNetBaseUrl" class="form-control" />
+    <span asp-validation-for="DokiNetBaseUrl"></span>
+    <span class="hint">@T["doki.NET API host URI"]</span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="SocietyId">
+    <label asp-for="SocietyId">@T["SocietyId"]</label>
+    <input asp-for="SocietyId" type="number" class="form-control" />
+    <span asp-validation-for="SocietyId"></span>
+    <span class="hint">@T["Társaság azonosítója"]</span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="PreSharedKey">
+    <label asp-for="PreSharedKey">@T["PreSharedKey"]</label>
+    <input asp-for="PreSharedKey" class="form-control" />
+    <span asp-validation-for="PreSharedKey"></span>
+    <span class="hint">@T["doki.NET API kommunikációhoz szükséges kulcs"]</span>
+</fieldset>
+
+<fieldset class="form-group" asp-validation-class-for="MaxMembersCountPerRequest">
+    <label asp-for="MaxMembersCountPerRequest">@T["Max members per request"]</label>
+    <input asp-for="MaxMembersCountPerRequest" class="form-control" />
+    <span asp-validation-for="MaxMembersCountPerRequest"></span>
+    <span class="hint">@T["Névre keresés esetén a találati lista maximális hossza."]</span>
+</fieldset>

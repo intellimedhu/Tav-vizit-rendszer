@@ -1,0 +1,325 @@
+@mixin dgp-day-header() {
+  color: $white;
+  background: $color-dgp;
+  @include transition();
+
+  &.clickable {
+    cursor: pointer;
+    &:hover {
+      background: darken($color-dgp, 25%);
+    }
+  }
+}
+
+// Sticky header
+.dgp-sticky {
+  top: $sticky-top;
+  line-height: 40px;
+  background: lighten($color-dgp, 40%);
+  z-index: 5;
+  @include box-shadows(0 3px 5px 1px darken($color-dgp, 15%));
+  overflow: hidden;
+  @include transition;
+
+  .dgp-toolbar {
+    font-size: 1.15em;
+    cursor: pointer;
+    position: relative;
+
+    .inner {
+      margin-right: 25px;
+      @include text-selection-disable();
+    }
+
+    .dgp-icon {
+      vertical-align: middle;
+
+      &.dgp-icon-remove {
+        font-size: 1.35em;
+        color: $secondary;
+        opacity: 0.5;
+        @include transition;
+        position: absolute;
+        right: 5px;
+        top: 10px;
+
+        &:hover {
+          opacity: 1;
+          color: $danger;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    background: lighten($color-dgp, 35%);
+  }
+}
+
+// Charts
+.dgp-container {
+  margin-top: 15px;
+
+  .dgp-row {
+    position: relative;
+    margin-bottom: 30px;
+
+    $week-column-width: 25px;
+    .dgp-column {
+      margin: 0;
+      padding: 0;
+
+      &.dgp-column-week {
+        @include custom-column-width($week-column-width);
+
+        @include border-radius();
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 2;
+        @include dgp-day-header();
+
+        > div {
+          @include transform(translateX(-50%) translateY(-50%) rotate(-90deg));
+          position: absolute;
+          top: 50%;
+          left: 13px;
+          text-align: center;
+          font-size: 0.7em;
+          color: #fff;
+          white-space: pre;
+          @include text-selection-disable();
+
+          .space {
+            color: transparent;
+            font-size: 0.1em;
+          }
+        }
+      }
+    }
+
+    .dgp-column-week-wrapper {
+      padding: 0 0 0 $week-column-width + 10px;
+
+      .dgp-column {
+        &.dgp-column-week-values {
+          position: relative;
+          z-index: 1;
+          @include custom-column-width(100%);
+          position: relative;
+          margin: 0 auto 10px;
+
+          .dgp-chart-wrapper {
+            border: 2px solid $color-dgp;
+            border-radius: 5px;
+            position: relative;
+            padding-top: 37px;
+          }
+
+          .dgp-chart-area {
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            min-height: 80px;
+            padding: 0;
+          }
+
+          .day-name {
+            display: inline-block;
+            line-height: 22px;
+            border-bottom-right-radius: $border-radius;
+            background: $color-dgp;
+            color: $white;
+            font-size: 0.7em;
+            padding: 0 6px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            @include text-selection-disable();
+            @include transition();
+          }
+
+          .date {
+            position: absolute;
+            z-index: 2;
+            top: 20px;
+            left: 2px;
+            font-size: 0.6em;
+            color: $dark;
+          }
+
+          .btn-dgp-day-selector {
+            $border-width: 2px;
+
+            position: absolute;
+            z-index: 2;
+            width: 30px;
+            height: 30px;
+            border-width: $border-width;
+            padding: 0;
+            top: -$border-width;
+            right: -$border-width;
+            cursor: pointer;
+
+            .icon {
+              font-size: 26px;
+              color: $white;
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+            }
+
+            &.unchecked {
+              &:hover,
+              &:focus,
+              &:active {
+                background-color: $white;
+              }
+            }
+          }
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        .dgp-row-for-columns {
+          margin-bottom: -10px;
+          display: flex;
+          flex-flow: column;
+
+          .out-of-range {
+            display: none;
+          }
+
+          @for $i from 0 through 7 {
+            .dgp-column-#{$i} {
+              order: $i;
+            }
+          }
+        }
+      }
+    }
+
+    &.dgp-row-header {
+      display: none;
+    }
+  }
+
+  .dgp-main {
+    .dgp-title {
+      display: block;
+      width: 100%;
+      text-align: center;
+      line-height: $statistic-title-width;
+      font-weight: bold;
+      font-size: 12px;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+  }
+
+  .dgp-loading {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    color: $color-dgp;
+    line-height: 60px;
+  }
+
+  @include media-breakpoint-up(md) {
+    .dgp-row {
+      margin-bottom: 5px;
+
+      .dgp-column-week-wrapper {
+        .dgp-column {
+          &.dgp-column-week-values {
+            @include custom-column-width(100% / 7);
+            margin: 0;
+            padding: 0 5px 0 0;
+
+            .dgp-chart-wrapper {
+              padding-top: 25px;
+            }
+
+            .day-name {
+              display: none;
+            }
+
+            .date {
+              top: 0;
+            }
+          }
+        }
+      }
+
+      &.dgp-row-header {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+
+        .dgp-column-week {
+          display: none;
+        }
+
+        .dgp-column {
+          &.dgp-column-week-values {
+            text-align: center;
+            line-height: 22px;
+
+            span {
+              display: block;
+              padding: 0 5px 0 0;
+              @include border-radius();
+              font-size: 0.8em;
+              @include text-selection-disable();
+              @include dgp-day-header;
+            }
+
+            &:last-of-type {
+              span {
+                padding: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .dgp-main {
+      position: relative;
+      width: 100%;
+      padding-left: 18px;
+
+      .dgp-title {
+        @include transform(translateX(-50%) translateY(-50%) rotate(-90deg));
+        position: absolute;
+        width: auto;
+        top: 50%;
+        text-align: center;
+        z-index: 0;
+        display: inline-block;
+        left: 0;
+        @include text-selection-disable;
+        cursor: default;
+      }
+
+      @include media-breakpoint-up(lg) {
+        padding-left: $statistic-title-width;
+
+        .dgp-title {
+          left: 13px;
+        }
+      }
+    }
+  }
+}

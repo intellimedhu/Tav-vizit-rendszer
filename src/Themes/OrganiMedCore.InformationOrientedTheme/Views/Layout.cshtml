@@ -1,0 +1,104 @@
+﻿@using System.IO
+@using System.Text.Encodings.Web
+@using OrchardCore.Settings
+@inject ISiteService SiteService
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@RenderTitleSegments((await SiteService.GetSiteSettingsAsync()).SiteName, "before")</title>
+    @await DisplayAsync(await New.HeadResources())
+    <resources type="Meta" />
+    <resources type="HeadLink" />
+    <resources type="Stylesheet" />
+    <resources type="HeadScript" />
+</head>
+<body>
+    @{
+        var asideRightInfo = await RenderSectionAsync("AsideRightInformation", required: false);
+        var asideRightInfoRendered = !string.IsNullOrEmpty(asideRightInfo.ToString());
+        var asideRightContent = "";
+        using (var stringWriter = new StringWriter())
+        {
+            asideRightInfo.WriteTo(stringWriter, HtmlEncoder.Default);
+            asideRightContent = stringWriter.ToString();
+        }
+    }
+    @await DisplayAsync(await New.BsNavbar())
+    @await RenderSectionAsync("Header", required: false)
+    <div class="container information-oriented-main-container pb-2">
+        <div class="row">
+            <div class="col@(asideRightInfoRendered ? " col-xxl-9" : "")">
+                <section class="messages">
+                    @await RenderSectionAsync("Messages", required: false)
+                </section>
+                <div class="card border-secondary">
+                    @if (ViewBag.Title != null || asideRightInfoRendered)
+                    {
+                        <section class="card-header text-white bg-secondary">
+                            <div class="information-oriented-page-title-wrapper">
+                                @if (ViewBag.Title != null)
+                                {
+                                    <div class="information-oriented-page-title@(asideRightInfoRendered ? " has-padding" : "")">
+                                        <h2 class="m-0">
+                                            @ViewBag.Title
+                                        </h2>
+                                    </div>
+                                }
+
+                                @if (asideRightInfoRendered)
+                                {
+                                    <div class="information-oriented-page-info">
+                                        <button class="d-xxl-none btn btn-link information-oriented-info-button p-0" type="button" data-toggle="modal" data-target="#information-oriented-info-modal">
+                                            <i class="fas fa-info-circle text-white fa-2x"></i>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </section>
+                    }
+                    <main role="main" class="card-body">
+                        @await RenderBodyAsync()
+                    </main>
+
+                    @if (asideRightInfoRendered)
+                    {
+                        @await DisplayAsync(await New.InfoModal(Content: asideRightContent))
+                    }
+                </div>
+            </div>
+            @if (asideRightInfoRendered)
+            {
+                <aside class="d-xxl-block col-xxl-3 mt-xxl-0 mx-3 mx-xxl-0 pl-xxl-0 d-none">
+                    <section class="sticky-top sticky-top-information">
+                        @Html.Raw(asideRightContent)
+                    </section>
+                </aside>
+            }
+        </div>
+    </div>
+    @await RenderSectionAsync("Footer", required: false)
+
+    <div id="informationOrientedConfirmModalMeta"
+         data-title=""
+         data-message="@T["Biztos benne?"]"
+         data-size=""
+         data-ok="@T["Igen"]"
+         data-ok-icon=""
+         data-ok-class="btn btn-danger"
+         data-cancel="@T["Nem"]"
+         data-cancel-icon=""
+         data-cancel-class="btn btn-outline-secondary"></div>
+
+    <div id="informationOrientedAlertModalMeta"
+         data-title=""
+         data-message=""
+         data-size=""
+         data-ok="@T["Ok"]"
+         data-ok-icon=""
+         data-ok-class="btn btn-primary"></div>
+
+    <resources type="FootScript" />
+</body>
+</html>

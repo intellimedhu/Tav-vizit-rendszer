@@ -1,0 +1,52 @@
+﻿@model CenterProfileComplexViewModel
+@using OrganiMedCore.DiabetesCareCenter.Core.Extension
+@using OrganiMedCore.DiabetesCareCenter.Core.ViewModels
+@{
+    var centerTypeCaptions = CenterTypeCaptions.GetLocalizedValues(T)
+        .Where(x => Model.BasicData.CenterTypes.Contains(x.Key))
+        .Select(x => x.Value);
+}
+
+<dl class="row mb-0">
+    <dt class="col-sm-5 text-sm-right">
+        @T["Érvényben lévő minősítési (akkreditációs) szint"]
+    </dt>
+    <dd class="col-sm-7">
+        @await DisplayAsync(await New.AccreditationStatus(AccreditationStatus: Model.BasicData.AccreditationStatus))
+    </dd>
+
+    <dt class="col-sm-5 text-sm-right">
+        @T["Minősítés dátuma"]
+    </dt>
+    <dd class="col-sm-7">
+        @Model.BasicData.AccreditationStatusDateUtc.ToShortDateString()
+    </dd>
+
+    <dt class="col-sm-5 text-sm-right">
+        @T["Szakellátóhely"]
+    </dt>
+    <dd class="col-sm-7">
+        @Model.BasicData.CenterName
+    </dd>
+
+    <dt class="col-sm-5 text-sm-right">
+        @T["Szakellátóhely címe"]
+    </dt>
+    <dd class="col-sm-7">
+        @Model.BasicData.FullAddress
+    </dd>
+
+    <dt class="col-sm-5 text-sm-right">
+        @T["Vezető"]
+    </dt>
+    <dd class="col-sm-7">
+        @(Model.Leader?.FullName)
+    </dd>
+
+    <dt class="col-sm-5 text-sm-right">
+        @T["Profil"]
+    </dt>
+    <dd class="col-sm-7">
+        @string.Join(", ", centerTypeCaptions)
+    </dd>
+</dl>

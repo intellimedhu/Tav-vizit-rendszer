@@ -1,0 +1,48 @@
+﻿@using OrganiMedCore.DiabetesCareCenter.Core.Models
+@{
+    var currentState = ViewData["CurrentState"] as CenterProfileReviewState;
+    var submitted = (bool)ViewData["Submitted"];
+
+    ViewBag.Title = T["Szakellátóhely adatlap áttekintése"];
+    RenderTitleSegments(ViewBag.Title);
+}
+
+@if (!submitted && currentState != null)
+{
+    <div class="mb-3">
+        <h4>@T["Utolsó értékelés/státusz"]</h4>
+        @await DisplayAsync(await New.CenterProfileReviewState(CenterProfileReviewState: currentState))
+    </div>
+}
+
+@await DisplayAsync(ViewData["DetailsShape"])
+
+
+<div class="row">
+    <div class="col-12 text-center">
+        @if (!submitted)
+        {
+            <p class="alert alert-primary border-primary">
+                <span class="d-block mb-3">
+                    @T["A szakellátóhely adatlapjának szerkesztéséhez kattintson ide"]:
+                </span>
+                <span class="d-block">
+                    <a asp-route-area="OrganiMedCore.DiabetesCareCenterTenant"
+                       asp-controller="CenterProfile"
+                       asp-action="Edit"
+                       class="btn btn-lg btn-primary">
+                        <i class="fas fa-pencil-alt"></i>
+                        @T["Adatlap megnyitása szerkesztésre"]
+                    </a>
+                </span>
+            </p>
+        }
+        else
+        {
+            <p class="alert alert-info border-info">
+                <i class="fas fa-info-circle"></i>
+                @T["A szakellátóhely minősítésének felülvizsgálata folyamatban van, ezért az adatlap jelenleg nem szerkeszthető."]
+            </p>
+        }
+    </div>
+</div>

@@ -1,0 +1,133 @@
+﻿@model OrganiMedCore.Core.ViewModels.EVisitOrganizationUserProfilePartViewModel
+@using OrganiMedCore.Core.Models.Enums
+@using OrganiMedCore.Core.Helpers
+
+<input type="hidden" asp-for="OrganizationUserProfileType" />
+
+<div class="form-group row">
+    <label class="col-md-3 text-md-right">
+        @T["Felhasználói profil típusa"]
+    </label>
+    <div class="col-md-5">
+        @OrganizationUserHelper.ConvertToTextOrganizationUserProfileType(Model.OrganizationUserProfileType)
+    </div>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Name" class="col-md-3 col-form-label text-md-right">
+        @T["Név"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <span asp-validation-for="Name" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Email" class="col-md-3 col-form-label text-md-right">
+        @T["E-mail"]
+    </label>
+    <div class="col-md-5">
+        <input type="email" asp-for="Email" class="form-control" />
+    </div>
+    <span asp-validation-for="Email" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+<div class="form-group row">
+    <label asp-for="Phone" class="col-md-3 col-form-label text-md-right">
+        @T["Telefonszám"]
+    </label>
+    <div class="col-md-5">
+        <input type="text" asp-for="Phone" class="form-control" />
+    </div>
+    <span asp-validation-for="Phone" class="col-md-9 offset-md-3 text-danger"></span>
+</div>
+
+@if (Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Doctor)
+{
+    <div class="form-group row">
+        <label asp-for="StampNumber" class="col-md-3 col-form-label text-md-right">
+            @T["Pecsétszám"]
+        </label>
+        <div class="col-md-5">
+            <input type="text" asp-for="StampNumber" class="form-control" />
+        </div>
+        <span asp-validation-for="StampNumber" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="EesztId" class="col-md-3 col-form-label text-md-right">
+            @T["EESZT azonosító"]
+        </label>
+        <div class="col-md-5">
+            <input type="text" asp-for="EesztId" class="form-control" />
+        </div>
+        <span asp-validation-for="EesztId" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="EesztName" class="col-md-3 col-form-label text-md-right">
+            @T["EESZT név"]
+        </label>
+        <div class="col-md-5">
+            <input type="text" asp-for="EesztName" class="form-control" />
+        </div>
+        <span asp-validation-for="EesztName" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="MedicalExams" class="col-md-3 col-form-label text-md-right">
+            @T["Orvosi szakvizsgák"]
+        </label>
+        <div class="col-md-5">
+            <textarea asp-for="MedicalExams" class="form-control">
+            </textarea>
+        </div>
+        <span asp-validation-for="MedicalExams" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+}
+
+@if (Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Doctor ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.SpecialAssistant)
+{
+    <div class="form-group row">
+        <label asp-for="QualificationLicenceExams" class="col-md-3 col-form-label text-md-right">
+            @T["Képesítési licensz vizsgák"]
+        </label>
+        <div class="col-md-5">
+            <textarea asp-for="QualificationLicenceExams" class="form-control">
+            </textarea>
+        </div>
+        <span asp-validation-for="QualificationLicenceExams" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+}
+
+@if (Model.OrganizationUserProfileType != OrganizationUserProfileTypes.Doctor)
+{
+    <div class="form-group row">
+        <label asp-for="QualificationNameNumberDate" class="col-md-3 col-form-label text-md-right">
+            @T["Szakképzettség neve, száma, kelte"]
+        </label>
+        <div class="col-md-5">
+            <textarea asp-for="QualificationNameNumberDate" class="form-control">
+            </textarea>
+        </div>
+        <span asp-validation-for="QualificationNameNumberDate" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+}
+
+@if (Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Doctor ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.SpecialAssistant ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Assistant ||
+Model.OrganizationUserProfileType == OrganizationUserProfileTypes.Receptionist)
+{
+    <div class="form-group row">
+        <label asp-for="HighestRankOrEducation" class="col-md-3 col-form-label text-md-right">
+            @T["Legmagasabb beosztás/végzettség"]
+        </label>
+        <div class="col-md-5">
+            <input type="text" asp-for="HighestRankOrEducation" class="form-control" />
+        </div>
+        <span asp-validation-for="HighestRankOrEducation" class="col-md-9 offset-md-3 text-danger"></span>
+    </div>
+}

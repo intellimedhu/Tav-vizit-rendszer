@@ -1,0 +1,439 @@
+{
+    "en": {
+        "yes": "Yes",
+        "no": "No",
+        "ok": "Ok",
+        "hour": "hr",
+        "hourSm": "h",
+        "minute": "mins",
+        "minuteSm": "m",
+        "vuejsDatepickerFormat": "dd/MM/yyyy",
+        "datepickerFormat": "DD/MM/YYYY",
+        "highchartsDateFormat": "{value:%d/%m/%Y}",
+        "fullDateFormat": "DD/MM/YYYY h.mm a",
+        "semiLongDateFormat": "DD MMM YYYY",
+        "rangePickerDateFormat": "MM/yyyy",
+        "targetRanges": "Target ranges",
+        "insulinUnitTitle": "Insulin Unit (U)",
+        "moreButtonText": "Load earlier datas",
+        "bgLowText": "Low",
+        "bgHighText": "High",
+        "loadingText": "loading...",
+        "pleaseWaitText": "Please, wait...",
+        "breakfast": "Breakfast",
+        "elevenses": "Elevenses",
+        "lunch": "Lunch",
+        "afternoonsnack": "Afternoon Snack",
+        "dinner": "Dinner",
+        "countUnit": "pcs",
+        "secUnit": "sec",
+        "app": {
+            "bloodGlucoseDiaryTitle": "Blood sugar diary",
+            "diaryTypeHourlyText": "Hourly",
+            "diaryTypeMealtimeText": "Mealtime"
+        },
+        "days": "days",
+        "daysSelected": "days selected",
+        "insulinUnitShort": "U",
+        "settingsBar": {
+            "day1": "1 day",
+            "day1Short": "1d",
+            "week1": "1 week",
+            "week1Short": "1w",
+            "weeks2": "2 weeks",
+            "weeks2Short": "2w",
+            "month1": "1 month",
+            "month1Short": "1m",
+            "months3": "3 months",
+            "months3Short": "3m",
+            "months3Last": "Last 3 months",
+            "months3LastShort": "Last 3m",
+            "fullRange": "All",
+            "currentLanguageCaption": "Language",
+            "currentUnitCaption": "Unit",
+            "globalSettingsDialogTitle": "Settings",
+            "printDialogTitle": "Print",
+            "printGroupCharts": "Charts",
+            "printGroupDiary": "Blood glucose diary",
+            "printDialogNothingToPrint": "Please, select at least one group",
+            "timeScaleDefault": "Number of meas./injs.",
+            "timeScaleGlucose": "Glucose values",
+            "timeScaleInsulin": "Insulin dosage",
+            "timeScaleSteps": "Steps"
+        },
+        "glucoseStatisticsAgp": {
+            "glucoseStatisticsVTitle": "Glucose Statistics",
+            "averageTestsPerDayLabel": "Average Tests per Day",
+            "sumTestsLabel": "All tests",
+            "averageGlucoseLabel": "Average Glucose",
+            "gmiLabel": "Glucose Management Indicator (GMI)",
+            "covLabel": "Coefficient of Variation",
+            "sdLabel": "Standard Deviation (SD)"
+        },
+        "glucoseStatisticsDcm": {
+            "glucoseStatisticsVTitle": "Glucose Statistics",
+            "averageGlucosTitle": "Avg Glucose",
+            "seriousLowTitle": "Very Low",
+            "belowValue": "Below {value}",
+            "lowTitle": "Low",
+            "below": "below",
+            "inTargetRangeTitle": "In Target Range",
+            "glucoseRangesSubtitle": "Target Range",
+            "HighTitle": "High",
+            "aboveValue": "Above {value}",
+            "seriousHighTitle": "Very High",
+            "covTitleP1": "Coefficient",
+            "covTitleP2": "of Variation",
+            "sdTitle": "SD",
+            "glucoseVariabiltySubtitle": "GLUCOSE VARIABILITY",
+            "averageTestsPerDayTitle": "Daily average",
+            "averageTestsPerDayUnit": "meas./day",
+            "measurementsCount": "Measurements",
+            "minRequiredMeasurements": "min. {0} meas. required"
+        },
+        "insulinStatistics": {
+            "mainTitle": "Insulin Statistics",
+            "dailyAverages": "Average of daily injected unit / daily injection",
+            "injectionUnitAndDuration": "Average unit per injection / duration"
+        },
+        "agpChart": {
+            "chartTitle": "Ambulatory Glucose Profile",
+            "time": "Time",
+            "agpScatterValues": "SMBG Data Point",
+            "veryLowValues": "Very Low",
+            "lowValues": "Low",
+            "inTargetValues": "In Target",
+            "highValues": "High",
+            "veryHighValues": "Very High",
+            "targetRangeLegend": "Target Range",
+            "insulin": "Insulin",
+            "axisHour": "Hour",
+            "axisMeasurements": "Meas.",
+            "noDataText": "There is not enough data in the given interval to display in the Ambulatory Glucose Profile.",
+            "averageModeDaysLimitText": "To display the Ambulatory Glucose Profile, it is necessary to specify an interval of less than 1 year."
+        },
+        "targetRangeChart": {
+            "measurementsCount": "Measurements",
+            "ranges": "Ranges",
+            "veryLowCaption": "Very Low",
+            "lowCaption": "Low",
+            "inTargetCaption": "In Target",
+            "highCaption": "High",
+            "veryHighCaption": "Very High",
+            "noData": "No enough data"
+        },
+        "dpgCharts": {
+            "chartTitle": "Daily Glucose Profile",
+            "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+            ],
+            "clearSelection": "Clear selection",
+            "modalTitle": "Custom chart - {0}",
+            "noData": "No data",
+            "daySelectionWarnMessage": "Up to {0} days can be selected."
+        },
+        "dgpCustomChart": {
+            "noDataText": "No data to display.",
+            "axisHour": "Hour"
+        },
+        "bloodGlucoseDiary": {
+            "shortDays": [
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat"
+            ],
+            "down": "Down",
+            "beforeBreakfast": "Before breakfast",
+            "afterBreakfast": "After breakfast",
+            "forenoon": "Forenoon",
+            "beforeElevenses": "Before elevenses",
+            "afterElevenses": "After elevenses",
+            "beforeLunch": "Before lunch",
+            "afterLunch": "After lunch",
+            "afternoon": "Afternoon",
+            "beforeAfternoonsnack": "Before snacktime",
+            "afterAfternoonsnack": "After snacktime",
+            "beforeDinner": "Before dinner",
+            "afterDinner": "After dinner",
+            "evening": "Evening",
+            "date": "Date",
+            "dateFormatterFirstLine": "MM/DD",
+            "dateFormatterSecondLine": "YYYY"
+        },
+        "globalSettingsDialog": {
+            "navigationViewMode": "View mode",
+            "navigationUnit": "Unit",
+            "navigationBloodGlucose": "Blood glucose",
+            "navigationInsulin": "Insulin",
+            "navigationDiary": "Diary",
+            "navigationLanguage": "Language",
+            "tabBloodGlucose": {
+                "averageLinesLabel": "Display average lines",
+                "roundedLineChartsLabel": "Rounded line charts",
+                "dgpTypeLabel": "DGP diagram type",
+                "dgpTypeLine": "Line",
+                "dgpTypeScatter": "Scatter",
+                "displayNonMeasurableValuesLabel": "Display non-measurable values",
+                "midlineTypeLabel": "Midline type",
+                "midlineTypeAvg": "Average",
+                "midlineTypeMedian": "Median"
+            },
+            "tabInsulin": {
+                "displayInsulinsInAgpLabel": "Display insulin datas in AGP",
+                "typeColorLabel": "color"
+            },
+            "tabDiary": {
+                "typeMealtimeTitle": "Related to Mealtime",
+                "preMealtimeLabel": "Pre mealtime period",
+                "postMealtimeLabel": "Post mealtime period",
+                "minutes": "minutes",
+                "numberRequiredBetween": "Value must be between {0} and {1}"
+            },
+            "tabViewModel": {
+                "AGP": "AGP",
+                "DCM": "DCM View"
+            }
+        },
+        "colorPicker": {
+            "selectColorButtonCaption": "Select"
+        },
+        "mealtimeEditor": {
+            "modalTitle": "Edit meal times",
+            "timeRequired": "Time is required.",
+            "timeInvalid": "Invalid time.",
+            "timeConflict": "At least 2.5 hours required between mealtimes."
+        },
+        "patient": {
+            "patientProfileNameLabel": "Name",
+            "patientProfileLinkLabel": "Patient profile"
+        }
+    },
+    "hu": {
+        "yes": "Igen",
+        "no": "Nem",
+        "ok": "Ok",
+        "hour": "óra",
+        "hourSm": "ó",
+        "minute": "perc",
+        "minuteSm": "p",
+        "vuejsDatepickerFormat": "yyyy.MM.dd",
+        "datepickerFormat": "YYYY.MM.DD",
+        "highchartsDateFormat": "{value:%Y.%m.%d.}",
+        "fullDateFormat": "YYYY.MM.DD HH:mm",
+        "semiLongDateFormat": "YYYY. MMM DD.",
+        "rangePickerDateFormat": "yyyy.MM",
+        "insulinUnitTitle": "Inzulin Egység (E)",
+        "moreButtonText": "Korábbi adatok betöltése",
+        "bgLowText": "Al.",
+        "bgHighText": "Magas",
+        "loadingText": "betöltés...",
+        "pleaseWaitText": "Kérem, várjon...",
+        "breakfast": "Reggeli",
+        "elevenses": "Tízórai",
+        "lunch": "Ebéd",
+        "afternoonsnack": "Uzsonna",
+        "dinner": "Vacsora",
+        "countUnit": "db",
+        "secUnit": "sec",
+        "app": {
+            "bloodGlucoseDiaryTitle": "Vércukornapló",
+            "diaryTypeHourlyText": "Órás felosztású",
+            "diaryTypeMealtimeText": "Étkezés szerinti"
+        },
+        "days": "nap",
+        "daysSelected": "nap kijelölve",
+        "insulinUnitShort": "E",
+        "settingsBar": {
+            "day1": "1 nap",
+            "day1Short": "1nap",
+            "week1": "1 hét",
+            "week1Short": "1hét",
+            "weeks2": "2 hét",
+            "weeks2Short": "2hét",
+            "month1": "1 hónap",
+            "month1Short": "1hó",
+            "months3": "3 hónap",
+            "months3Short": "3hó",
+            "months3Last": "Utolsó 3 hónap",
+            "months3LastShort": "Utolsó 3hó",
+            "fullRange": "Mind",
+            "currentLanguageCaption": "Nyelv",
+            "currentUnitCaption": "Mértékegység",
+            "globalSettingsDialogTitle": "Beállítások",
+            "printDialogTitle": "Nyomtatás",
+            "printGroupCharts": "Diagramok",
+            "printGroupDiary": "Vércukornapló",
+            "printDialogNothingToPrint": "Kérjük, legalább egy csoportot válasszon ki!",
+            "timeScaleDefault": "Mérés/beadás darabszámok",
+            "timeScaleGlucose": "Vércukor mérés értékek",
+            "timeScaleInsulin": "Inzulin beadás egységek",
+            "timeScaleSteps": "Napi lépésszám"
+        },
+        "glucoseStatisticsAgp": {
+            "glucoseStatisticsVTitle": "Vércukor statisztikák",
+            "averageTestsPerDayLabel": "Átlagos napi mérésszám",
+            "sumTestsLabel": "összes mérésszám",
+            "averageGlucoseLabel": "Vércukor átlag",
+            "gmiLabel": "Glucose Management Indicator (GMI)",
+            "covLabel": "Variációs együttható",
+            "sdLabel": "Szórás (SD)"
+        },
+        "glucoseStatisticsDcm": {
+            "glucoseStatisticsVTitle": "Vércukor statisztikák",
+            "averageGlucosTitle": "Átl. glükóz",
+            "seriousLowTitle": "Nagyon alacsony",
+            "belowValue": "{value} alatt",
+            "lowTitle": "Alacsony",
+            "below": "alatt",
+            "inTargetRangeTitle": "Normál tartomány",
+            "glucoseRangesSubtitle": "Céltartomány",
+            "HighTitle": "Magas",
+            "aboveValue": "{value} felett",
+            "seriousHighTitle": "Nagyon magas",
+            "covTitleP1": "Variációs",
+            "covTitleP2": "együttható",
+            "sdTitle": "SD",
+            "glucoseVariabiltySubtitle": "Vércukor változékonyság",
+            "averageTestsPerDayTitle": "Napi átlag",
+            "averageTestsPerDayUnit": "mérés/nap",
+            "measurementsCount": "Mérésszám",
+            "minRequiredMeasurements": "min. {0} db adat szükséges"
+        },
+        "insulinStatistics": {
+            "mainTitle": "Inzulin statisztikák",
+            "dailyAverages": "Napi átlagos beadott egység / napi beadás szám",
+            "injectionUnitAndDuration": "Beadásonként átlag egység szám / beadási hossz"
+        },
+        "agpChart": {
+            "chartTitle": "Ambuláns glükózprofil",
+            "time": "Idő",
+            "agpScatterValues": "Mérési eredmények",
+            "veryLowValues": "Nagyon alacsony",
+            "lowValues": "Alacsony",
+            "inTargetValues": "Normál",
+            "highValues": "Magas",
+            "veryHighValues": "Nagyon magas",
+            "targetRangeLegend": "Céltartomány",
+            "insulin": "Inzulin",
+            "axisHour": "Óra",
+            "axisMeasurements": "Mérések",
+            "noDataText": "Nincs elegendő adat a kiválasztott intervallumban az ambuláns glükózprofil megjelenítéséhez.",
+            "averageModeDaysLimitText": "Az ambuláns glükózprofil megjelenítéséhez 1 évnél rövidebb intervallum megadása szükséges."
+        },
+        "targetRangeChart": {
+            "measurementsCount": "Mérések száma",
+            "ranges": "Tartomány",
+            "veryLowCaption": "Nagyon alacsony",
+            "lowCaption": "Alacsony",
+            "inTargetCaption": "Normál",
+            "highCaption": "Magas",
+            "veryHighCaption": "Nagyon magas",
+            "noData": "Nincs elegendő adat"
+        },
+        "dpgCharts": {
+            "chartTitle": "Napi glükózprofil",
+            "days": [
+                "Vasárnap",
+                "Hétfő",
+                "Kedd",
+                "Szerda",
+                "Csütörtök",
+                "Péntek",
+                "Szombat"
+            ],
+            "clearSelection": "Kijelölés törlése",
+            "modalTitle": "Egyéni diagram - {0}",
+            "noData": "Nincs adat",
+            "daySelectionWarnMessage": "Maximum {0} napot lehet kijelölni."
+        },
+        "dgpCustomChart": {
+            "noDataText": "Nincs megjeleníthető adat.",
+            "axisHour": "Óra"
+        },
+        "bloodGlucoseDiary": {
+            "shortDays": [
+                "V",
+                "H",
+                "K",
+                "Sze",
+                "Cs",
+                "P",
+                "Szo"
+            ],
+            "down": "Hajnal",
+            "beforeBreakfast": "Reggeli előtt",
+            "afterBreakfast": "Reggeli után",
+            "forenoon": "Délelőtt",
+            "beforeElevenses": "Tízórai előtt",
+            "afterElevenses": "Tízórai után",
+            "beforeLunch": "Ebéd előtt",
+            "afterLunch": "Ebéd után",
+            "afternoon": "Délután",
+            "beforeAfternoonsnack": "Uzsonna előtt",
+            "afterAfternoonsnack": "Uzsonna után",
+            "beforeDinner": "Vacsora előtt",
+            "afterDinner": "Vacsora után",
+            "evening": "Este",
+            "date": "Dátum",
+            "dateFormatterFirstLine": "YYYY",
+            "dateFormatterSecondLine": "MM.DD"
+        },
+        "globalSettingsDialog": {
+            "navigationViewMode": "Nézet",
+            "navigationUnit": "Mértékegység",
+            "navigationBloodGlucose": "Vércukor",
+            "navigationInsulin": "Inzulin",
+            "navigationDiary": "Vércukornapló",
+            "navigationLanguage": "Nyelv",
+            "tabBloodGlucose": {
+                "averageLinesLabel": "Átlag görbék megjelenítése",
+                "roundedLineChartsLabel": "Kerekített vonal diagramok",
+                "dgpTypeLabel": "DGP diagram típus",
+                "dgpTypeLine": "Vonal",
+                "dgpTypeScatter": "Buborék",
+                "displayNonMeasurableValuesLabel": "Méréshatáron kívüli értékek megjelenítése",
+                "midlineTypeLabel": "Középérték típusa",
+                "midlineTypeAvg": "Átlag",
+                "midlineTypeMedian": "Medián"
+            },
+            "tabInsulin": {
+                "displayInsulinsInAgpLabel": "Inzulin adatok megjelenítése az AGP diagramon",
+                "typeColorLabel": "típus színe"
+            },
+            "tabDiary": {
+                "typeMealtimeTitle": "Étkezéshez kötött",
+                "preMealtimeLabel": "Étkezés előtti idő",
+                "postMealtimeLabel": "Étkezés utáni idő",
+                "minutes": "perc",
+                "numberRequiredBetween": "Az érték {0} és {1} közötti szám kell, hogy legyen"
+            },
+            "tabViewModel": {
+                "AGP": "AGP",
+                "DCM": "DCM Napló"
+            }
+        },
+        "colorPicker": {
+            "selectColorButtonCaption": "Választ"
+        },
+        "mealtimeEditor": {
+            "modalTitle": "Étkezési időpontok szerkesztése",
+            "timeRequired": "Az időpont megdása kötelező.",
+            "timeInvalid": "Helytelen időpont.",
+            "timeConflict": "Az étkezési időpontok között minimum 2,5 óra kell hogy legyen."
+        },
+        "patient": {
+            "patientProfileNameLabel": "Név",
+            "patientProfileLinkLabel": "Páciens adatlap"
+        }
+    }
+}

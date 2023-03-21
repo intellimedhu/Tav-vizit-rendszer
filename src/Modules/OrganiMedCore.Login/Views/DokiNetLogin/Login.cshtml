@@ -1,0 +1,70 @@
+﻿@model OrchardCore.Users.ViewModels.LoginViewModel
+@using Microsoft.AspNetCore.Identity
+@using OrchardCore.Entities
+@using OrchardCore.Settings
+@using OrchardCore.Users
+@using OrchardCore.Users.Models
+@using OrganiMedCore.Login.Settings
+@using OrganiMedCore.Login.Settings.Enums
+@inject SignInManager<IUser> _signInManager
+@inject ISiteService _site
+
+@{
+    var settings = await _site.GetSiteSettingsAsync();
+    var omcLoginSettings = settings.As<OmcLoginSettings>();
+    var userCanRegister = settings.As<RegistrationSettings>().UsersCanRegister;
+    var allowResetPassword = settings.As<ResetPasswordSettings>().AllowResetPassword;
+    var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+    var otherLoginMethods = omcLoginSettings.UseDokiNetLogin || omcLoginSettings.UseLocalLogin || loginProviders.Count > 0;
+}
+
+<div class="row">
+    <div class="col-md-10 @(otherLoginMethods ? "offset-md-1" : "")">
+        <form asp-route-area="OrganiMedCore.Login"
+              asp-controller="DokiNetLogin"
+              asp-action="Login"
+              asp-route-returnurl="@ViewData["ReturnUrl"]"
+              method="post"
+              class="auth-form">
+            <h1 class="display-4">@omcLoginSettings.DokiNetLoginTitle</h1>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName">@T["Felhasználónév"]</label>
+                <input asp-for="UserName" class="form-control" autofocus tabindex="1" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="">
+                    @T["Jelszó"]
+                    @if (allowResetPassword)
+                    {
+                        <a asp-controller="ResetPassword" asp-action="ForgotPassword" class="label-link">@T["Elfelejtette jelszavát?"]</a>
+                    }
+                </label>
+
+                <input asp-for="Password" class="form-control" tabindex="2" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" asp-for="RememberMe" tabindex="3" />
+                    <label class="custom-control-label" asp-for="RememberMe">@T["Bejelentkezve maradok"]</label>
+                </div>
+            </div>
+
+            @await RenderSectionAsync("AfterLogin", required: false)
+
+            <button type="submit" class="btn btn-lg btn-primary" tabindex="4">
+                <i class="fas fa-sign-in-alt"></i>
+                @T["Belépés"]
+            </button>
+        </form>
+    </div>
+
+    @await DisplayAsync(await New.OtherLoginMethods(
+        CurrentLoginMethod: OmcLoginMethods.DokiNet,
+        LoginProviders: loginProviders,
+        OmcLoginSettings: omcLoginSettings))
+</div>
